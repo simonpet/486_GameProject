@@ -1,0 +1,97 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.Scanner;
+
+
+/**
+ * 
+ * @author Peter Simon
+ */
+public class PuzzleRunner {
+	
+	// The reference goal state of the 8-puzzle
+	private static int[][] goalState = new int[3][3];
+	
+	/**
+	 * 
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		System.out.print("Path to solution reference file: ");
+		
+		try {
+			// Get file name from user
+			Scanner input = new Scanner(System.in);
+			readTextFile(input.nextLine());
+		} catch (FileNotFoundException e) {
+			// Stop the program
+			System.out.print("File not found.");
+			return;
+		}
+		
+		for (int i = 0; i < 25; i++) {
+			Node node = solveRandomProblem();
+			PuzzleSearch.traceProblemPath(node);
+			System.out.println("");
+		}
+		
+	}
+	
+	/**
+	 * This method reads a text file based on an input file name.  The contents of the
+	 * file are used to create the goal state of the 8-puzzle.
+	 * 
+	 * @param fileName		: the name of the reference file
+	 */
+	public static void readTextFile(String fileName) throws FileNotFoundException {
+		// Create the file and input reader objects
+		File textFile = new File(fileName);
+		Scanner reader = new Scanner(textFile);
+		
+		// Iterate through the file to set the goal state
+		for (int row = 0; row < goalState.length; row++) {
+			for (int col = 0; col < goalState[0].length; col++) {
+				goalState[row][col] = reader.nextInt();
+			}
+		}
+	}
+	
+	/**
+	 * Generates a random problem based on the 8-puzzle goal node, then determines the
+	 * path necessary to solve the problem.
+	 * 
+	 * @return		: a node that contains the problem path
+	 */
+	public static Node solveRandomProblem() {
+		int[][] startState = new int[3][3];
+		
+		// Create a start state
+		for (int row = 0; row < goalState.length; row++) {
+			for (int col = 0; col < goalState[0].length; col++) {
+				startState[row][col] = goalState[row][col];
+			}
+		}
+		
+		// Create nodes for the initial and goal states
+		Node goalNode = new Node(goalState, goalState);
+		Node startNode = new Node(goalState, startState);
+		
+		// Generate the initial node based on random actions
+		for (int i = 0; i < 20; i++) {
+			// Get the actions available to the node
+			ArrayList<Node.Action> actions = PuzzleSearch.getActions(startNode);
+			
+			// Select a random index from the actions
+			Random generator = new Random();
+			int rand = generator.nextInt(actions.size());
+			
+			// Perform the action
+			startNode.performAction(actions.get(rand));
+		}
+		
+		return PuzzleSearch.puzzleSearch(startNode, goalNode);
+	}
+	
+}
