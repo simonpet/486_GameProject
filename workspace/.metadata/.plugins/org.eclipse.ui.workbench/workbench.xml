@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<workbench progressCount="37" version="2.0">
+<workbench progressCount="30" version="2.0">
 <workbenchAdvisor/>
 <window height="833" maximized="true" width="1440" x="-19" y="22">
 <fastViewData fastViewLocation="1024"/>
@@ -34,21 +34,28 @@
 <folder appearance="1" expanded="2">
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
 <part id="0"/>
+<part id="1"/>
+<part id="2"/>
 </presentation>
 </folder>
 </info>
 </editorArea>
-<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="RandomClobberPlayer.java" partName="RandomClobberPlayer.java" path="/Users/simonpe/Documents/_Classes/Year4/Semester 1 Classes/CSE 486/workspace/Clobber_Project/src/clobber/RandomClobberPlayer.java" title="RandomClobberPlayer.java" tooltip="Clobber_Project/src/clobber/RandomClobberPlayer.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Clobber_Project/src/clobber/RandomClobberPlayer.java"/>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="GameThread.java" partName="GameThread.java" path="/Users/simonpe/Documents/_Classes/Year4/Semester 1 Classes/CSE 486/Project/workspace/Clobber_Project/src/game/GameThread.java" title="GameThread.java" tooltip="Clobber_Project/src/game/GameThread.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Clobber_Project/src/game/GameThread.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="3136" selectionTopPixel="1154"/>
+</editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Tournament.java" partName="Tournament.java" path="/Users/simonpe/Documents/_Classes/Year4/Semester 1 Classes/CSE 486/Project/workspace/Clobber_Project/src/game/Tournament.java" title="Tournament.java" tooltip="Clobber_Project/src/game/Tournament.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Clobber_Project/src/game/Tournament.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="7421" selectionTopPixel="2985"/>
+</editor>
+<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="ClobberState.java" partName="ClobberState.java" path="/Users/simonpe/Documents/_Classes/Year4/Semester 1 Classes/CSE 486/Project/workspace/Clobber_Project/src/clobber/ClobberState.java" title="ClobberState.java" tooltip="Clobber_Project/src/clobber/ClobberState.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Clobber_Project/src/clobber/ClobberState.java"/>
 <editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="0" selectionTopPixel="0"/>
 </editor>
 </editors>
 <views>
 <view id="org.eclipse.ui.views.ProblemView" partName="Problems">
 <viewState PRIMARY_SORT_FIELD="org.eclipse.ui.ide.severityAndDescriptionField" categoryGroup="org.eclipse.ui.ide.severity" markerContentGenerator="org.eclipse.ui.ide.problemsGenerator" partName="Problems">
-<expanded>
-<category IMemento.internal.id="Warnings (1 item)"/>
-</expanded>
 <columnWidths org.eclipse.ui.ide.locationField="90" org.eclipse.ui.ide.markerType="90" org.eclipse.ui.ide.pathField="120" org.eclipse.ui.ide.resourceField="90" org.eclipse.ui.ide.severityAndDescriptionField="300"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.severityAndDescriptionField"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.resourceField"/>
@@ -259,10 +266,6 @@
 <workingSets/>
 <navigationHistory>
 <editors>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/simonpe_AI_HW_03/src/Node.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/simonpe_AI_HW_03/src/PuzzleRunner.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/simonpe_AI_HW_03/src/PuzzleSearch.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/simonpe_AI_HW_03/src/Node.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Clobber_Project/src/game/GameThread.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Clobber_Project/src/game/Tournament.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Clobber_Project/src/game/Params.java"/>
@@ -270,155 +273,159 @@
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Clobber_Project/src/clobber/HumanClobberPlayer.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Clobber_Project/src/clobber/RandomClobberPlayer.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Clobber_Project/src/game/GameThread.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Clobber_Project/src/game/GameThread.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Clobber_Project/src/game/Tournament.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Clobber_Project/src/game/GameState.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Clobber_Project/src/clobber/ClobberState.java"/>
 </editors>
-<item historyLabel="PuzzleSearch.java" index="2">
-<position info="not_deleted" x="3262" y="0"/>
-</item>
-<item historyLabel="Node.java" index="0">
-<position info="not_deleted" x="5119" y="0"/>
-</item>
-<item historyLabel="PuzzleRunner.java" index="1">
-<position info="not_deleted" x="791" y="0"/>
-</item>
-<item historyLabel="Node.java" index="0">
-<position info="not_deleted" x="5119" y="0"/>
-</item>
-<item historyLabel="PuzzleRunner.java" index="1">
-<position info="not_deleted" x="791" y="0"/>
-</item>
-<item historyLabel="PuzzleSearch.java" index="2">
-<position info="not_deleted" x="3262" y="0"/>
-</item>
-<item historyLabel="PuzzleRunner.java" index="1">
-<position info="not_deleted" x="791" y="0"/>
-</item>
-<item historyLabel="PuzzleSearch.java" index="2">
-<position info="not_deleted" x="3262" y="0"/>
-</item>
-<item historyLabel="PuzzleRunner.java" index="1">
-<position info="not_deleted" x="401" y="0"/>
-</item>
-<item historyLabel="Node.java" index="3">
-<position info="not_deleted" x="5119" y="0"/>
-</item>
-<item historyLabel="GameThread.java" index="4">
+<item historyLabel="GameThread.java" index="0">
 <position/>
 </item>
-<item historyLabel="GameThread.java" index="4">
+<item historyLabel="GameThread.java" index="0">
 <position info="not_deleted" x="2238" y="0"/>
 </item>
-<item historyLabel="Tournament.java" index="5">
+<item historyLabel="Tournament.java" index="1">
 <position info="not_deleted" x="0" y="0"/>
 </item>
-<item historyLabel="GameThread.java" index="4">
+<item historyLabel="GameThread.java" index="0">
 <position info="not_deleted" x="2238" y="0"/>
 </item>
-<item historyLabel="Tournament.java" index="5">
+<item historyLabel="Tournament.java" index="1">
 <position info="not_deleted" x="269" y="0"/>
 </item>
-<item historyLabel="GameThread.java" index="4">
+<item historyLabel="GameThread.java" index="0">
 <position info="not_deleted" x="2238" y="0"/>
 </item>
-<item historyLabel="Tournament.java" index="5">
+<item historyLabel="Tournament.java" index="1">
 <position info="not_deleted" x="7377" y="0"/>
 </item>
-<item historyLabel="GameThread.java" index="4">
+<item historyLabel="GameThread.java" index="0">
 <position info="not_deleted" x="2238" y="0"/>
 </item>
-<item historyLabel="GameThread.java" index="4">
+<item historyLabel="GameThread.java" index="0">
 <position info="not_deleted" x="173" y="0"/>
 </item>
-<item historyLabel="Tournament.java" index="5">
+<item historyLabel="Tournament.java" index="1">
 <position info="not_deleted" x="7377" y="0"/>
 </item>
-<item historyLabel="GameThread.java" index="4">
+<item historyLabel="GameThread.java" index="0">
 <position info="not_deleted" x="2734" y="0"/>
 </item>
-<item historyLabel="Tournament.java" index="5">
+<item historyLabel="Tournament.java" index="1">
 <position info="not_deleted" x="7377" y="0"/>
 </item>
-<item historyLabel="Params.java" index="6">
+<item historyLabel="Params.java" index="2">
 <position info="not_deleted" x="1085" y="34"/>
 </item>
-<item historyLabel="ClobberState.java" index="7">
+<item historyLabel="ClobberState.java" index="3">
 <position info="not_deleted" x="293" y="68"/>
 </item>
-<item historyLabel="Tournament.java" index="5">
+<item historyLabel="Tournament.java" index="1">
 <position info="not_deleted" x="13618" y="69"/>
 </item>
-<item historyLabel="HumanClobberPlayer.java" index="8">
+<item historyLabel="HumanClobberPlayer.java" index="4">
 <position/>
 </item>
-<item historyLabel="Tournament.java" index="5">
+<item historyLabel="Tournament.java" index="1">
 <position info="not_deleted" x="13618" y="69"/>
 </item>
-<item historyLabel="HumanClobberPlayer.java" index="8">
+<item historyLabel="HumanClobberPlayer.java" index="4">
 <position/>
 </item>
-<item historyLabel="Tournament.java" index="5">
+<item historyLabel="Tournament.java" index="1">
 <position info="not_deleted" x="13618" y="69"/>
 </item>
-<item historyLabel="HumanClobberPlayer.java" index="8">
+<item historyLabel="HumanClobberPlayer.java" index="4">
 <position/>
 </item>
-<item historyLabel="RandomClobberPlayer.java" index="9">
+<item historyLabel="RandomClobberPlayer.java" index="5">
 <position info="not_deleted" x="0" y="0"/>
 </item>
-<item historyLabel="HumanClobberPlayer.java" index="8">
+<item historyLabel="HumanClobberPlayer.java" index="4">
 <position/>
 </item>
-<item historyLabel="Tournament.java" index="5">
+<item historyLabel="Tournament.java" index="1">
 <position info="not_deleted" x="13618" y="69"/>
 </item>
-<item historyLabel="GameThread.java" index="10">
+<item historyLabel="GameThread.java" index="6">
 <position info="not_deleted" x="0" y="0"/>
 </item>
-<item historyLabel="Tournament.java" index="5">
+<item historyLabel="Tournament.java" index="1">
 <position info="not_deleted" x="13618" y="69"/>
 </item>
-<item historyLabel="RandomClobberPlayer.java" index="9">
+<item historyLabel="RandomClobberPlayer.java" index="5">
 <position info="not_deleted" x="0" y="0"/>
 </item>
-<item historyLabel="GameThread.java" index="10">
+<item historyLabel="GameThread.java" index="6">
 <position info="not_deleted" x="3130" y="19"/>
 </item>
-<item historyLabel="Tournament.java" index="5">
+<item historyLabel="Tournament.java" index="1">
 <position info="not_deleted" x="13467" y="0"/>
 </item>
-<item historyLabel="HumanClobberPlayer.java" index="8">
+<item historyLabel="HumanClobberPlayer.java" index="4">
 <position/>
 </item>
-<item historyLabel="RandomClobberPlayer.java" index="9">
+<item historyLabel="RandomClobberPlayer.java" index="5">
 <position info="not_deleted" x="0" y="0"/>
 </item>
-<item historyLabel="Tournament.java" index="5">
+<item historyLabel="Tournament.java" index="1">
 <position info="not_deleted" x="13467" y="0"/>
 </item>
-<item historyLabel="HumanClobberPlayer.java" index="8">
+<item historyLabel="HumanClobberPlayer.java" index="4">
 <position/>
 </item>
-<item historyLabel="RandomClobberPlayer.java" index="9">
+<item historyLabel="RandomClobberPlayer.java" index="5">
 <position info="not_deleted" x="0" y="0"/>
 </item>
-<item historyLabel="GameThread.java" index="10">
+<item historyLabel="GameThread.java" index="6">
 <position info="not_deleted" x="3130" y="19"/>
 </item>
-<item historyLabel="RandomClobberPlayer.java" index="9">
+<item historyLabel="RandomClobberPlayer.java" index="5">
 <position info="not_deleted" x="0" y="0"/>
 </item>
-<item historyLabel="HumanClobberPlayer.java" index="8">
+<item historyLabel="HumanClobberPlayer.java" index="4">
 <position/>
 </item>
-<item historyLabel="Tournament.java" index="5">
+<item historyLabel="Tournament.java" index="1">
 <position info="not_deleted" x="13467" y="0"/>
 </item>
-<item historyLabel="RandomClobberPlayer.java" index="9">
+<item historyLabel="RandomClobberPlayer.java" index="5">
 <position info="not_deleted" x="0" y="0"/>
 </item>
-<item historyLabel="HumanClobberPlayer.java" index="8">
+<item historyLabel="HumanClobberPlayer.java" index="4">
 <position info="not_deleted" x="0" y="0"/>
 </item>
-<item active="true" historyLabel="RandomClobberPlayer.java" index="9">
+<item historyLabel="RandomClobberPlayer.java" index="5">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="GameThread.java" index="7">
+<position info="not_deleted" x="2719" y="0"/>
+</item>
+<item historyLabel="Tournament.java" index="8">
+<position info="not_deleted" x="7368" y="0"/>
+</item>
+<item historyLabel="GameThread.java" index="7">
+<position info="not_deleted" x="2719" y="0"/>
+</item>
+<item historyLabel="Tournament.java" index="8">
+<position info="not_deleted" x="7368" y="0"/>
+</item>
+<item historyLabel="GameThread.java" index="7">
+<position info="not_deleted" x="3136" y="0"/>
+</item>
+<item historyLabel="Tournament.java" index="8">
+<position info="not_deleted" x="7421" y="0"/>
+</item>
+<item historyLabel="GameThread.java" index="7">
+<position info="not_deleted" x="3136" y="0"/>
+</item>
+<item historyLabel="GameState.java" index="9">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="GameThread.java" index="7">
+<position info="not_deleted" x="3136" y="0"/>
+</item>
+<item active="true" historyLabel="ClobberState.java" index="10">
 <position info="not_deleted" x="0" y="0"/>
 </item>
 </navigationHistory>
@@ -439,23 +446,26 @@
 </trimLayout>
 </window>
 <mruList>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="ClobberState.java" tooltip="Clobber_Project/src/clobber/ClobberState.java">
+<persistable path="/Clobber_Project/src/clobber/ClobberState.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="GameState.java" tooltip="Clobber_Project/src/game/GameState.java">
+<persistable path="/Clobber_Project/src/game/GameState.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Tournament.java" tooltip="Clobber_Project/src/game/Tournament.java">
+<persistable path="/Clobber_Project/src/game/Tournament.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="GameThread.java" tooltip="Clobber_Project/src/game/GameThread.java">
+<persistable path="/Clobber_Project/src/game/GameThread.java"/>
+</file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="HumanClobberPlayer.java" tooltip="Clobber_Project/src/clobber/HumanClobberPlayer.java">
 <persistable path="/Clobber_Project/src/clobber/HumanClobberPlayer.java"/>
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="RandomClobberPlayer.java" tooltip="Clobber_Project/src/clobber/RandomClobberPlayer.java">
 <persistable path="/Clobber_Project/src/clobber/RandomClobberPlayer.java"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="GameThread.java" tooltip="Clobber_Project/src/game/GameThread.java">
-<persistable path="/Clobber_Project/src/game/GameThread.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="ClobberState.java" tooltip="Clobber_Project/src/clobber/ClobberState.java">
-<persistable path="/Clobber_Project/src/clobber/ClobberState.java"/>
-</file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Params.java" tooltip="Clobber_Project/src/game/Params.java">
 <persistable path="/Clobber_Project/src/game/Params.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Tournament.java" tooltip="Clobber_Project/src/game/Tournament.java">
-<persistable path="/Clobber_Project/src/game/Tournament.java"/>
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Node.java" tooltip="simonpe_AI_HW_02/src/Node.java">
 <persistable path="/simonpe_AI_HW_02/src/Node.java"/>
@@ -480,9 +490,6 @@
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="KnightTour.java" tooltip="simonpe_AI_HW_02/src/KnightTour.java">
 <persistable path="/simonpe_AI_HW_02/src/KnightTour.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Vacuum.java" tooltip="simonpe_AI_HW_01/src/Vacuum.java">
-<persistable path="/simonpe_AI_HW_01/src/Vacuum.java"/>
 </file>
 </mruList>
 </workbench>

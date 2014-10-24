@@ -91,8 +91,10 @@ public class GameThread extends Thread {
     		case -3:	return new SystematicBreakthroughPlayer("systematic", false);
     		 */
     		
+    		/*
     		case -1:	return new RandomClobberPlayer("random");
     		case -3:	return new SystematicClobberPlayer("systematic");
+    		*/
     	}
     	return null;
     }

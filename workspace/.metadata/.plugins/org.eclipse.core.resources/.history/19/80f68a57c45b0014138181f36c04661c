@@ -1,0 +1,125 @@
+package clobber;
+import game.*;
+
+import java.util.*;
+
+
+public class AlphaBetaPlayer extends GamePlayer {
+	int turns = 0;
+	public AlphaBetaPlayer(String n) 
+	{
+		super(n, new ClobberState(), false);
+	}
+	public GameMove getMove(GameState state, String lastMove)
+	{
+		ClobberState board = (ClobberState)state;
+		ArrayList<ClobberMove> list = new ArrayList<ClobberMove>();  
+		ClobberMove mv = new ClobberMove();
+		if (turns < 60)
+		{
+			for (int r=0; r<ClobberState.ROWS; r++) {
+				for (int c=0; c<ClobberState.COLS; c++) {
+					mv.row1 = r;
+					mv.col1 = c;
+					mv.row2 = r-1; mv.col2 = c;
+					if (board.moveOK(mv)) {
+						list.add((ClobberMove)mv.clone());
+					}
+					mv.row2 = r+1; mv.col2 = c;
+					if (board.moveOK(mv)) {
+						list.add((ClobberMove)mv.clone());
+					}
+					mv.row2 = r; mv.col2 = c-1;
+					if (board.moveOK(mv)) {
+						list.add((ClobberMove)mv.clone());
+					}
+					mv.row2 = r; mv.col2 = c+1;
+					if (board.moveOK(mv)) {
+						list.add((ClobberMove)mv.clone());
+					}
+				}
+			}
+		}
+		else
+		{
+			//TODO alphabeta
+			throw new IllegalArgumentException();
+		}
+		turns++;
+		int which = Util.randInt(0, list.size()-1);
+		return list.get(which);
+	}
+	
+	/**
+	 * 
+	 * @param gs
+	 * @return
+	 */
+	public int eval(ClobberState gs) {
+		int homeMoves = 0;
+		int awayMoves = 0;
+		
+		for (int row = 0; row < ClobberState.ROWS; row++) {
+			for (int col = 0; col < ClobberState.COLS; col++) {
+				if (gs.board[row][col] == ClobberState.homeSym) {
+					homeMoves += getNumMoves(row, col, gs.board);
+				}
+				else if (gs.board[row][col] == ClobberState.awaySym) {
+					awayMoves += getNumMoves(row, col, gs.board);
+				}
+			}
+		}
+		
+		return homeMoves - awayMoves;
+	}
+	
+	/**
+	 * 
+	 * @param row
+	 * @param col
+	 * @param board
+	 * @return
+	 */
+	public int getNumMoves(int row, int col, char[][] board) {
+		int numValidMoves = 0;
+		char playerSym = board[row][col];
+		
+		ClobberMove cm = new ClobberMove();
+		
+		// Check (row + 1, column)
+		cm.row2 = row + 1;
+		cm.col2 = col;
+		if (moveOK(cm, board, playerSym)) numValidMoves++;
+		
+		// Check (row - 1, column)
+		cm.row2 = row - 1;
+		cm.col2 = col;
+		if (moveOK(cm, board, playerSym)) numValidMoves++;
+		
+		// Check (row, column + 1)
+		cm.row2 = row;
+		cm.col2 = col + 1;
+		if (moveOK(cm, board, playerSym)) numValidMoves++;
+		
+		// Check (row, column - 1)
+		cm.row2 = row;
+		cm.col2 = col - 1;
+		if (moveOK(cm, board, playerSym)) numValidMoves++;
+		
+		// Return the number of valid moves
+		return numValidMoves;
+	}
+	
+	public boolean moveOK(ClobberMove cm, char[][] board, char playerSym) {
+		char player = playerSym;
+		char opponent = (playerSym == ClobberState.homeSym)) ClobberState.awaySym : ClobberState.homeSym;
+		
+		return true;
+	}
+	
+	public static void main(String [] args)
+	{
+		GamePlayer p = new RandomClobberPlayer("AI");
+		p.compete(args, 1);
+	}
+}

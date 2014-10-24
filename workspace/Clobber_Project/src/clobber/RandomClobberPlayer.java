@@ -18,19 +18,23 @@ public class RandomClobberPlayer extends GamePlayer {
 			for (int c=0; c<ClobberState.COLS; c++) {
 				mv.row1 = r;
 				mv.col1 = c;
-				mv.row2 = r-1; mv.col2 = c;
+				mv.row2 = r-1;
+				mv.col2 = c;
 				if (board.moveOK(mv)) {
 					list.add((ClobberMove)mv.clone());
 				}
-				mv.row2 = r+1; mv.col2 = c;
+				mv.row2 = r+1;
+				mv.col2 = c;
 				if (board.moveOK(mv)) {
 					list.add((ClobberMove)mv.clone());
 				}
-				mv.row2 = r; mv.col2 = c-1;
+				mv.row2 = r;
+				mv.col2 = c-1;
 				if (board.moveOK(mv)) {
 					list.add((ClobberMove)mv.clone());
 				}
-				mv.row2 = r; mv.col2 = c+1;
+				mv.row2 = r;
+				mv.col2 = c+1;
 				if (board.moveOK(mv)) {
 					list.add((ClobberMove)mv.clone());
 				}
