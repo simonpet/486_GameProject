@@ -1,5 +1,6 @@
 package clobber;
 import game.*;
+import game.GameState.Status;
 
 import java.util.*;
 

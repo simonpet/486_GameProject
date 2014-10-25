@@ -1,5 +1,6 @@
 package clobber;
 import game.*;
+import game.GameState.Status;
 
 import java.util.*;
 
@@ -45,9 +46,7 @@ public class AlphaBetaPlayer extends GamePlayer {
 	}
 	
 	/**
-	 * An evaluation function for the alpha-beta player.  This method calculates the difference
-	 * between the number of pieces home and away can move.  Home should prefer states where the
-	 * function is maximized, whereas away should prefer states with minimized values.
+	 * 
 	 * 
 	 * @param gs	: the current game state
 	 * @return		: an integer indicating which side is winning
@@ -58,11 +57,9 @@ public class AlphaBetaPlayer extends GamePlayer {
 		
 		for (int row = 0; row < ClobberState.ROWS; row++) {
 			for (int col = 0; col < ClobberState.COLS; col++) {
-				// If the home piece can move, increment its movable pieces
 				if (gs.board[row][col] == ClobberState.homeSym && canMove(row, col, gs.board)) {
 					homePiecesMove++;
 				}
-				// If the away piece can move, increment its movable pieces
 				else if (gs.board[row][col] == ClobberState.awaySym && canMove(row, col, gs.board)) {
 					awayPiecesMove++;
 				}
@@ -71,18 +68,17 @@ public class AlphaBetaPlayer extends GamePlayer {
 		
 		System.out.println("Home: " + homePiecesMove + "\nAway: " + awayPiecesMove);
 		
-		// Return the difference between the home and away pieces
 		return homePiecesMove - awayPiecesMove;
 	}
 	
 	/**
-	 * Checks whether the player piece at the specified location can move to at least one adjacent
-	 * location.  Pieces can move to in-bound and opponent-occupied adjacent locations.
+	 * Get the number of moves that a player can make at the specified row and column of the game
+	 * board.  This method checks the north, south, east, and west directions for validity.
 	 * 
 	 * @param row		: the row of the player piece
 	 * @param col		: the column of the player piece
 	 * @param board		: the game board
-	 * @return			: true if the player piece can move
+	 * @return			: the number of moves associated with the specified location
 	 */
 	private boolean canMove(int row, int col, char[][] board) {
 		char playerSym = board[row][col];

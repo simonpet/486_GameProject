@@ -1,5 +1,6 @@
 package clobber;
 import game.*;
+import game.GameState.Status;
 
 import java.util.*;
 
@@ -71,7 +72,6 @@ public class AlphaBetaPlayer extends GamePlayer {
 		
 		System.out.println("Home: " + homePiecesMove + "\nAway: " + awayPiecesMove);
 		
-		// Return the difference between the home and away pieces
 		return homePiecesMove - awayPiecesMove;
 	}
 	

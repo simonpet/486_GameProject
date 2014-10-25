@@ -1,0 +1,57 @@
+Alpha Beta Player (W) played 4 0 4 1
+RWRWR
+.WWRW
+RWRWR
+WRWRW
+RWRWR
+WRWRW
+[AWAY 1 GAME_ON]
+HUMAN (R) played 3 0 3 1
+RWRWR
+.WWRW
+.RRWR
+WRWRW
+RWRWR
+WRWRW
+[HOME 2 GAME_ON]
+Alpha Beta Player (W) played 1 3 0 3
+RWRWR
+.WWRW
+.RRWR
+WRWRW
+RWR.R
+WRWWW
+[AWAY 3 GAME_ON]
+HUMAN (R) played 3 4 3 3
+RWRWR
+.WWRW
+.RRR.
+WRWRW
+RWR.R
+WRWWW
+[HOME 4 GAME_ON]
+Alpha Beta Player (W) played 0 0 1 0
+RWRWR
+.WWRW
+.RRR.
+WRWRW
+WWR.R
+.RWWW
+[AWAY 5 GAME_ON]
+HUMAN (R) played 5 0 5 1
+.RRWR
+.WWRW
+.RRR.
+WRWRW
+WWR.R
+.RWWW
+[HOME 6 GAME_ON]
+Alpha Beta Player (W) played 4 4 4 3
+.RRWR
+.WWW.
+.RRR.
+WRWRW
+WWR.R
+.RWWW
+[AWAY 7 GAME_ON]
+Alpha Beta Player won. HUMAN DQd
