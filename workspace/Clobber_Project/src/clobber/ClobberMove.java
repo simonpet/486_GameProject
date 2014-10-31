@@ -3,7 +3,6 @@ import java.util.StringTokenizer;
 
 import game.*;
 
-
 public class ClobberMove extends GameMove {
 	public int row1, col1;
 	public int row2, col2;
