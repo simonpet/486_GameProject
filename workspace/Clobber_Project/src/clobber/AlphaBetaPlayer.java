@@ -3,15 +3,184 @@ import game.*;
 
 import java.util.*;
 
+import clobber.ScoredClobberMove;
 
 public class AlphaBetaPlayer extends GamePlayer {
+
+	public static final double MAX_SCORE = Double.POSITIVE_INFINITY;
+	public static final int ROWS = ClobberState.ROWS;
+	public static final int COLS = ClobberState.COLS;
 	
-	public AlphaBetaPlayer(String n) {
+
+	public static final int MAX_DEPTH = 7;
+	public int depthLimit;
+	
+	
+	/**
+	 * Determines if a board represents a completed game. If it is, the
+	 * evaluation values for these boards is recorded (i.e., 0 for a draw
+	 * +X, for a HOME win and -X for an AWAY win.
+	 * @param brd Connect4 board to be examined
+	 * @param mv where to place the score information; column is irrelevant
+	 * @return true if the brd is a terminal state
+	 */
+	protected boolean terminalValue(GameState brd, ScoredClobberMove mv)
+	{
+		GameState.Status status = brd.getStatus();
+		boolean isTerminal = true;
+		
+		if (status == GameState.Status.HOME_WIN) {
+			mv.set(0, 0, 0, 0, MAX_SCORE);
+		} else if (status == GameState.Status.AWAY_WIN) {
+			mv.set(0, 0, 0, 0, - MAX_SCORE);
+		} else if (status == GameState.Status.DRAW) {
+			mv.set(0, 0, 0, 0, 0);
+		} else {
+			isTerminal = false;
+		}
+		return isTerminal;
+	}
+
+	// mvStack is where the search procedure places it's move recommendation.
+	// If the search is at depth, d, the move is stored on mvStack[d].
+	// This was done to help efficiency (i.e., reduce number constructor calls)
+	// (Not sure how much it improves things.)
+	protected ScoredClobberMove [] mvStack;
+	/**
+	 *Initializes the stack of Moves.
+ 	*/
+	public void init()
+	{
+		mvStack = new ScoredClobberMove [MAX_DEPTH];		
+		for (int i=0; i < MAX_DEPTH; i++) {
+			mvStack[i] = new ScoredClobberMove(0, 0, 1, 0, 0);
+		}
+	}
+	public void reinit(GameState state)
+	{
+		ClobberMove firstmove = getMoves(state).get(0);
+		for (int i=0; i < MAX_DEPTH; i++) {
+			mvStack[i] = new ScoredClobberMove(firstmove, 0);
+		}
+	}
+	public ArrayList<ClobberMove> getMoves(GameState state)
+	{
+		ClobberState board = (ClobberState)state;
+		ArrayList<ClobberMove> list = new ArrayList<ClobberMove>();  
+		ClobberMove mv = new ClobberMove();
+		for (int r=0; r<ClobberState.ROWS; r++) {
+			for (int c=0; c<ClobberState.COLS; c++) {
+				mv.row1 = r;
+				mv.col1 = c;
+				mv.row2 = r-1;
+				mv.col2 = c;
+				if (board.moveOK(mv)) {
+				list.add((ClobberMove)mv.clone());
+				}
+				mv.row2 = r+1;
+				mv.col2 = c;
+				if (board.moveOK(mv)) {
+					list.add((ClobberMove)mv.clone());
+				}
+				mv.row2 = r;
+				mv.col2 = c-1;
+				if (board.moveOK(mv)) {
+					list.add((ClobberMove)mv.clone());
+				}
+				mv.row2 = r;
+				mv.col2 = c+1;
+				if (board.moveOK(mv)) {
+					list.add((ClobberMove)mv.clone());
+				}
+			}
+		}
+		//System.out.println("moves size: " + list.size());
+		return list;
+	}
+	
+	/**
+	 * Performs alpha beta pruning.
+	 * @param brd
+	 * @param currDepth
+	 * @param alpha
+	 * @param beta
+	 */
+	private void alphaBeta(ClobberState brd, int currDepth,
+										double alpha, double beta)
+	{
+		boolean toMaximize = (brd.getWho() == GameState.Who.HOME);
+		boolean toMinimize = !toMaximize;
+
+		boolean isTerminal = terminalValue(brd, mvStack[currDepth]);
+		ClobberMove firstMove = null; 
+		if (!isTerminal)
+			firstMove = getMoves(brd).get(0);
+		
+		if (isTerminal) {
+			;
+		} else if (currDepth == depthLimit) {
+			mvStack[currDepth].set(firstMove, eval(brd));
+		} else {
+			ScoredClobberMove tempMv = new ScoredClobberMove(firstMove, 0);
+
+			double bestScore = (toMaximize ? 
+					Double.NEGATIVE_INFINITY : Double.POSITIVE_INFINITY);
+			ScoredClobberMove bestMove = mvStack[currDepth];
+			ScoredClobberMove nextMove = mvStack[currDepth+1];
+
+			bestMove.set(firstMove, bestScore);
+			GameState.Who currTurn = brd.getWho();
+
+			ArrayList<ClobberMove> moves = getMoves(brd);
+			//maybe shuffle moves?
+			for (int i = 0; i < moves.size(); i++) {
+				ClobberMove move = moves.get(i);
+				tempMv = new ScoredClobberMove(move);			// initialize move
+				
+				brd.makeMove(tempMv);
+	
+				alphaBeta(brd, currDepth+1, alpha, beta);  // Check out move
+				
+				// Undo move			
+				
+				brd.board[tempMv.row1][tempMv.col1] = (brd.getWho() == GameState.Who.HOME ? ClobberState.homeSym : ClobberState.awaySym);
+				brd.board[tempMv.row2][tempMv.col2] = (brd.getWho() == GameState.Who.AWAY ? ClobberState.homeSym : ClobberState.awaySym);
+				
+				brd.status = GameState.Status.GAME_ON;
+				brd.who = currTurn;
+				
+				// Check out the results, relative to what we've seen before
+				if (toMaximize && nextMove.score > bestMove.score) {
+					bestMove.set(move, nextMove.score);
+				} else if (!toMaximize && nextMove.score < bestMove.score) {
+					bestMove.set(move, nextMove.score);
+				}
+					// Update alpha and beta. Perform pruning, if possible.
+				if (toMinimize) {
+					beta = Math.min(bestMove.score, beta);
+					if (bestMove.score <= alpha || bestMove.score == -MAX_SCORE) {
+						return;
+					}
+				} else {
+					alpha = Math.max(bestMove.score, alpha);
+					if (bestMove.score >= beta || bestMove.score == MAX_SCORE) {
+						return;
+					}
+				}
+			}
+		}
+	}
+	
+	public AlphaBetaPlayer(String n, int depth) {
 		super(n, new ClobberState(), false);
+		this.depthLimit = depth;
 	}
 	
 	public GameMove getMove(GameState state, String lastMove) {
-		ClobberState board = (ClobberState)state;
+		reinit(state);
+		alphaBeta((ClobberState)state, 0, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+		return mvStack[0];
+	/*	ClobberState board = (ClobberState)state;
 		ArrayList<ClobberMove> list = new ArrayList<ClobberMove>();  
 		ClobberMove mv = new ClobberMove();
 		
@@ -42,6 +211,7 @@ public class AlphaBetaPlayer extends GamePlayer {
 		
 		int which = Util.randInt(0, list.size()-1);
 		return list.get(which);
+		*/
 	}
 	
 	/**
@@ -69,7 +239,7 @@ public class AlphaBetaPlayer extends GamePlayer {
 			}
 		}
 		
-		System.out.println("Home: " + homePiecesMove + "\nAway: " + awayPiecesMove);
+		//System.out.println("Home: " + homePiecesMove + "\nAway: " + awayPiecesMove);
 		
 		// Return the difference between the home and away pieces
 		return homePiecesMove - awayPiecesMove;
@@ -137,7 +307,7 @@ public class AlphaBetaPlayer extends GamePlayer {
 	}
 	
 	public static void main(String [] args) {
-		GamePlayer p = new AlphaBetaPlayer("Alpha Beta Player");
+		GamePlayer p = new AlphaBetaPlayer("Alpha Beta Player", AlphaBetaPlayer.MAX_DEPTH - 1);
 		p.compete(args, 1);
 	}
 }

@@ -109,7 +109,8 @@ public class Client {
 			return elapsedTime;
 		}
 		catch (Exception e) {
-			System.err.printf("timeout %s%n", name);
+			//System.err.printf("timeout %s%n", name);
+			System.err.println("error " + e.getMessage());
 			output.println("TIME");
 			output.println(seconds + 10.0);
 			return -1; 

@@ -1,0 +1,9 @@
+Random+ (W) played 2 2 2 1
+RWRWR
+WRWRW
+RWRWR
+WW.RW
+RWRWR
+WRWRW
+[AWAY 1 GAME_ON]
+Random+ won. Alpha Beta Player DQd
