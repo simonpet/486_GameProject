@@ -1,0 +1,129 @@
+Alpha Beta Player (W) played 2 4 2 3
+RWRWR
+WRWRW
+RWRWR
+WRWW.
+RWRWR
+WRWRW
+[AWAY 1 GAME_ON]
+Random+ (R) played 1 2 1 1
+RWRWR
+WRWRW
+RWRWR
+WRWW.
+RR.WR
+WRWRW
+[HOME 2 GAME_ON]
+Alpha Beta Player (W) played 3 1 4 1
+RWRWR
+WWWRW
+R.RWR
+WRWW.
+RR.WR
+WRWRW
+[AWAY 3 GAME_ON]
+Random+ (R) played 5 4 4 4
+RWRW.
+WWWRR
+R.RWR
+WRWW.
+RR.WR
+WRWRW
+[HOME 4 GAME_ON]
+Alpha Beta Player (W) played 4 2 4 3
+RWRW.
+WW.WR
+R.RWR
+WRWW.
+RR.WR
+WRWRW
+[AWAY 5 GAME_ON]
+Random+ (R) played 3 0 2 0
+RWRW.
+WW.WR
+..RWR
+RRWW.
+RR.WR
+WRWRW
+[HOME 6 GAME_ON]
+Alpha Beta Player (W) played 0 4 1 4
+RWRW.
+WW.WR
+..RWR
+RRWW.
+RR.WW
+WRWR.
+[AWAY 7 GAME_ON]
+Random+ (R) played 1 0 0 0
+RWRW.
+WW.WR
+..RWR
+RRWW.
+.R.WW
+RRWR.
+[HOME 8 GAME_ON]
+Alpha Beta Player (W) played 5 1 5 0
+W.RW.
+WW.WR
+..RWR
+RRWW.
+.R.WW
+RRWR.
+[AWAY 9 GAME_ON]
+Random+ (R) played 3 2 2 2
+W.RW.
+WW.WR
+...WR
+RRRW.
+.R.WW
+RRWR.
+[HOME 10 GAME_ON]
+Alpha Beta Player (W) played 4 3 4 4
+W.RW.
+WW..W
+...WR
+RRRW.
+.R.WW
+RRWR.
+[AWAY 11 GAME_ON]
+Random+ (R) played 0 1 0 2
+W.RW.
+WW..W
+...WR
+RRRW.
+.R.WW
+R.RR.
+[HOME 12 GAME_ON]
+Alpha Beta Player (W) played 2 3 2 2
+W.RW.
+WW..W
+...WR
+RRW..
+.R.WW
+R.RR.
+[AWAY 13 GAME_ON]
+Random+ (R) played 2 1 2 2
+W.RW.
+WW..W
+...WR
+R.R..
+.R.WW
+R.RR.
+[HOME 14 GAME_ON]
+Alpha Beta Player (W) played 3 3 3 4
+W.RW.
+WW..W
+....W
+R.R..
+.R.WW
+R.RR.
+[AWAY 15 GAME_ON]
+Random+ (R) played 5 2 5 3
+W..R.
+WW..W
+....W
+R.R..
+.R.WW
+R.RR.
+[HOME 16 GAME_ON]
+Random+ won. Alpha Beta Player made bad move 3 3 3 4

@@ -14,4 +14,6 @@
 <fullyQualifiedTypeName name="java.util.HashSet"/>
 <fullyQualifiedTypeName name="Node.Action"/>
 <fullyQualifiedTypeName name="java.util.Stack"/>
+<fullyQualifiedTypeName name="game.GameState"/>
+<fullyQualifiedTypeName name="game.GameState.Status"/>
 </qualifiedTypeNameHistroy>

@@ -1,8 +1,6 @@
 package clobber;
 import game.*;
-
 import java.util.*;
-
 import clobber.ScoredClobberMove;
 
 public class AlphaBetaPlayer extends GamePlayer {
@@ -11,207 +9,210 @@ public class AlphaBetaPlayer extends GamePlayer {
 	public static final int ROWS = ClobberState.ROWS;
 	public static final int COLS = ClobberState.COLS;
 	
-
-	public static final int MAX_DEPTH = 7;
+	public static final int MAX_DEPTH = 4;
 	public int depthLimit;
 	
+	// Used to store the best move at any particular depth
+	protected ScoredClobberMove[] mvStack;
+	
 	
 	/**
-	 * Determines if a board represents a completed game. If it is, the
-	 * evaluation values for these boards is recorded (i.e., 0 for a draw
-	 * +X, for a HOME win and -X for an AWAY win.
-	 * @param brd Connect4 board to be examined
-	 * @param mv where to place the score information; column is irrelevant
-	 * @return true if the brd is a terminal state
+	 * Constructs an AlphaBetaPlayer object with the specified name and depth.
+	 * 
+	 * @param n			: the name of the player
+	 * @param depth		: the depth of the alpha beta search
 	 */
-	protected boolean terminalValue(GameState brd, ScoredClobberMove mv)
-	{
-		GameState.Status status = brd.getStatus();
-		boolean isTerminal = true;
-		
-		if (status == GameState.Status.HOME_WIN) {
-			mv.set(0, 0, 0, 0, MAX_SCORE);
-		} else if (status == GameState.Status.AWAY_WIN) {
-			mv.set(0, 0, 0, 0, - MAX_SCORE);
-		} else if (status == GameState.Status.DRAW) {
-			mv.set(0, 0, 0, 0, 0);
-		} else {
-			isTerminal = false;
-		}
-		return isTerminal;
-	}
-
-	// mvStack is where the search procedure places it's move recommendation.
-	// If the search is at depth, d, the move is stored on mvStack[d].
-	// This was done to help efficiency (i.e., reduce number constructor calls)
-	// (Not sure how much it improves things.)
-	protected ScoredClobberMove [] mvStack;
-	/**
-	 *Initializes the stack of Moves.
- 	*/
-	public void init()
-	{
-		mvStack = new ScoredClobberMove [MAX_DEPTH];		
-		for (int i=0; i < MAX_DEPTH; i++) {
-			mvStack[i] = new ScoredClobberMove(0, 0, 1, 0, 0);
-		}
-	}
-	public void reinit(GameState state)
-	{
-		ClobberMove firstmove = getMoves(state).get(0);
-		for (int i=0; i < MAX_DEPTH; i++) {
-			mvStack[i] = new ScoredClobberMove(firstmove, 0);
-		}
-	}
-	public ArrayList<ClobberMove> getMoves(GameState state)
-	{
-		ClobberState board = (ClobberState)state;
-		ArrayList<ClobberMove> list = new ArrayList<ClobberMove>();  
-		ClobberMove mv = new ClobberMove();
-		for (int r=0; r<ClobberState.ROWS; r++) {
-			for (int c=0; c<ClobberState.COLS; c++) {
-				mv.row1 = r;
-				mv.col1 = c;
-				mv.row2 = r-1;
-				mv.col2 = c;
-				if (board.moveOK(mv)) {
-				list.add((ClobberMove)mv.clone());
-				}
-				mv.row2 = r+1;
-				mv.col2 = c;
-				if (board.moveOK(mv)) {
-					list.add((ClobberMove)mv.clone());
-				}
-				mv.row2 = r;
-				mv.col2 = c-1;
-				if (board.moveOK(mv)) {
-					list.add((ClobberMove)mv.clone());
-				}
-				mv.row2 = r;
-				mv.col2 = c+1;
-				if (board.moveOK(mv)) {
-					list.add((ClobberMove)mv.clone());
-				}
-			}
-		}
-		//System.out.println("moves size: " + list.size());
-		return list;
-	}
-	
-	/**
-	 * Performs alpha beta pruning.
-	 * @param brd
-	 * @param currDepth
-	 * @param alpha
-	 * @param beta
-	 */
-	private void alphaBeta(ClobberState brd, int currDepth,
-										double alpha, double beta)
-	{
-		boolean toMaximize = (brd.getWho() == GameState.Who.HOME);
-		boolean toMinimize = !toMaximize;
-
-		boolean isTerminal = terminalValue(brd, mvStack[currDepth]);
-		ClobberMove firstMove = null; 
-		if (!isTerminal)
-			firstMove = getMoves(brd).get(0);
-		
-		if (isTerminal) {
-			;
-		} else if (currDepth == depthLimit) {
-			mvStack[currDepth].set(firstMove, eval(brd));
-		} else {
-			ScoredClobberMove tempMv = new ScoredClobberMove(firstMove, 0);
-
-			double bestScore = (toMaximize ? 
-					Double.NEGATIVE_INFINITY : Double.POSITIVE_INFINITY);
-			ScoredClobberMove bestMove = mvStack[currDepth];
-			ScoredClobberMove nextMove = mvStack[currDepth+1];
-
-			bestMove.set(firstMove, bestScore);
-			GameState.Who currTurn = brd.getWho();
-
-			ArrayList<ClobberMove> moves = getMoves(brd);
-			//maybe shuffle moves?
-			for (int i = 0; i < moves.size(); i++) {
-				ClobberMove move = moves.get(i);
-				tempMv = new ScoredClobberMove(move);			// initialize move
-				
-				brd.makeMove(tempMv);
-	
-				alphaBeta(brd, currDepth+1, alpha, beta);  // Check out move
-				
-				// Undo move			
-				
-				brd.board[tempMv.row1][tempMv.col1] = (brd.getWho() == GameState.Who.HOME ? ClobberState.homeSym : ClobberState.awaySym);
-				brd.board[tempMv.row2][tempMv.col2] = (brd.getWho() == GameState.Who.AWAY ? ClobberState.homeSym : ClobberState.awaySym);
-				
-				brd.status = GameState.Status.GAME_ON;
-				brd.who = currTurn;
-				
-				// Check out the results, relative to what we've seen before
-				if (toMaximize && nextMove.score > bestMove.score) {
-					bestMove.set(move, nextMove.score);
-				} else if (!toMaximize && nextMove.score < bestMove.score) {
-					bestMove.set(move, nextMove.score);
-				}
-					// Update alpha and beta. Perform pruning, if possible.
-				if (toMinimize) {
-					beta = Math.min(bestMove.score, beta);
-					if (bestMove.score <= alpha || bestMove.score == -MAX_SCORE) {
-						return;
-					}
-				} else {
-					alpha = Math.max(bestMove.score, alpha);
-					if (bestMove.score >= beta || bestMove.score == MAX_SCORE) {
-						return;
-					}
-				}
-			}
-		}
-	}
-	
 	public AlphaBetaPlayer(String n, int depth) {
 		super(n, new ClobberState(), false);
 		this.depthLimit = depth;
 	}
 	
-	public GameMove getMove(GameState state, String lastMove) {
-		reinit(state);
-		alphaBeta((ClobberState)state, 0, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
-		return mvStack[0];
-	/*	ClobberState board = (ClobberState)state;
-		ArrayList<ClobberMove> list = new ArrayList<ClobberMove>();  
-		ClobberMove mv = new ClobberMove();
+	/**
+	 * Determines whether a board represents a completed game.  If the board is
+	 * complete, then the evaluation value for the board is recorded based on
+	 * which players is moving.
+	 * 
+	 * @param brd	: clobber board to be considered
+	 * @param move	: the move associated with the board state
+	 * @return 		: true if the board is terminal
+	 */
+	protected boolean terminalValue(GameState board, ScoredClobberMove move) {
+		GameState.Status status = board.getStatus();
+		boolean isTerminal = true;
 		
-		for (int r=0; r<ClobberState.ROWS; r++) {
-			for (int c=0; c<ClobberState.COLS; c++) {
-				mv.row1 = r;
-				mv.col1 = c;
-				mv.row2 = r-1; mv.col2 = c;
-				if (board.moveOK(mv)) {
-					list.add((ClobberMove)mv.clone());
-				}
-				mv.row2 = r+1; mv.col2 = c;
-				if (board.moveOK(mv)) {
-					list.add((ClobberMove)mv.clone());
-				}
-				mv.row2 = r; mv.col2 = c-1;
-				if (board.moveOK(mv)) {
-					list.add((ClobberMove)mv.clone());
-				}
-				mv.row2 = r; mv.col2 = c+1;
-				if (board.moveOK(mv)) {
-					list.add((ClobberMove)mv.clone());
-				}
+		if (status == GameState.Status.HOME_WIN) {
+			move.setScore(MAX_SCORE);
+		}
+		else if (status == GameState.Status.AWAY_WIN) {
+			move.setScore(-MAX_SCORE);
+		}
+		else if (status == GameState.Status.DRAW) {
+			move.setScore(0);
+		}
+		else {
+			isTerminal = false;
+		}
+		
+		return isTerminal;
+	}
+	
+	/**
+	 * Used to initialize the alpha beta search.
+	 * 		- Creates the default move stack of best moves
+	 * 		- Other things?
+	 */
+	public void init() {
+		mvStack = new ScoredClobberMove [MAX_DEPTH];
+		
+		for (int i=0; i < MAX_DEPTH; i++) {
+			mvStack[i] = new ScoredClobberMove(0, 0, 0, 0, 0);
+		}
+	}
+	
+	/*
+	public void reinit(GameState state) {
+		ClobberMove firstmove = getMoves(state).get(0);
+		for (int i=0; i < MAX_DEPTH; i++) {
+			mvStack[i] = new ScoredClobberMove(firstmove, 0);
+		}
+	}
+	*/
+	
+	/**
+	 * Populates and return a list of possible clobber moves based on a specified
+	 * game board and the current player's turn.
+	 * 
+	 * @param state		: the game board
+	 * @return			: a list of clobber moves
+	 */
+	public ArrayList<ScoredClobberMove> getMoves(GameState state) {
+		ClobberState board = (ClobberState) state;
+		
+		ArrayList<ScoredClobberMove> list = new ArrayList<ScoredClobberMove>();
+		ScoredClobberMove move = new ScoredClobberMove();
+		
+		for (int r = 0; r < ClobberState.ROWS; r++) {
+			for (int c = 0; c < ClobberState.COLS; c++) {
+				move.row1 = r;
+				move.col1 = c;
+				move.row2 = r-1;
+				move.col2 = c;
+				if (board.moveOK(move)) list.add((ScoredClobberMove) move.clone());
+				
+				move.row2 = r+1;
+				move.col2 = c;
+				if (board.moveOK(move)) list.add((ScoredClobberMove) move.clone());
+				
+				move.row2 = r;
+				move.col2 = c-1;
+				if (board.moveOK(move)) list.add((ScoredClobberMove) move.clone());
+				
+				move.row2 = r;
+				move.col2 = c+1;
+				if (board.moveOK(move)) list.add((ScoredClobberMove) move.clone());
 			}
 		}
 		
-		int value = eval(board);
+		return list;
+	}
+	
+	/**
+	 * Populates the list of best moves by performing a recursive alpha beta search.
+	 * 
+	 * @param board			: the board being considered
+	 * @param currDepth		: the current depth of the search
+	 * @param a				: alpha, the best maximum score
+	 * @param b				: beta, the best minimum score
+	 */
+	private void alphaBeta(ClobberState board, int currDepth, double a, double b) {
+		boolean toMaximize = (board.getWho() == GameState.Who.HOME);
+		boolean isTerminal = terminalValue(board, mvStack[currDepth]);
 		
-		int which = Util.randInt(0, list.size()-1);
-		return list.get(which);
-		*/
+		// If the move is terminal, allow score to propagate up
+		if (isTerminal) {
+			return;
+		}
+		
+		// If the depth limit is reached, use the evaluation function
+		else if (currDepth == depthLimit) {
+			mvStack[currDepth].setScore(eval(board));
+		}
+		
+		// Otherwise continue alpha beta recursion
+		else {
+			ScoredClobberMove tempMove = new ScoredClobberMove();
+			
+			double bestScore = (toMaximize ? 
+					Double.NEGATIVE_INFINITY : Double.POSITIVE_INFINITY);
+			
+			ScoredClobberMove bestMove = mvStack[currDepth];
+			ScoredClobberMove nextMove = mvStack[currDepth+1];
+			
+			bestMove.setScore(bestScore);
+			GameState.Who currTurn = board.getWho();
+			
+			// Get possible moves and shuffle them
+			ArrayList<ScoredClobberMove> moves = getMoves(board);
+			Collections.shuffle(moves);
+			
+			for (int i = 0; i < moves.size(); i++) {
+				// Create and make move
+				tempMove = new ScoredClobberMove(moves.get(i));
+				board.makeMove(tempMove);
+				
+				// Examine the move recursively
+				alphaBeta(board, currDepth+1, a, b);
+				
+				// Undo the move
+				board.board[tempMove.row1][tempMove.col1] = 
+						(board.getWho() == GameState.Who.HOME ? 
+								ClobberState.homeSym : ClobberState.awaySym);
+				
+				board.board[tempMove.row2][tempMove.col2] = 
+						(board.getWho() == GameState.Who.HOME ? 
+								ClobberState.awaySym : ClobberState.homeSym);
+				
+				// Ensure status and turn have not been modified
+				board.status = GameState.Status.GAME_ON;
+				board.who = currTurn;
+				
+				// Examine the results, relative to what we have seen
+				if (toMaximize && nextMove.score > bestMove.score) {
+					bestMove.set(tempMove, nextMove.score);
+				}
+				else if (!toMaximize && nextMove.score < bestMove.score) {
+					bestMove.set(tempMove, nextMove.score);
+				}
+				
+				// Update alpha and beta and perform pruning
+				if (!toMaximize) {
+					b = Math.min(bestMove.score, b);
+					if (bestMove.score <= a || bestMove.score == -MAX_SCORE) {
+						return;
+					}
+				}
+				else {
+					a = Math.max(bestMove.score, a);
+					if (bestMove.score >= b || bestMove.score == MAX_SCORE) {
+						return;
+					}
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Calculates the next move to be performed by the alpha beta player
+	 * 
+	 * @param state		: the current game board
+	 * @param lastMove	: the last move to be performed
+	 * @return			: the next move to be performed
+	 */
+	public GameMove getMove(GameState state, String lastMove) {
+		// reinit(state);
+		
+		alphaBeta((ClobberState)state, 0, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+		return mvStack[0];
 	}
 	
 	/**

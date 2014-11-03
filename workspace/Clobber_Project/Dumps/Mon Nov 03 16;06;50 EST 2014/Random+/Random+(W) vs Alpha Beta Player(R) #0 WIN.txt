@@ -1,0 +1,170 @@
+Random+ (W) played 5 1 5 0
+W.RWR
+WRWRW
+RWRWR
+WRWRW
+RWRWR
+WRWRW
+[AWAY 1 GAME_ON]
+Alpha Beta Player (R) played 0 3 1 3
+W.RWR
+WRWRW
+RWRWR
+WRWRW
+RWRRR
+WRW.W
+[HOME 2 GAME_ON]
+Random+ (W) played 2 4 1 4
+W.RWR
+WRWRW
+RWRWR
+WRWR.
+RWRRW
+WRW.W
+[AWAY 3 GAME_ON]
+Alpha Beta Player (R) played 4 1 4 0
+W.RWR
+R.WRW
+RWRWR
+WRWR.
+RWRRW
+WRW.W
+[HOME 4 GAME_ON]
+Random+ (W) played 0 0 1 0
+W.RWR
+R.WRW
+RWRWR
+WRWR.
+WWRRW
+.RW.W
+[AWAY 5 GAME_ON]
+Alpha Beta Player (R) played 1 2 1 1
+W.RWR
+R.WRW
+RWRWR
+WRWR.
+WR.RW
+.RW.W
+[HOME 6 GAME_ON]
+Random+ (W) played 3 3 3 4
+W.RWR
+R.WRW
+RWR.W
+WRWR.
+WR.RW
+.RW.W
+[AWAY 7 GAME_ON]
+Alpha Beta Player (R) played 4 3 4 2
+W.RWR
+R.R.W
+RWR.W
+WRWR.
+WR.RW
+.RW.W
+[HOME 8 GAME_ON]
+Random+ (W) played 2 0 3 0
+W.RWR
+R.R.W
+WWR.W
+.RWR.
+WR.RW
+.RW.W
+[AWAY 9 GAME_ON]
+Alpha Beta Player (R) played 1 1 1 0
+W.RWR
+R.R.W
+WWR.W
+.RWR.
+R..RW
+.RW.W
+[HOME 10 GAME_ON]
+Random+ (W) played 2 2 3 2
+W.RWR
+R.R.W
+WWW.W
+.R.R.
+R..RW
+.RW.W
+[AWAY 11 GAME_ON]
+Alpha Beta Player (R) played 4 0 5 0
+R.RWR
+..R.W
+WWW.W
+.R.R.
+R..RW
+.RW.W
+[HOME 12 GAME_ON]
+Random+ (W) played 1 4 1 3
+R.RWR
+..R.W
+WWW.W
+.R.R.
+R..W.
+.RW.W
+[AWAY 13 GAME_ON]
+Alpha Beta Player (R) played 2 3 1 3
+R.RWR
+..R.W
+WWW.W
+.R...
+R..R.
+.RW.W
+[HOME 14 GAME_ON]
+Random+ (W) played 0 2 0 1
+R.RWR
+..R.W
+WWW.W
+.R...
+R..R.
+.W..W
+[AWAY 15 GAME_ON]
+Alpha Beta Player (R) played 5 4 5 3
+R.RR.
+..R.W
+WWW.W
+.R...
+R..R.
+.W..W
+[HOME 16 GAME_ON]
+Random+ (W) played 3 2 4 2
+R.RR.
+..W.W
+WW..W
+.R...
+R..R.
+.W..W
+[AWAY 17 GAME_ON]
+Alpha Beta Player (R) played 2 1 3 1
+R.RR.
+..W.W
+WR..W
+.....
+R..R.
+.W..W
+[HOME 18 GAME_ON]
+Random+ (W) played 4 2 5 2
+R.WR.
+....W
+WR..W
+.....
+R..R.
+.W..W
+[AWAY 19 GAME_ON]
+Alpha Beta Player (R) played 3 1 3 0
+R.WR.
+....W
+R...W
+.....
+R..R.
+.W..W
+[HOME 20 GAME_ON]
+Random+ (W) played 5 2 5 3
+R..W.
+....W
+R...W
+.....
+R..R.
+.W..W
+[AWAY 21 HOME_WIN]
+Random+ (W) (299.994000 seconds remaining) won.
+Alpha Beta Player had 299.766000 seconds remaining.
