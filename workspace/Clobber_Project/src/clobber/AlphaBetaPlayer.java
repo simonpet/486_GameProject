@@ -11,6 +11,7 @@ public class AlphaBetaPlayer extends GamePlayer {
 	
 	public static final int MAX_DEPTH = 4;
 	public int depthLimit;
+	private int eval_function;
 	
 	// Used to store the best move at any particular depth
 	protected ScoredClobberMove[] mvStack;
@@ -21,10 +22,12 @@ public class AlphaBetaPlayer extends GamePlayer {
 	 * 
 	 * @param n			: the name of the player
 	 * @param depth		: the depth of the alpha beta search
+	 * @param eval_function which evaluation function to use
 	 */
-	public AlphaBetaPlayer(String n, int depth) {
+	public AlphaBetaPlayer(String n, int depth, int eval_function) {
 		super(n, new ClobberState(), false);
 		this.depthLimit = depth;
+		this.eval_function = eval_function;
 	}
 	
 	/**
@@ -223,6 +226,17 @@ public class AlphaBetaPlayer extends GamePlayer {
 	 * @return		: an integer indicating which side is winning
 	 */
 	private int eval(ClobberState gs) {
+		switch(eval_function)
+		{
+		case 1:
+			return eval1(gs);
+		case 2:
+			return eval2(gs);
+		default:
+			return 0;
+		}
+	}
+	private int eval1(ClobberState gs) {
 		int homePiecesMove = 0;
 		int awayPiecesMove = 0;
 		
@@ -243,6 +257,26 @@ public class AlphaBetaPlayer extends GamePlayer {
 		
 		// Return the difference between the home and away pieces
 		return homePiecesMove - awayPiecesMove;
+	}
+	private int eval2(ClobberState gs) {
+		int home_pieces_middle = 0;
+		int away_pieces_middle = 0;
+		if (gs.numMoves < 15)
+		{
+			for (int row = 0; row < ClobberState.ROWS; row++) {
+				for (int col = 0; col < ClobberState.COLS; col++) {
+					// If the home piece can move, increment its movable pieces
+					if (gs.board[row][col] == ClobberState.homeSym && canMove(row, col, gs.board)) {
+						homePiecesMove++;
+					}
+					// If the away piece can move, increment its movable pieces
+					else if (gs.board[row][col] == ClobberState.awaySym && canMove(row, col, gs.board)) {
+						awayPiecesMove++;
+					}
+				}
+			}
+		}
+		return eval1(gs);
 	}
 	
 	/**
@@ -307,7 +341,8 @@ public class AlphaBetaPlayer extends GamePlayer {
 	}
 	
 	public static void main(String [] args) {
-		GamePlayer p = new AlphaBetaPlayer("Alpha Beta Player", AlphaBetaPlayer.MAX_DEPTH - 1);
+		int eval = 2;
+		GamePlayer p = new AlphaBetaPlayer("AB_" + eval, AlphaBetaPlayer.MAX_DEPTH - 1, eval);
 		p.compete(args, 1);
 	}
 }
