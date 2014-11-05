@@ -46,9 +46,6 @@ public class AlphaBetaPlayer extends GamePlayer {
 		else if (status == GameState.Status.AWAY_WIN) {
 			move.setScore(-MAX_SCORE);
 		}
-		else if (status == GameState.Status.DRAW) {
-			move.setScore(0);
-		}
 		else {
 			isTerminal = false;
 		}
@@ -177,10 +174,10 @@ public class AlphaBetaPlayer extends GamePlayer {
 				board.who = currTurn;
 				
 				// Examine the results, relative to what we have seen
-				if (toMaximize && nextMove.score > bestMove.score) {
+				if (toMaximize && nextMove.score >= bestMove.score) {
 					bestMove.set(tempMove, nextMove.score);
 				}
-				else if (!toMaximize && nextMove.score < bestMove.score) {
+				else if (!toMaximize && nextMove.score <= bestMove.score) {
 					bestMove.set(tempMove, nextMove.score);
 				}
 				
@@ -212,6 +209,7 @@ public class AlphaBetaPlayer extends GamePlayer {
 		// reinit(state);
 		
 		alphaBeta((ClobberState)state, 0, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+		
 		return mvStack[0];
 	}
 	
