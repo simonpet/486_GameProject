@@ -172,7 +172,6 @@ public class AlphaBetaPlayer extends GamePlayer {
 				// Ensure status and turn have not been modified
 				board.status = GameState.Status.GAME_ON;
 				board.who = currTurn;
-				board.numMoves--;
 				
 				// Examine the results, relative to what we have seen
 				if (toMaximize && nextMove.score >= bestMove.score) {
