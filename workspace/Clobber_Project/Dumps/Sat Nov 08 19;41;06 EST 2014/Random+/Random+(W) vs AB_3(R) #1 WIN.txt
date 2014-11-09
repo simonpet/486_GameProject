@@ -1,0 +1,9 @@
+Random+ (W) played 3 3 4 3
+RWRWR
+WRWWW
+RWR.R
+WRWRW
+RWRWR
+WRWRW
+[AWAY 1 GAME_ON]
+Random+ won. AB_3 made bad move 5 2 4 3

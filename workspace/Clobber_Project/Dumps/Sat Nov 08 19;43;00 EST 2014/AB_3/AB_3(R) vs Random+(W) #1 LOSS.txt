@@ -1,0 +1,25 @@
+Random+ (W) played 0 4 0 3
+RWRWR
+WRWRW
+RWRWR
+WRWRW
+RWRWR
+WRWW.
+[AWAY 1 GAME_ON]
+AB_3 (R) played 2 3 2 2
+RWRWR
+WRWRW
+RWRWR
+WRR.W
+RWRWR
+WRWW.
+[HOME 2 GAME_ON]
+Random+ (W) played 1 1 2 1
+RWRWR
+WRWRW
+RWRWR
+WWR.W
+R.RWR
+WRWW.
+[AWAY 3 GAME_ON]
+Random+ won. AB_3 DQd

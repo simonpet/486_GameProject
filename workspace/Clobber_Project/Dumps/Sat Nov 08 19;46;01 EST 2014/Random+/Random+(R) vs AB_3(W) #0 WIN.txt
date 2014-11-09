@@ -1,0 +1,49 @@
+AB_3 (W) played 5 3 4 3
+RWR.R
+WRWWW
+RWRWR
+WRWRW
+RWRWR
+WRWRW
+[AWAY 1 GAME_ON]
+Random+ (R) played 1 0 1 1
+RWR.R
+WRWWW
+RWRWR
+WRWRW
+.RRWR
+WRWRW
+[HOME 2 GAME_ON]
+AB_3 (W) played 5 1 5 0
+W.R.R
+WRWWW
+RWRWR
+WRWRW
+.RRWR
+WRWRW
+[AWAY 3 GAME_ON]
+Random+ (R) played 3 4 2 4
+W.R.R
+WRWWW
+RWRW.
+WRWRR
+.RRWR
+WRWRW
+[HOME 4 GAME_ON]
+AB_3 (W) played 4 4 5 4
+W.R.W
+WRWW.
+RWRW.
+WRWRR
+.RRWR
+WRWRW
+[AWAY 5 GAME_ON]
+Random+ (R) played 0 1 0 2
+W.R.W
+WRWW.
+RWRW.
+WRWRR
+.RRWR
+W.RRW
+[HOME 6 GAME_ON]
+Random+ won. AB_3 DQd

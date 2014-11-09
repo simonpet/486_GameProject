@@ -1,6 +1,9 @@
 package clobber;
 import game.*;
+
+import java.awt.Point;
 import java.util.*;
+
 import clobber.ScoredClobberMove;
 
 public class AlphaBetaPlayer extends GamePlayer {
@@ -211,10 +214,87 @@ public class AlphaBetaPlayer extends GamePlayer {
 	 */
 	public GameMove getMove(GameState state, String lastMove) {
 		// reinit(state);
-		
-		alphaBeta((ClobberState)state, 0, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
-		
-		return mvStack[0];
+		if (eval_function == 3)
+		{
+			ClobberState cs = (ClobberState)state;
+			ArrayList<Point> possibleStones = new ArrayList<Point>();
+			boolean home = (cs.getWho() == GameState.Who.HOME);
+			int max_opposing = 0;
+			for (int r = 0; r < ClobberState.ROWS; r++)
+			{
+				for (int c = 0; c < ClobberState.COLS; c++)
+				{
+					
+					int opposingStones = 0;		
+					if (home)
+					{
+						if (cs.board[r][c] == ClobberState.homeSym) //if this piece is owned by the player
+						{					
+							try { if (cs.board[r - 1][c + 0] == ClobberState.awaySym) opposingStones++; } catch (IndexOutOfBoundsException e) {}
+							try { if (cs.board[r + 0][c - 1] == ClobberState.awaySym) opposingStones++; } catch (IndexOutOfBoundsException e) {}
+							try { if (cs.board[r + 0][c + 1] == ClobberState.awaySym) opposingStones++; } catch (IndexOutOfBoundsException e) {}
+							try { if (cs.board[r + 1][c + 0] == ClobberState.awaySym) opposingStones++; } catch (IndexOutOfBoundsException e) {}
+						}
+						if (opposingStones > max_opposing)
+						{
+							possibleStones.clear(); //no stone has had this many adjacent opponents
+							possibleStones.add(new Point(r, c));
+							max_opposing = opposingStones;
+						}
+						if (opposingStones == max_opposing)
+						{
+							possibleStones.add(new Point(r, c));
+						}
+					}
+					else
+					{
+						if (cs.board[r][c] == ClobberState.awaySym) //if this piece is owned by the player
+						{					
+							try { if (cs.board[r - 1][c + 0] == ClobberState.homeSym) opposingStones++; } catch (IndexOutOfBoundsException e) {}
+							try { if (cs.board[r + 0][c - 1] == ClobberState.homeSym) opposingStones++; } catch (IndexOutOfBoundsException e) {}
+							try { if (cs.board[r + 0][c + 1] == ClobberState.homeSym) opposingStones++; } catch (IndexOutOfBoundsException e) {}
+							try { if (cs.board[r + 1][c + 0] == ClobberState.homeSym) opposingStones++; } catch (IndexOutOfBoundsException e) {}
+						}
+						if (opposingStones > max_opposing)
+						{
+							possibleStones.clear(); //no stone has had this many adjacent opponents
+							possibleStones.add(new Point(r, c));
+							max_opposing = opposingStones;
+						}
+						if (opposingStones == max_opposing)
+						{
+							possibleStones.add(new Point(r, c));
+						}
+					}					
+				}
+			}
+			Point stone_to_move = possibleStones.get((int)(Math.random() * (possibleStones.size() - 1))); //get a random stone from the array
+			ArrayList<ClobberMove> validMoves = new ArrayList<ClobberMove>();
+			int x = stone_to_move.x;
+			int y = stone_to_move.y;
+			if (home)
+			{			
+				try { if (cs.board[x - 1][y + 0] == ClobberState.awaySym) validMoves.add(new ClobberMove(x, y, x - 1, y + 0)); } catch (IndexOutOfBoundsException e) {}
+				try { if (cs.board[x + 0][y - 1] == ClobberState.awaySym) validMoves.add(new ClobberMove(x, y, x + 0, y - 1)); } catch (IndexOutOfBoundsException e) {}
+				try { if (cs.board[x + 0][y + 1] == ClobberState.awaySym) validMoves.add(new ClobberMove(x, y, x + 0, y + 1)); } catch (IndexOutOfBoundsException e) {}
+				try { if (cs.board[x + 1][y + 0] == ClobberState.awaySym) validMoves.add(new ClobberMove(x, y, x + 1, y + 0)); } catch (IndexOutOfBoundsException e) {}
+				
+			}
+			else
+			{
+				try { if (cs.board[x - 1][y + 0] == ClobberState.homeSym) validMoves.add(new ClobberMove(x, y, x - 1, y + 0)); } catch (IndexOutOfBoundsException e) {}
+				try { if (cs.board[x + 0][y - 1] == ClobberState.homeSym) validMoves.add(new ClobberMove(x, y, x + 0, y - 1)); } catch (IndexOutOfBoundsException e) {}
+				try { if (cs.board[x + 0][y + 1] == ClobberState.homeSym) validMoves.add(new ClobberMove(x, y, x + 0, y + 1)); } catch (IndexOutOfBoundsException e) {}
+				try { if (cs.board[x + 1][y + 0] == ClobberState.homeSym) validMoves.add(new ClobberMove(x, y, x + 1, y + 0)); } catch (IndexOutOfBoundsException e) {}
+			}
+			
+			return validMoves.get((int)(Math.random() * (validMoves.size() - 1)));
+		}
+		else
+		{
+			alphaBeta((ClobberState)state, 0, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+			return mvStack[0];
+		}
 	}
 	
 	/**
@@ -259,6 +339,8 @@ public class AlphaBetaPlayer extends GamePlayer {
 		return homePiecesMove - awayPiecesMove;
 	}
 	private int eval2(ClobberState gs) {
+		return 0;
+		/*
 		int home_pieces_middle = 0;
 		int away_pieces_middle = 0;
 		if (gs.numMoves < 15)
@@ -276,7 +358,7 @@ public class AlphaBetaPlayer extends GamePlayer {
 				}
 			}
 		}
-		return eval1(gs);
+		return eval1(gs);*/
 	}
 	
 	/**
@@ -341,7 +423,7 @@ public class AlphaBetaPlayer extends GamePlayer {
 	}
 	
 	public static void main(String [] args) {
-		int eval = 2;
+		int eval = 3;
 		GamePlayer p = new AlphaBetaPlayer("AB_" + eval, AlphaBetaPlayer.MAX_DEPTH - 1, eval);
 		p.compete(args, 1);
 	}

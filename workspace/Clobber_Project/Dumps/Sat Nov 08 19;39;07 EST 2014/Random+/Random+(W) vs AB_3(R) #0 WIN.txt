@@ -1,0 +1,41 @@
+Random+ (W) played 0 4 1 4
+RWRWR
+WRWRW
+RWRWR
+WRWRW
+RWRWW
+WRWR.
+[AWAY 1 GAME_ON]
+AB_3 (R) played 5 4 4 4
+RWRW.
+WRWRR
+RWRWR
+WRWRW
+RWRWW
+WRWR.
+[HOME 2 GAME_ON]
+Random+ (W) played 5 1 5 2
+R.WW.
+WRWRR
+RWRWR
+WRWRW
+RWRWW
+WRWR.
+[AWAY 3 GAME_ON]
+AB_3 (R) played 5 0 4 0
+..WW.
+RRWRR
+RWRWR
+WRWRW
+RWRWW
+WRWR.
+[HOME 4 GAME_ON]
+Random+ (W) played 2 2 2 1
+..WW.
+RRWRR
+RWRWR
+WW.RW
+RWRWW
+WRWR.
+[AWAY 5 GAME_ON]
+Random+ won. AB_3 made bad move 5 1 4 2

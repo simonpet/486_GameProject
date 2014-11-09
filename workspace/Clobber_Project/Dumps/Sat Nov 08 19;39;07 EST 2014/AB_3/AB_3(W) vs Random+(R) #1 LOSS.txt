@@ -1,0 +1,33 @@
+AB_3 (W) played 5 3 4 3
+RWR.R
+WRWWW
+RWRWR
+WRWRW
+RWRWR
+WRWRW
+[AWAY 1 GAME_ON]
+Random+ (R) played 1 4 2 4
+RWR.R
+WRWWW
+RWRWR
+WRWRR
+RWRW.
+WRWRW
+[HOME 2 GAME_ON]
+AB_3 (W) played 5 1 4 1
+R.R.R
+WWWWW
+RWRWR
+WRWRR
+RWRW.
+WRWRW
+[AWAY 3 GAME_ON]
+Random+ (R) played 3 2 3 1
+R.R.R
+WWWWW
+RR.WR
+WRWRR
+RWRW.
+WRWRW
+[HOME 4 GAME_ON]
+Random+ won. AB_3 made bad move 5 3 5 2
