@@ -1,0 +1,9 @@
+Random+ (W) played 4 2 3 2
+RWRWR
+WR.RW
+RWWWR
+WRWRW
+RWRWR
+WRWRW
+[AWAY 1 GAME_ON]
+Random+ won. AB_11_09 made bad move 0 0 0 0
