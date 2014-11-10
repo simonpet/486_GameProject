@@ -11,11 +11,10 @@ public class AlphaBeta_11_10 extends GamePlayer {
 	public static final double MAX_SCORE 	= Double.POSITIVE_INFINITY;
 	public static final int ROWS 			= ClobberState.ROWS;
 	public static final int COLS 			= ClobberState.COLS;
-	public static final int MAX_DEPTH 		= 4;
-	public static final int MAX_THREADS		= 8;
+	public static final int MAX_DEPTH 		= 5;
+	public static final int MAX_THREADS		= 1;
 	
 	private int depthLimit;
-	private ScoredClobberMove[] mvStack;
 	
 	
 	/**
@@ -45,11 +44,7 @@ public class AlphaBeta_11_10 extends GamePlayer {
 	 * 		- Other things?
 	 */
 	public void init() {
-		mvStack = new ScoredClobberMove [MAX_DEPTH];
 		
-		for (int i=0; i < MAX_DEPTH; i++) {
-			mvStack[i] = new ScoredClobberMove(0, 0, 0, 0, 0);
-		}
 	}
 	
 	/**
@@ -348,7 +343,7 @@ public class AlphaBeta_11_10 extends GamePlayer {
 			this.state = new ClobberState();
 			
 			// Initialize the move stack
-			for (int i=0; i < AlphaBeta_11_09.MAX_DEPTH; i++) {
+			for (int i=0; i < AlphaBeta_11_10.MAX_DEPTH; i++) {
 				this.mvStack[i] = new ScoredClobberMove(0, 0, 0, 0, 0);
 			}
 			
