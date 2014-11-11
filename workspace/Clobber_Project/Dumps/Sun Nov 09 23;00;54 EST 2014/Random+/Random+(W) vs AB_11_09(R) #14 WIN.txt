@@ -1,0 +1,9 @@
+Random+ (W) played 4 2 5 2
+RWWWR
+WR.RW
+RWRWR
+WRWRW
+RWRWR
+WRWRW
+[AWAY 1 GAME_ON]
+Random+ won. AB_11_09 DQd

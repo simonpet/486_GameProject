@@ -1,0 +1,25 @@
+Random+ (W) played 1 3 0 3
+RWRWR
+WRWRW
+RWRWR
+WRWRW
+RWR.R
+WRWWW
+[AWAY 1 GAME_ON]
+AB_11_09 (R) played 4 3 4 2
+RWRWR
+WRR.W
+RWRWR
+WRWRW
+RWR.R
+WRWWW
+[HOME 2 GAME_ON]
+Random+ (W) played 0 2 0 1
+RWRWR
+WRR.W
+RWRWR
+WRWRW
+RWR.R
+WW.WW
+[AWAY 3 GAME_ON]
+Random+ won. AB_11_09 made bad move 0 4 1 4

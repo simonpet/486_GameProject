@@ -1,0 +1,17 @@
+AB_11_09 (W) played 4 2 4 1
+RWRWR
+WW.RW
+RWRWR
+WRWRW
+RWRWR
+WRWRW
+[AWAY 1 GAME_ON]
+Random+ (R) played 5 4 4 4
+RWRW.
+WW.RR
+RWRWR
+WRWRW
+RWRWR
+WRWRW
+[HOME 2 GAME_ON]
+Random+ won. AB_11_09 made bad move 4 4 4 3

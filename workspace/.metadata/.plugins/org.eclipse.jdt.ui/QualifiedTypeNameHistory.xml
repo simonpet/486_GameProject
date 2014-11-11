@@ -16,4 +16,6 @@
 <fullyQualifiedTypeName name="java.util.Stack"/>
 <fullyQualifiedTypeName name="game.GameState"/>
 <fullyQualifiedTypeName name="game.GameState.Status"/>
+<fullyQualifiedTypeName name="clobber.ClobberState"/>
+<fullyQualifiedTypeName name="game.GameState.Who"/>
 </qualifiedTypeNameHistroy>

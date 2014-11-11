@@ -1,0 +1,361 @@
+package clobber;
+import game.*;
+
+import java.util.*;
+
+import clobber.ScoredClobberMove;
+
+public class AlphaBeta_11_09 extends GamePlayer {
+
+	public static final double MAX_SCORE = Double.POSITIVE_INFINITY;
+	public static final int ROWS = ClobberState.ROWS;
+	public static final int COLS = ClobberState.COLS;
+	
+	public static final int MAX_THREADS = 5;
+	
+	public static final int MAX_DEPTH = 4;
+	public int depthLimit;
+	
+	
+	/**
+	 * Constructs an AlphaBetaPlayer object with the specified name and depth.
+	 * 
+	 * @param n			: the name of the player
+	 * @param depth		: the depth of the alpha beta search
+	 */
+	public AlphaBeta_11_09(String n, int depth) {
+		super(n, new ClobberState(), false);
+		this.depthLimit = depth;
+	}
+	
+	/**
+	 * Determines whether a board represents a completed game.  If the board is
+	 * complete, then the evaluation value for the board is recorded based on
+	 * which players is moving.
+	 * 
+	 * @param brd	: clobber board to be considered
+	 * @param move	: the move associated with the board state
+	 * @return 		: true if the board is terminal
+	 */
+	protected boolean terminalValue(GameState board, ScoredClobberMove move) {
+		GameState.Status status = board.getStatus();
+		boolean isTerminal = true;
+		
+		if (status == GameState.Status.HOME_WIN) {
+			move.setScore(MAX_SCORE);
+		}
+		else if (status == GameState.Status.AWAY_WIN) {
+			move.setScore(-MAX_SCORE);
+		}
+		else {
+			isTerminal = false;
+		}
+		
+		return isTerminal;
+	}
+	
+	/**
+	 * Populates and return a list of possible clobber moves based on a specified
+	 * game board and the current player's turn.
+	 * 
+	 * @param state		: the game board
+	 * @return			: a list of clobber moves
+	 */
+	public ArrayList<ScoredClobberMove> getMoves(GameState state) {
+		ClobberState board = (ClobberState) state;
+		
+		ArrayList<ScoredClobberMove> list = new ArrayList<ScoredClobberMove>();
+		ScoredClobberMove move = new ScoredClobberMove();
+		
+		for (int r = 0; r < ClobberState.ROWS; r++) {
+			for (int c = 0; c < ClobberState.COLS; c++) {
+				move.row1 = r;
+				move.col1 = c;
+				move.row2 = r-1;
+				move.col2 = c;
+				if (board.moveOK(move)) list.add((ScoredClobberMove) move.clone());
+				
+				move.row2 = r+1;
+				move.col2 = c;
+				if (board.moveOK(move)) list.add((ScoredClobberMove) move.clone());
+				
+				move.row2 = r;
+				move.col2 = c-1;
+				if (board.moveOK(move)) list.add((ScoredClobberMove) move.clone());
+				
+				move.row2 = r;
+				move.col2 = c+1;
+				if (board.moveOK(move)) list.add((ScoredClobberMove) move.clone());
+			}
+		}
+		
+		return list;
+	}
+	
+	/**
+	 * Populates the list of best moves by performing a recursive alpha beta search.
+	 * 
+	 * @param board			: the board being considered
+	 * @param currDepth		: the current depth of the search
+	 * @param a				: alpha, the best maximum score
+	 * @param b				: beta, the best minimum score
+	 */
+	private void alphaBeta(ClobberState board, ScoredClobberMove[] mvStack,
+			int currDepth, double a, double b) {
+		
+		boolean toMaximize = (board.getWho() == GameState.Who.HOME);
+		boolean isTerminal = terminalValue(board, mvStack[currDepth]);
+		
+		// If the move is terminal, allow score to propagate up
+		if (isTerminal) {
+			return;
+		}
+		
+		// If the depth limit is reached, use the evaluation function
+		else if (currDepth == depthLimit) {
+			System.out.println(mvStack[currDepth].score);
+			mvStack[currDepth].setScore(evaluateState(board));
+		}
+		
+		// Otherwise continue alpha beta recursion
+		else {
+			ScoredClobberMove tempMove = new ScoredClobberMove();
+			
+			double bestScore = (toMaximize ? 
+					Double.NEGATIVE_INFINITY : Double.POSITIVE_INFINITY);
+			
+			ScoredClobberMove bestMove = mvStack[currDepth];
+			ScoredClobberMove nextMove = mvStack[currDepth+1];
+			
+			bestMove.setScore(bestScore);
+			GameState.Who currTurn = board.getWho();
+			
+			// Get possible moves and shuffle them
+			ArrayList<ScoredClobberMove> moves = getMoves(board);
+			Collections.shuffle(moves);
+			
+			for (int i = 0; i < moves.size(); i++) {
+				// Create and make move
+				tempMove = new ScoredClobberMove(moves.get(i));
+				board.makeMove(tempMove);
+				
+				// Examine the move recursively
+				alphaBeta(board, mvStack, currDepth + 1, a, b);
+				
+				// Ensure status and turn have not been modified
+				board.status = GameState.Status.GAME_ON;
+				board.who = currTurn;
+				board.numMoves--;
+				
+				// Undo the move
+				board.board[tempMove.row1][tempMove.col1] = 
+						(board.getWho() == GameState.Who.HOME ? 
+								ClobberState.homeSym : ClobberState.awaySym);
+				
+				board.board[tempMove.row2][tempMove.col2] = 
+						(board.getWho() == GameState.Who.HOME ? 
+								ClobberState.awaySym : ClobberState.homeSym);
+				
+				// Examine the results, relative to what we have seen
+				if (toMaximize && nextMove.score >= bestMove.score) {
+					bestMove.set(tempMove, nextMove.score);
+				}
+				else if (!toMaximize && nextMove.score <= bestMove.score) {
+					bestMove.set(tempMove, nextMove.score);
+				}
+				
+				// Update alpha and beta and perform pruning
+				if (!toMaximize) {
+					b = Math.min(bestMove.score, b);
+					if (bestMove.score <= a || bestMove.score == -MAX_SCORE) {
+						return;
+					}
+				}
+				else {
+					a = Math.max(bestMove.score, a);
+					if (bestMove.score >= b || bestMove.score == MAX_SCORE) {
+						return;
+					}
+				}
+			}
+		}
+	}
+	
+	private float evaluateState(ClobberState cs) {
+		int homeScore = 0;
+		int awayScore = 0;
+		
+		for (int row = 0; row < ClobberState.ROWS; row++) {
+			for (int col = 0; col < ClobberState.COLS; col++) {
+				
+				// If the stone is a home symbol
+				if (cs.board[row][col] == ClobberState.homeSym) {
+					homeScore += evaluateStone(cs, row, col);
+				}
+				
+				// If the stone is an away symbol
+				else if (cs.board[row][col] == ClobberState.awaySym) {
+					awayScore += evaluateStone(cs, row, col);
+				}
+			}
+		}
+		
+		// Return the heuristic
+		if (homeScore > awayScore) {
+			return homeScore / awayScore;
+		}
+		else return -awayScore / homeScore;
+	}
+	
+	private float evaluateStone(ClobberState cs, int row, int col) {
+		int score = 1;
+		char friend = cs.board[row][col];
+		
+		// Check if the symbol is empty
+		if (friend == ClobberState.emptySym) {
+			return score;
+		}
+		
+		char opponent = (friend == ClobberState.homeSym) ? ClobberState.awaySym : ClobberState.homeSym;
+		
+		/** Check for opponent symbols that can take this stone **/
+		if (ClobberMove.posOK(row + 1, col) && cs.board[row + 1][col] == opponent) score++;
+		if (ClobberMove.posOK(row - 1, col) && cs.board[row - 1][col] == opponent) score++;
+		if (ClobberMove.posOK(row, col + 1) && cs.board[row][col + 1] == opponent) score++;
+		if (ClobberMove.posOK(row, col - 1) && cs.board[row][col - 1] == opponent) score++;
+		
+		/** Check for friend symbols that can take opponent stones **/
+		if (ClobberMove.posOK(row + 1, col + 1) && cs.board[row + 1][col + 1] == friend)
+			if (cs.board[row + 1][col] == opponent || cs.board[row][col + 1] == opponent) score++;
+		
+		if (ClobberMove.posOK(row + 1, col - 1) && cs.board[row + 1][col - 1] == friend)
+			if (cs.board[row + 1][col] == opponent || cs.board[row][col - 1] == opponent) score++;
+		
+		if (ClobberMove.posOK(row - 1, col + 1) && cs.board[row - 1][col + 1] == friend)
+			if (cs.board[row - 1][col] == opponent || cs.board[row][col + 1] == opponent) score++;
+		
+		if (ClobberMove.posOK(row - 1, col - 1) && cs.board[row - 1][col - 1] == friend)
+			if (cs.board[row - 1][col] == opponent || cs.board[row][col - 1] == opponent) score++;
+		
+		// Return the total score
+		return score;
+	}
+	
+	/**
+	 * Calculates the next move to be performed by the alpha beta player
+	 * 
+	 * @param state		: the current game board
+	 * @param lastMove	: the last move to be performed
+	 * @return			: the next move to be performed
+	 */
+	public GameMove getMove(GameState state, String lastMove) {
+		ArrayList<ScoredClobberMove> allMoves = getMoves(state);
+		
+		int numPerThread = Math.max(1, (int)(allMoves.size() / AlphaBeta_11_09.MAX_THREADS));
+		AlphaBetaThread[] threads = new AlphaBetaThread[allMoves.size() / numPerThread];
+		
+		for (int i = 0; i < threads.length; i++) {
+			if (i == threads.length - 1) {
+				List<ScoredClobberMove> moves = allMoves.subList(i * numPerThread, allMoves.size());
+				threads[i] = new AlphaBetaThread((ClobberState)state, moves, depthLimit);
+			}
+			else {
+				List<ScoredClobberMove> moves = allMoves.subList(i * numPerThread, (i + 1) * numPerThread);
+				threads[i] = new AlphaBetaThread((ClobberState)state, moves, depthLimit);
+			}
+			
+			threads[i].start();
+		}
+		
+		for (int i = 0; i < threads.length; i++) {
+			try {
+				threads[i].join();
+			}
+			catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		ScoredClobberMove best = threads[0].getClobberMove();
+		
+		for (int i = 1; i < threads.length; i++) {
+			ScoredClobberMove temp = threads[i].getClobberMove();
+			
+			if (temp.score > best.score) {
+				best = temp;
+			}
+		}
+		
+		return best;
+	}
+	
+	private class AlphaBetaThread extends Thread {
+		
+		private ClobberState state;					// The state of the board
+		private ScoredClobberMove[] mvStack;		// Stores best move at any depth
+		private List<ScoredClobberMove> moves;		// The moves to evaluate
+		private int maxDepth;						// The maximum depth of the search
+		
+		
+		public AlphaBetaThread(ClobberState state, List<ScoredClobberMove> moves, int maxDepth) {
+			this.moves = moves;
+			this.maxDepth = maxDepth;
+			this.mvStack = new ScoredClobberMove[AlphaBeta_11_09.MAX_DEPTH];
+			this.state = new ClobberState();
+			
+			// Instantiate stack to dummy values
+			for (int i=0; i < maxDepth; i++) {
+				this.mvStack[i] = new ScoredClobberMove(0, 0, 0, 0, 0);
+			}
+			
+			// Copy the board state
+			for (int row = 0; row < ClobberState.ROWS; row++) {
+				for (int col = 0; col < ClobberState.COLS; col++) {
+					this.state.board[row][col] = state.board[row][col];
+				}
+			}
+			
+			this.state.who = state.getWho();
+			this.state.status = state.getStatus();
+			this.state.numMoves = state.getNumMoves();
+		}
+		
+		public void run() {
+			
+			for (int i = 0; i < moves.size(); i++) {
+				// Record the current turn
+				GameState.Who currTurn = state.getWho();
+				
+				// Make the move
+				state.makeMove(moves.get(i));
+				
+				// Perform the recursive alpha beta search
+				AlphaBeta_11_09.this.alphaBeta(state, mvStack, 0,
+						Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+				
+				// Ensure status and turn have not been modified
+				state.status = GameState.Status.GAME_ON;
+				state.who = currTurn;
+				state.numMoves--;
+				
+				// Undo the move
+				state.board[moves.get(i).row1][moves.get(i).col1] = 
+						(state.getWho() == GameState.Who.HOME ? 
+								ClobberState.homeSym : ClobberState.awaySym);
+				
+				state.board[moves.get(i).row2][moves.get(i).col2] = 
+						(state.getWho() == GameState.Who.HOME ? 
+								ClobberState.awaySym : ClobberState.homeSym);
+			}
+		}
+		
+		public ScoredClobberMove getClobberMove() {
+			return mvStack[0];
+		}
+	}
+	
+	public static void main(String [] args) {
+		GamePlayer p = new AlphaBeta_11_09("AB_11_09", AlphaBeta_11_09.MAX_DEPTH - 1);
+		p.compete(args, 1);
+	}
+}
