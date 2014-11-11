@@ -1,7 +1,9 @@
 package clobber;
 import game.*;
 import game.GameState.Who;
+
 import java.util.*;
+
 import clobber.ScoredClobberMove;
 
 public class AlphaBeta_11_10 extends GamePlayer {
@@ -64,19 +66,19 @@ public class AlphaBeta_11_10 extends GamePlayer {
 				move.col1 = c;
 				move.row2 = r-1;
 				move.col2 = c;
-				if (board.moveOK(move)) list.add((ScoredClobberMove)move.clone());
+				if (board.moveOK(move)) list.add((ScoredClobberMove) move.clone());
 				
 				move.row2 = r+1;
 				move.col2 = c;
-				if (board.moveOK(move)) list.add((ScoredClobberMove)move.clone());
+				if (board.moveOK(move)) list.add((ScoredClobberMove) move.clone());
 				
 				move.row2 = r;
 				move.col2 = c-1;
-				if (board.moveOK(move)) list.add((ScoredClobberMove)move.clone());
+				if (board.moveOK(move)) list.add((ScoredClobberMove) move.clone());
 				
 				move.row2 = r;
 				move.col2 = c+1;
-				if (board.moveOK(move)) list.add((ScoredClobberMove)move.clone());
+				if (board.moveOK(move)) list.add((ScoredClobberMove) move.clone());
 			}
 		}
 		
@@ -126,17 +128,19 @@ public class AlphaBeta_11_10 extends GamePlayer {
 		
 		/** If the move is terminal, allow the score to propagate up **/
 		if (isTerminal) {
-			;
+			return;
 		}
 		
 		/** If the depth limit is reached, use the evaluation function **/
 		else if (currDepth == depthLimit) {
-			mvStack[currDepth].setScore(evaluateState(state));
-			// mvStack[currDepth].setScore(0);
+			// mvStack[currDepth].setScore(evaluateState(state));
+			mvStack[currDepth].setScore(0);
 		}
 		
 		/** Otherwise continue alpha beta recursion **/
 		else {
+			ScoredClobberMove tempMove = new ScoredClobberMove();
+			
 			double bestScore = (toMaximize ? 
 					Double.NEGATIVE_INFINITY : Double.POSITIVE_INFINITY);
 			
@@ -151,7 +155,7 @@ public class AlphaBeta_11_10 extends GamePlayer {
 			
 			for (int i = 0; i < moves.size(); i++) {
 				// Create and make move
-				ScoredClobberMove tempMove = new ScoredClobberMove(moves.get(i));
+				tempMove = new ScoredClobberMove(moves.get(i));
 				state.makeMove(tempMove);
 				
 				// Examine the move recursively
@@ -375,8 +379,7 @@ public class AlphaBeta_11_10 extends GamePlayer {
 				if (i == 0) bestMove = moves.get(0);
 				else if (state.who == GameState.Who.HOME && 
 						moves.get(i).score >= bestMove.score) bestMove = moves.get(i);
-				else if (state.who == GameState.Who.AWAY && 
-						moves.get(i).score <= bestMove.score) bestMove = moves.get(i);
+				else if (moves.get(i).score <= bestMove.score) bestMove = moves.get(i);
 			}
 		}
 	}
