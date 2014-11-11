@@ -9,9 +9,10 @@ public class AlphaBeta_11_10 extends GamePlayer {
 	public static final double MAX_SCORE 	= Double.POSITIVE_INFINITY;
 	public static final int ROWS 			= ClobberState.ROWS;
 	public static final int COLS 			= ClobberState.COLS;
-	public static final int MAX_DEPTH 		= 5;
+	public static final int MAX_DEPTH 		= 6;
 	public static final int MAX_THREADS		= 3;
 	
+	private ScoredClobberMove[] mvStack;
 	private int depthLimit;
 	
 	
@@ -32,17 +33,19 @@ public class AlphaBeta_11_10 extends GamePlayer {
 	 * @param args		: command line arguments
 	 */
 	public static void main(String [] args) {
-		GamePlayer p = new AlphaBeta_11_10("AB_11_10", AlphaBeta_11_10.MAX_DEPTH - 1);
+		GamePlayer p = new AlphaBeta_11_10("AB_11_10", MAX_DEPTH - 1);
 		p.compete(args, 1);
 	}
 	
 	/**
-	 * Used to initialize the alpha beta search.
-	 * 		- Creates the default move stack of best moves
-	 * 		- Other things?
+	 * Used to initialize data structures for the alpha beta search.
 	 */
 	public void init() {
+		mvStack = new ScoredClobberMove [MAX_DEPTH];
 		
+		for (int i=0; i < MAX_DEPTH; i++) {
+			mvStack[i] = new ScoredClobberMove(0, 0, 0, 0, 0);
+		}
 	}
 	
 	/**
@@ -58,8 +61,8 @@ public class AlphaBeta_11_10 extends GamePlayer {
 		List<ScoredClobberMove> list = new ArrayList<ScoredClobberMove>();
 		ScoredClobberMove move = new ScoredClobberMove();
 		
-		for (int r = 0; r < ClobberState.ROWS; r++) {
-			for (int c = 0; c < ClobberState.COLS; c++) {
+		for (int r = 0; r < ROWS; r++) {
+			for (int c = 0; c < COLS; c++) {
 				move.row1 = r;
 				move.col1 = c;
 				move.row2 = r-1;
@@ -131,8 +134,8 @@ public class AlphaBeta_11_10 extends GamePlayer {
 		
 		/** If the depth limit is reached, use the evaluation function **/
 		else if (currDepth == depthLimit) {
-			mvStack[currDepth].setScore(evaluateState(state));
-			// mvStack[currDepth].setScore(0);
+			// mvStack[currDepth].setScore(evaluateState(state));
+			mvStack[currDepth].setScore(0);
 		}
 		
 		/** Otherwise continue alpha beta recursion **/
@@ -276,12 +279,19 @@ public class AlphaBeta_11_10 extends GamePlayer {
 	 * @return			: the next move to be performed
 	 */
 	public GameMove getMove(GameState state, String lastMove) {
+		
+		init();
+		
+		alphaBeta((ClobberState)state, mvStack, 0, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+		return mvStack[0];
+		
+		/*
 		List<ScoredClobberMove> allMoves = getPossibleMoves((ClobberState)state);
 		
 		int movesPerThread = Math.max(1, allMoves.size() / MAX_THREADS);
-		AlphaBetaThread[] threads = new AlphaBetaThread[allMoves.size() / movesPerThread];
+		AlphaBetaThread[] threads = new AlphaBetaThread[(int)(allMoves.size() / movesPerThread)];
 		
-		/** Run each of the threads over the possible moves **/
+		// Run each of the threads over the possible moves
 		for (int i = 0; i < threads.length; i++) {
 			if (i == threads.length - 1) {
 				threads[i] = new AlphaBetaThread((ClobberState)state,
@@ -295,7 +305,7 @@ public class AlphaBeta_11_10 extends GamePlayer {
 			threads[i].start();
 		}
 		
-		/** Wait for the threads to complete **/
+		// Wait for the threads to complete
 		for (int i = 0; i < threads.length; i++) {
 			try {
 				threads[i].join();
@@ -307,7 +317,7 @@ public class AlphaBeta_11_10 extends GamePlayer {
 		
 		ScoredClobberMove best = threads[0].bestMove;
 		
-		/** Determine which move is best **/
+		// Determine which move is best
 		for (int i = 1; i < threads.length; i++) {
 			ScoredClobberMove temp = threads[i].bestMove;
 			
@@ -317,6 +327,7 @@ public class AlphaBeta_11_10 extends GamePlayer {
 		
 		// Return the best move
 		return best;
+		*/
 	}
 	
 	private class AlphaBetaThread extends Thread {
@@ -345,8 +356,8 @@ public class AlphaBeta_11_10 extends GamePlayer {
 			}
 			
 			// Copy the board state
-			for (int row = 0; row < ClobberState.ROWS; row++) {
-				for (int col = 0; col < ClobberState.COLS; col++) {
+			for (int row = 0; row < AlphaBeta_11_10.ROWS; row++) {
+				for (int col = 0; col < AlphaBeta_11_10.COLS; col++) {
 					this.state.board[row][col] = state.board[row][col];
 				}
 			}
@@ -374,9 +385,9 @@ public class AlphaBeta_11_10 extends GamePlayer {
 				// Check if the move is better than the best move
 				if (i == 0) bestMove = moves.get(0);
 				else if (state.who == GameState.Who.HOME && 
-						moves.get(i).score >= bestMove.score) bestMove = moves.get(i);
+						moves.get(i).score > bestMove.score) bestMove = moves.get(i);
 				else if (state.who == GameState.Who.AWAY && 
-						moves.get(i).score <= bestMove.score) bestMove = moves.get(i);
+						moves.get(i).score < bestMove.score) bestMove = moves.get(i);
 			}
 		}
 	}
