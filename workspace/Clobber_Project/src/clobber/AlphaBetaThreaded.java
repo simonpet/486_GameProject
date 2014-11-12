@@ -6,7 +6,7 @@ import java.util.*;
 
 import clobber.ScoredClobberMove;
 
-public class AlphaBeta_11_10 extends GamePlayer {
+public class AlphaBetaThreaded extends GamePlayer {
 
 	public static final double MAX_SCORE 	= Double.POSITIVE_INFINITY;
 	public static final int ROWS 			= ClobberState.ROWS;
@@ -14,7 +14,7 @@ public class AlphaBeta_11_10 extends GamePlayer {
 	public static final int MAX_DEPTH 		= 6;
 	public static final int MAX_THREADS		= 3;
 	private int moves_taken = 0;
-	private int cutoff = 2;
+	private int cutoff = 5;
 	
 	
 	private ScoredClobberMove[] mvStack;
@@ -27,7 +27,7 @@ public class AlphaBeta_11_10 extends GamePlayer {
 	 * @param n			: the name of the player
 	 * @param depth		: the depth of the alpha beta search
 	 */
-	public AlphaBeta_11_10(String n, int depth) {
+	public AlphaBetaThreaded(String n, int depth) {
 		super(n, new ClobberState(), false);
 		this.depthLimit = depth;
 	}
@@ -38,7 +38,7 @@ public class AlphaBeta_11_10 extends GamePlayer {
 	 * @param args		: command line arguments
 	 */
 	public static void main(String [] args) {
-		GamePlayer p = new AlphaBeta_11_10("AB_11_10", MAX_DEPTH - 1);
+		GamePlayer p = new AlphaBetaThreaded("ABT", MAX_DEPTH - 1);
 		p.compete(args, 1);
 	}
 	@Override
@@ -301,12 +301,13 @@ public class AlphaBeta_11_10 extends GamePlayer {
 	public GameMove getMove(GameState state, String lastMove) {
 
 		moves_taken++;
+		/*
 		init();
 		
 		alphaBeta((ClobberState)state, mvStack, 0, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
 		return mvStack[0];
+		*/
 		
-		/*
 		List<ScoredClobberMove> allMoves = getPossibleMoves((ClobberState)state);
 		
 		int movesPerThread = Math.max(1, allMoves.size() / MAX_THREADS);
@@ -348,7 +349,7 @@ public class AlphaBeta_11_10 extends GamePlayer {
 		
 		// Return the best move
 		return best;
-		*/
+		
 	}
 	
 	private class AlphaBetaThread extends Thread {
@@ -368,17 +369,17 @@ public class AlphaBeta_11_10 extends GamePlayer {
 			this.moves = moves;
 			this.bestMove = moves.get(0);
 			
-			this.mvStack = new ScoredClobberMove[AlphaBeta_11_10.MAX_DEPTH];
+			this.mvStack = new ScoredClobberMove[AlphaBetaThreaded.MAX_DEPTH];
 			this.state = new ClobberState();
 			
 			// Initialize the move stack
-			for (int i=0; i < AlphaBeta_11_10.MAX_DEPTH; i++) {
+			for (int i=0; i < AlphaBetaThreaded.MAX_DEPTH; i++) {
 				this.mvStack[i] = new ScoredClobberMove(0, 0, 0, 0, 0);
 			}
 			
 			// Copy the board state
-			for (int row = 0; row < AlphaBeta_11_10.ROWS; row++) {
-				for (int col = 0; col < AlphaBeta_11_10.COLS; col++) {
+			for (int row = 0; row < AlphaBetaThreaded.ROWS; row++) {
+				for (int col = 0; col < AlphaBetaThreaded.COLS; col++) {
 					this.state.board[row][col] = state.board[row][col];
 				}
 			}
@@ -394,11 +395,11 @@ public class AlphaBeta_11_10 extends GamePlayer {
 				state.makeMove(moves.get(i));
 				
 				// Perform the recursive alpha beta search
-				AlphaBeta_11_10.this.alphaBeta(state, mvStack, 0,
+				AlphaBetaThreaded.this.alphaBeta(state, mvStack, 0,
 						Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
 				
 				// Undo the move
-				AlphaBeta_11_10.this.undoMove(state, moves.get(i));
+				AlphaBetaThreaded.this.undoMove(state, moves.get(i));
 				
 				// Update the score of the original move
 				moves.get(i).score = mvStack[0].score;

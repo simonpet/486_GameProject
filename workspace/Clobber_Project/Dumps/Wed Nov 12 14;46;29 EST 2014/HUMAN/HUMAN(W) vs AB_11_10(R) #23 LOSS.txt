@@ -1,0 +1,178 @@
+HUMAN (W) played 2 2 1 2
+RWRWR
+WRWRW
+RWRWR
+WR.RW
+RWWWR
+WRWRW
+[AWAY 1 GAME_ON]
+AB_11_10 (R) played 1 4 1 3
+RWRWR
+WRWRW
+RWRWR
+WR.RW
+RWWR.
+WRWRW
+[HOME 2 GAME_ON]
+HUMAN (W) played 0 0 0 1
+RWRWR
+WRWRW
+RWRWR
+WR.RW
+RWWR.
+.WWRW
+[AWAY 3 GAME_ON]
+AB_11_10 (R) played 4 3 4 2
+RWRWR
+WRR.W
+RWRWR
+WR.RW
+RWWR.
+.WWRW
+[HOME 4 GAME_ON]
+HUMAN (W) played 0 4 0 3
+RWRWR
+WRR.W
+RWRWR
+WR.RW
+RWWR.
+.WWW.
+[AWAY 5 GAME_ON]
+AB_11_10 (R) played 5 4 5 3
+RWRR.
+WRR.W
+RWRWR
+WR.RW
+RWWR.
+.WWW.
+[HOME 6 GAME_ON]
+HUMAN (W) played 3 1 3 2
+RWRR.
+WRR.W
+R.WWR
+WR.RW
+RWWR.
+.WWW.
+[AWAY 7 GAME_ON]
+AB_11_10 (R) played 3 0 2 0
+RWRR.
+WRR.W
+..WWR
+RR.RW
+RWWR.
+.WWW.
+[HOME 8 GAME_ON]
+HUMAN (W) played 4 0 4 1
+RWRR.
+.WR.W
+..WWR
+RR.RW
+RWWR.
+.WWW.
+[AWAY 9 GAME_ON]
+AB_11_10 (R) played 5 0 5 1
+.RRR.
+.WR.W
+..WWR
+RR.RW
+RWWR.
+.WWW.
+[HOME 10 GAME_ON]
+HUMAN (W) played 4 1 4 2
+.RRR.
+..W.W
+..WWR
+RR.RW
+RWWR.
+.WWW.
+[AWAY 11 GAME_ON]
+AB_11_10 (R) played 3 4 2 4
+.RRR.
+..W.W
+..WW.
+RR.RR
+RWWR.
+.WWW.
+[HOME 12 GAME_ON]
+HUMAN (W) played 0 3 1 3
+.RRR.
+..W.W
+..WW.
+RR.RR
+RWWW.
+.WW..
+[AWAY 13 GAME_ON]
+AB_11_10 (R) played 2 3 1 3
+.RRR.
+..W.W
+..WW.
+RR..R
+RWWR.
+.WW..
+[HOME 14 GAME_ON]
+HUMAN (W) played 4 2 5 2
+.RWR.
+....W
+..WW.
+RR..R
+RWWR.
+.WW..
+[AWAY 15 GAME_ON]
+AB_11_10 (R) played 1 0 1 1
+.RWR.
+....W
+..WW.
+RR..R
+.RWR.
+.WW..
+[HOME 16 GAME_ON]
+HUMAN (W) played 0 1 1 1
+.RWR.
+....W
+..WW.
+RR..R
+.WWR.
+..W..
+[AWAY 17 GAME_ON]
+AB_11_10 (R) played 1 3 1 2
+.RWR.
+....W
+..WW.
+RR..R
+.WR..
+..W..
+[HOME 18 GAME_ON]
+HUMAN (W) played 5 2 5 3
+.R.W.
+....W
+..WW.
+RR..R
+.WR..
+..W..
+[AWAY 19 GAME_ON]
+AB_11_10 (R) played 2 1 1 1
+.R.W.
+....W
+..WW.
+R...R
+.RR..
+..W..
+[HOME 20 GAME_ON]
+HUMAN (W) played 0 2 1 2
+.R.W.
+....W
+..WW.
+R...R
+.RW..
+.....
+[AWAY 21 GAME_ON]
+AB_11_10 (R) played 1 1 1 2
+.R.W.
+....W
+..WW.
+R...R
+..R..
+.....
+[HOME 22 AWAY_WIN]
+AB_11_10 (R) (299.826000 seconds remaining) won.
+HUMAN had 9832.123000 seconds remaining.
