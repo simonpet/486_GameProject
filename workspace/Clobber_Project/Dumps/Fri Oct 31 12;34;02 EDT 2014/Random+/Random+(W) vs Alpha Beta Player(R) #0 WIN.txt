@@ -1,9 +1,0 @@
-Random+ (W) played 3 1 4 1
-RWRWR
-WWWRW
-R.RWR
-WRWRW
-RWRWR
-WRWRW
-[AWAY 1 GAME_ON]
-Random+ won. Alpha Beta Player made bad move 0 0 1 0

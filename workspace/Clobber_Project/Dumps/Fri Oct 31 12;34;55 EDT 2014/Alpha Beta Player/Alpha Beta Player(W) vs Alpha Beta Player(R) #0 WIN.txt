@@ -1,9 +1,0 @@
-Alpha Beta Player (W) played 0 0 1 0
-RWRWR
-WRWRW
-RWRWR
-WRWRW
-WWRWR
-.RWRW
-[AWAY 1 GAME_ON]
-Alpha Beta Player won. Alpha Beta Player made bad move 0 0 1 0

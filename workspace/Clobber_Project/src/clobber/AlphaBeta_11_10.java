@@ -1,7 +1,9 @@
 package clobber;
 import game.*;
 import game.GameState.Who;
+
 import java.util.*;
+
 import clobber.ScoredClobberMove;
 
 public class AlphaBeta_11_10 extends GamePlayer {
@@ -11,6 +13,9 @@ public class AlphaBeta_11_10 extends GamePlayer {
 	public static final int COLS 			= ClobberState.COLS;
 	public static final int MAX_DEPTH 		= 6;
 	public static final int MAX_THREADS		= 3;
+	private int moves_taken = 0;
+	private int cutoff = 5;
+	
 	
 	private ScoredClobberMove[] mvStack;
 	private int depthLimit;
@@ -36,14 +41,29 @@ public class AlphaBeta_11_10 extends GamePlayer {
 		GamePlayer p = new AlphaBeta_11_10("AB_11_10", MAX_DEPTH - 1);
 		p.compete(args, 1);
 	}
+	@Override
+	public String messageForOpponent(String opponent)
+	{
+		return "Well Met!";
+	}
+	@Override
+	public void startGame(String opponent)
+	{
+		moves_taken = 0;
+	}
 	
 	/**
 	 * Used to initialize data structures for the alpha beta search.
 	 */
 	public void init() {
-		mvStack = new ScoredClobberMove [MAX_DEPTH];
+		mvStack = null;
+		if (moves_taken < cutoff)
+			mvStack = new ScoredClobberMove [MAX_DEPTH];
+		else
+			mvStack = new ScoredClobberMove[31 - cutoff]; //fifteen max moves
 		
-		for (int i=0; i < MAX_DEPTH; i++) {
+		
+		for (int i = 0; i < mvStack.length; i++) {
 			mvStack[i] = new ScoredClobberMove(0, 0, 0, 0, 0);
 		}
 	}
@@ -133,9 +153,9 @@ public class AlphaBeta_11_10 extends GamePlayer {
 		}
 		
 		/** If the depth limit is reached, use the evaluation function **/
-		else if (currDepth == depthLimit) {
-			// mvStack[currDepth].setScore(evaluateState(state));
-			mvStack[currDepth].setScore(0);
+		else if (moves_taken < cutoff && currDepth == depthLimit) {
+			mvStack[currDepth].setScore(evaluateState(state));
+			//mvStack[currDepth].setScore(0);
 		}
 		
 		/** Otherwise continue alpha beta recursion **/
@@ -279,7 +299,8 @@ public class AlphaBeta_11_10 extends GamePlayer {
 	 * @return			: the next move to be performed
 	 */
 	public GameMove getMove(GameState state, String lastMove) {
-		
+
+		moves_taken++;
 		init();
 		
 		alphaBeta((ClobberState)state, mvStack, 0, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
