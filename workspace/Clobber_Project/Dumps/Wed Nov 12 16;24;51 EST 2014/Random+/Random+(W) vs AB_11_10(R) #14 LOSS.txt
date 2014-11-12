@@ -1,0 +1,178 @@
+Random+ (W) played 2 4 2 3
+RWRWR
+WRWRW
+RWRWR
+WRWW.
+RWRWR
+WRWRW
+[AWAY 1 GAME_ON]
+AB_11_10 (R) played 5 2 4 2
+RW.WR
+WRRRW
+RWRWR
+WRWW.
+RWRWR
+WRWRW
+[HOME 2 GAME_ON]
+Random+ (W) played 4 4 3 4
+RW.WR
+WRRR.
+RWRWW
+WRWW.
+RWRWR
+WRWRW
+[AWAY 3 GAME_ON]
+AB_11_10 (R) played 1 0 1 1
+RW.WR
+WRRR.
+RWRWW
+WRWW.
+.RRWR
+WRWRW
+[HOME 4 GAME_ON]
+Random+ (W) played 2 0 3 0
+RW.WR
+WRRR.
+WWRWW
+.RWW.
+.RRWR
+WRWRW
+[AWAY 5 GAME_ON]
+AB_11_10 (R) played 1 4 0 4
+RW.WR
+WRRR.
+WWRWW
+.RWW.
+.RRW.
+WRWRR
+[HOME 6 GAME_ON]
+Random+ (W) played 4 0 4 1
+RW.WR
+.WRR.
+WWRWW
+.RWW.
+.RRW.
+WRWRR
+[AWAY 7 GAME_ON]
+AB_11_10 (R) played 3 2 3 1
+RW.WR
+.WRR.
+WR.WW
+.RWW.
+.RRW.
+WRWRR
+[HOME 8 GAME_ON]
+Random+ (W) played 3 0 3 1
+RW.WR
+.WRR.
+.W.WW
+.RWW.
+.RRW.
+WRWRR
+[AWAY 9 GAME_ON]
+AB_11_10 (R) played 0 1 0 2
+RW.WR
+.WRR.
+.W.WW
+.RWW.
+.RRW.
+W.RRR
+[HOME 10 GAME_ON]
+Random+ (W) played 4 1 4 2
+RW.WR
+..WR.
+.W.WW
+.RWW.
+.RRW.
+W.RRR
+[AWAY 11 GAME_ON]
+AB_11_10 (R) played 5 4 5 3
+RW.R.
+..WR.
+.W.WW
+.RWW.
+.RRW.
+W.RRR
+[HOME 12 GAME_ON]
+Random+ (W) played 5 1 5 0
+W..R.
+..WR.
+.W.WW
+.RWW.
+.RRW.
+W.RRR
+[AWAY 13 GAME_ON]
+AB_11_10 (R) played 4 3 3 3
+W..R.
+..W..
+.W.RW
+.RWW.
+.RRW.
+W.RRR
+[HOME 14 GAME_ON]
+Random+ (W) played 3 1 2 1
+W..R.
+..W..
+...RW
+.WWW.
+.RRW.
+W.RRR
+[AWAY 15 GAME_ON]
+AB_11_10 (R) played 1 1 2 1
+W..R.
+..W..
+...RW
+.RWW.
+..RW.
+W.RRR
+[HOME 16 GAME_ON]
+Random+ (W) played 2 2 1 2
+W..R.
+..W..
+...RW
+.R.W.
+..WW.
+W.RRR
+[AWAY 17 GAME_ON]
+AB_11_10 (R) played 3 3 2 3
+W..R.
+..W..
+....W
+.R.R.
+..WW.
+W.RRR
+[HOME 18 GAME_ON]
+Random+ (W) played 1 2 0 2
+W..R.
+..W..
+....W
+.R.R.
+...W.
+W.WRR
+[AWAY 19 GAME_ON]
+AB_11_10 (R) played 2 3 1 3
+W..R.
+..W..
+....W
+.R...
+...R.
+W.WRR
+[HOME 20 GAME_ON]
+Random+ (W) played 0 2 0 3
+W..R.
+..W..
+....W
+.R...
+...R.
+W..WR
+[AWAY 21 GAME_ON]
+AB_11_10 (R) played 1 3 0 3
+W..R.
+..W..
+....W
+.R...
+.....
+W..RR
+[HOME 22 AWAY_WIN]
+AB_11_10 (R) (299.422000 seconds remaining) won.
+Random+ had 300.000000 seconds remaining.

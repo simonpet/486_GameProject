@@ -1,0 +1,17 @@
+ABT (W) played 5 1 4 1
+R.RWR
+WWWRW
+RWRWR
+WRWRW
+RWRWR
+WRWRW
+[AWAY 1 GAME_ON]
+Random+ (R) played 0 1 0 0
+R.RWR
+WWWRW
+RWRWR
+WRWRW
+RWRWR
+R.WRW
+[HOME 2 GAME_ON]
+Random+ won. ABT DQd

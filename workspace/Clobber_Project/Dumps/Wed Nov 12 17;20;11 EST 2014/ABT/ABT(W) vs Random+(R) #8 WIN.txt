@@ -1,0 +1,186 @@
+ABT (W) played 5 1 4 1
+R.RWR
+WWWRW
+RWRWR
+WRWRW
+RWRWR
+WRWRW
+[AWAY 1 GAME_ON]
+Random+ (R) played 4 3 4 2
+R.RWR
+WWR.W
+RWRWR
+WRWRW
+RWRWR
+WRWRW
+[HOME 2 GAME_ON]
+ABT (W) played 4 1 4 2
+R.RWR
+W.W.W
+RWRWR
+WRWRW
+RWRWR
+WRWRW
+[AWAY 3 GAME_ON]
+Random+ (R) played 2 3 1 3
+R.RWR
+W.W.W
+RWRWR
+WRW.W
+RWRRR
+WRWRW
+[HOME 4 GAME_ON]
+ABT (W) played 4 4 5 4
+R.RWW
+W.W..
+RWRWR
+WRW.W
+RWRRR
+WRWRW
+[AWAY 5 GAME_ON]
+Random+ (R) played 1 0 0 0
+R.RWW
+W.W..
+RWRWR
+WRW.W
+.WRRR
+RRWRW
+[HOME 6 GAME_ON]
+ABT (W) played 4 0 5 0
+W.RWW
+..W..
+RWRWR
+WRW.W
+.WRRR
+RRWRW
+[AWAY 7 GAME_ON]
+Random+ (R) played 1 2 1 1
+W.RWW
+..W..
+RWRWR
+WRW.W
+.R.RR
+RRWRW
+[HOME 8 GAME_ON]
+ABT (W) played 0 2 0 1
+W.RWW
+..W..
+RWRWR
+WRW.W
+.R.RR
+RW.RW
+[AWAY 9 GAME_ON]
+Random+ (R) played 3 2 2 2
+W.RWW
+..W..
+RW.WR
+WRR.W
+.R.RR
+RW.RW
+[HOME 10 GAME_ON]
+ABT (W) played 0 1 1 1
+W.RWW
+..W..
+RW.WR
+WRR.W
+.W.RR
+R..RW
+[AWAY 11 GAME_ON]
+Random+ (R) played 1 4 2 4
+W.RWW
+..W..
+RW.WR
+WRR.R
+.W.R.
+R..RW
+[HOME 12 GAME_ON]
+ABT (W) played 0 4 0 3
+W.RWW
+..W..
+RW.WR
+WRR.R
+.W.R.
+R..W.
+[AWAY 13 GAME_ON]
+Random+ (R) played 3 0 2 0
+W.RWW
+..W..
+.W.WR
+RRR.R
+.W.R.
+R..W.
+[HOME 14 GAME_ON]
+ABT (W) played 0 3 1 3
+W.RWW
+..W..
+.W.WR
+RRR.R
+.W.W.
+R....
+[AWAY 15 GAME_ON]
+Random+ (R) played 5 2 5 3
+W..RW
+..W..
+.W.WR
+RRR.R
+.W.W.
+R....
+[HOME 16 GAME_ON]
+ABT (W) played 1 1 2 1
+W..RW
+..W..
+.W.WR
+RWR.R
+...W.
+R....
+[AWAY 17 GAME_ON]
+Random+ (R) played 2 0 2 1
+W..RW
+..W..
+.W.WR
+.RR.R
+...W.
+R....
+[HOME 18 GAME_ON]
+ABT (W) played 3 1 2 1
+W..RW
+..W..
+...WR
+.WR.R
+...W.
+R....
+[AWAY 19 GAME_ON]
+Random+ (R) played 5 3 5 4
+W...R
+..W..
+...WR
+.WR.R
+...W.
+R....
+[HOME 20 GAME_ON]
+ABT (W) played 3 3 3 4
+W...R
+..W..
+....W
+.WR.R
+...W.
+R....
+[AWAY 21 GAME_ON]
+Random+ (R) played 2 4 3 4
+W...R
+..W..
+....R
+.WR..
+...W.
+R....
+[HOME 22 GAME_ON]
+ABT (W) played 2 1 2 2
+W...R
+..W..
+....R
+..W..
+...W.
+R....
+[AWAY 23 HOME_WIN]
+ABT (W) (298.503000 seconds remaining) won.
+Random+ had 300.000000 seconds remaining.

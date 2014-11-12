@@ -1,0 +1,154 @@
+AB_11_10 (W) played 3 3 3 2
+RWRWR
+WRWRW
+RWW.R
+WRWRW
+RWRWR
+WRWRW
+[AWAY 1 GAME_ON]
+AB_STUPID (R) played 5 0 5 1
+.RRWR
+WRWRW
+RWW.R
+WRWRW
+RWRWR
+WRWRW
+[HOME 2 GAME_ON]
+AB_11_10 (W) played 0 2 0 1
+.RRWR
+WRWRW
+RWW.R
+WRWRW
+RWRWR
+WW.RW
+[AWAY 3 GAME_ON]
+AB_STUPID (R) played 3 0 2 0
+.RRWR
+WRWRW
+.WW.R
+RRWRW
+RWRWR
+WW.RW
+[HOME 4 GAME_ON]
+AB_11_10 (W) played 2 2 2 3
+.RRWR
+WRWRW
+.WW.R
+RR.WW
+RWRWR
+WW.RW
+[AWAY 5 GAME_ON]
+AB_STUPID (R) played 5 4 4 4
+.RRW.
+WRWRR
+.WW.R
+RR.WW
+RWRWR
+WW.RW
+[HOME 6 GAME_ON]
+AB_11_10 (W) played 0 4 1 4
+.RRW.
+WRWRR
+.WW.R
+RR.WW
+RWRWW
+WW.R.
+[AWAY 7 GAME_ON]
+AB_STUPID (R) played 1 0 0 0
+.RRW.
+WRWRR
+.WW.R
+RR.WW
+.WRWW
+RW.R.
+[HOME 8 GAME_ON]
+AB_11_10 (W) played 4 2 4 3
+.RRW.
+WR.WR
+.WW.R
+RR.WW
+.WRWW
+RW.R.
+[AWAY 9 GAME_ON]
+AB_STUPID (R) played 0 3 1 3
+.RRW.
+WR.WR
+.WW.R
+RR.WW
+.WRRW
+RW...
+[HOME 10 GAME_ON]
+AB_11_10 (W) played 3 1 4 1
+.RRW.
+WW.WR
+..W.R
+RR.WW
+.WRRW
+RW...
+[AWAY 11 GAME_ON]
+AB_STUPID (R) played 1 3 1 4
+.RRW.
+WW.WR
+..W.R
+RR.WW
+.WR.R
+RW...
+[HOME 12 GAME_ON]
+AB_11_10 (W) played 4 1 5 1
+.WRW.
+W..WR
+..W.R
+RR.WW
+.WR.R
+RW...
+[AWAY 13 GAME_ON]
+AB_STUPID (R) played 2 1 1 1
+.WRW.
+W..WR
+..W.R
+R..WW
+.RR.R
+RW...
+[HOME 14 GAME_ON]
+AB_11_10 (W) played 5 1 5 2
+..WW.
+W..WR
+..W.R
+R..WW
+.RR.R
+RW...
+[AWAY 15 GAME_ON]
+AB_STUPID (R) played 4 4 4 3
+..WW.
+W..R.
+..W.R
+R..WW
+.RR.R
+RW...
+[HOME 16 GAME_ON]
+AB_11_10 (W) played 5 3 4 3
+..W..
+W..W.
+..W.R
+R..WW
+.RR.R
+RW...
+[AWAY 17 GAME_ON]
+AB_STUPID (R) played 1 1 0 1
+..W..
+W..W.
+..W.R
+R..WW
+..R.R
+RR...
+[HOME 18 GAME_ON]
+AB_11_10 (W) played 2 4 3 4
+..W..
+W..W.
+..W.W
+R..W.
+..R.R
+RR...
+[AWAY 19 HOME_WIN]
+AB_11_10 (W) (205.720000 seconds remaining) won.
+AB_STUPID had 299.657000 seconds remaining.

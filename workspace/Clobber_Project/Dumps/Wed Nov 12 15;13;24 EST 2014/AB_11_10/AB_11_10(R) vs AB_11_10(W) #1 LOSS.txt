@@ -1,0 +1,186 @@
+AB_11_10 (W) played 3 1 2 1
+RWRWR
+WRWRW
+R.RWR
+WWWRW
+RWRWR
+WRWRW
+[AWAY 1 GAME_ON]
+AB_11_10 (R) played 1 4 0 4
+RWRWR
+WRWRW
+R.RWR
+WWWRW
+RWRW.
+WRWRR
+[HOME 2 GAME_ON]
+AB_11_10 (W) played 4 2 4 3
+RWRWR
+WR.WW
+R.RWR
+WWWRW
+RWRW.
+WRWRR
+[AWAY 3 GAME_ON]
+AB_11_10 (R) played 5 4 4 4
+RWRW.
+WR.WR
+R.RWR
+WWWRW
+RWRW.
+WRWRR
+[HOME 4 GAME_ON]
+AB_11_10 (W) played 4 3 4 4
+RWRW.
+WR..W
+R.RWR
+WWWRW
+RWRW.
+WRWRR
+[AWAY 5 GAME_ON]
+AB_11_10 (R) played 1 2 0 2
+RWRW.
+WR..W
+R.RWR
+WWWRW
+RW.W.
+WRRRR
+[HOME 6 GAME_ON]
+AB_11_10 (W) played 2 2 2 3
+RWRW.
+WR..W
+R.RWR
+WW.WW
+RW.W.
+WRRRR
+[AWAY 7 GAME_ON]
+AB_11_10 (R) played 1 0 1 1
+RWRW.
+WR..W
+R.RWR
+WW.WW
+.R.W.
+WRRRR
+[HOME 8 GAME_ON]
+AB_11_10 (W) played 4 4 3 4
+RWRW.
+WR...
+R.RWW
+WW.WW
+.R.W.
+WRRRR
+[AWAY 9 GAME_ON]
+AB_11_10 (R) played 3 0 2 0
+RWRW.
+WR...
+..RWW
+RW.WW
+.R.W.
+WRRRR
+[HOME 10 GAME_ON]
+AB_11_10 (W) played 5 1 4 1
+R.RW.
+WW...
+..RWW
+RW.WW
+.R.W.
+WRRRR
+[AWAY 11 GAME_ON]
+AB_11_10 (R) played 5 0 4 0
+..RW.
+RW...
+..RWW
+RW.WW
+.R.W.
+WRRRR
+[HOME 12 GAME_ON]
+AB_11_10 (W) played 0 0 0 1
+..RW.
+RW...
+..RWW
+RW.WW
+.R.W.
+.WRRR
+[AWAY 13 GAME_ON]
+AB_11_10 (R) played 2 0 2 1
+..RW.
+RW...
+..RWW
+.R.WW
+.R.W.
+.WRRR
+[HOME 14 GAME_ON]
+AB_11_10 (W) played 0 1 0 2
+..RW.
+RW...
+..RWW
+.R.WW
+.R.W.
+..WRR
+[AWAY 15 GAME_ON]
+AB_11_10 (R) played 3 2 3 3
+..RW.
+RW...
+...RW
+.R.WW
+.R.W.
+..WRR
+[HOME 16 GAME_ON]
+AB_11_10 (W) played 0 2 0 3
+..RW.
+RW...
+...RW
+.R.WW
+.R.W.
+...WR
+[AWAY 17 GAME_ON]
+AB_11_10 (R) played 5 2 5 3
+...R.
+RW...
+...RW
+.R.WW
+.R.W.
+...WR
+[HOME 18 GAME_ON]
+AB_11_10 (W) played 3 4 3 3
+...R.
+RW...
+...W.
+.R.WW
+.R.W.
+...WR
+[AWAY 19 GAME_ON]
+AB_11_10 (R) played 0 4 0 3
+...R.
+RW...
+...W.
+.R.WW
+.R.W.
+...R.
+[HOME 20 GAME_ON]
+AB_11_10 (W) played 4 1 4 0
+...R.
+W....
+...W.
+.R.WW
+.R.W.
+...R.
+[AWAY 21 GAME_ON]
+AB_11_10 (R) played 0 3 1 3
+...R.
+W....
+...W.
+.R.WW
+.R.R.
+.....
+[HOME 22 GAME_ON]
+AB_11_10 (W) played 2 3 1 3
+...R.
+W....
+...W.
+.R..W
+.R.W.
+.....
+[AWAY 23 HOME_WIN]
+AB_11_10 (W) (201.198000 seconds remaining) won.
+AB_11_10 had 291.131000 seconds remaining.

@@ -11,10 +11,10 @@ public class AlphaBetaThreaded extends GamePlayer {
 	public static final double MAX_SCORE 	= Double.POSITIVE_INFINITY;
 	public static final int ROWS 			= ClobberState.ROWS;
 	public static final int COLS 			= ClobberState.COLS;
-	public static final int MAX_DEPTH 		= 6;
-	public static final int MAX_THREADS		= 3;
+	public static final int MAX_DEPTH 		= 2;
+	public static final int MAX_THREADS		= 8;
 	private int moves_taken = 0;
-	private int cutoff = 5;
+	private int cutoff = 6;
 	
 	
 	private ScoredClobberMove[] mvStack;
@@ -44,7 +44,7 @@ public class AlphaBetaThreaded extends GamePlayer {
 	@Override
 	public String messageForOpponent(String opponent)
 	{
-		return "Well Met!";
+		return opponent + " is worst clobber player NA";
 	}
 	@Override
 	public void startGame(String opponent)
@@ -232,8 +232,8 @@ public class AlphaBetaThreaded extends GamePlayer {
 	}
 	
 	private float evaluateState(ClobberState cs) {
-		int homeScore = 0;
-		int awayScore = 0;
+		float homeScore = 0;
+		float awayScore = 0;
 		
 		for (int row = 0; row < ClobberState.ROWS; row++) {
 			for (int col = 0; col < ClobberState.COLS; col++) {
@@ -258,7 +258,7 @@ public class AlphaBetaThreaded extends GamePlayer {
 	}
 	
 	private float evaluateStone(ClobberState cs, int row, int col) {
-		int score = 1;
+		float score = 1;
 		char friend = cs.board[row][col];
 		
 		// Check if the symbol is empty
@@ -301,17 +301,16 @@ public class AlphaBetaThreaded extends GamePlayer {
 	public GameMove getMove(GameState state, String lastMove) {
 
 		moves_taken++;
-		/*
-		init();
+	/*	init();
 		
 		alphaBeta((ClobberState)state, mvStack, 0, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
-		return mvStack[0];
-		*/
+		return mvStack[0];*/
 		
 		List<ScoredClobberMove> allMoves = getPossibleMoves((ClobberState)state);
 		
 		int movesPerThread = Math.max(1, allMoves.size() / MAX_THREADS);
-		AlphaBetaThread[] threads = new AlphaBetaThread[(int)(allMoves.size() / movesPerThread)];
+		int numThreads = Math.min(allMoves.size() / movesPerThread, MAX_THREADS);
+		AlphaBetaThread[] threads = new AlphaBetaThread[numThreads];
 		
 		// Run each of the threads over the possible moves
 		for (int i = 0; i < threads.length; i++) {
@@ -343,8 +342,14 @@ public class AlphaBetaThreaded extends GamePlayer {
 		for (int i = 1; i < threads.length; i++) {
 			ScoredClobberMove temp = threads[i].bestMove;
 			
+			
 			if (state.who == GameState.Who.HOME && temp.score > best.score) best = temp;
-			else if (temp.score < best.score) best = temp;
+			else if (state.who == GameState.Who.AWAY && temp.score < best.score) best = temp;
+			
+			/*
+			if (temp.score > best.score)
+				best = temp;
+				*/
 		}
 		
 		// Return the best move
@@ -369,11 +374,11 @@ public class AlphaBetaThreaded extends GamePlayer {
 			this.moves = moves;
 			this.bestMove = moves.get(0);
 			
-			this.mvStack = new ScoredClobberMove[AlphaBetaThreaded.MAX_DEPTH];
+			this.mvStack = new ScoredClobberMove[31];
 			this.state = new ClobberState();
 			
 			// Initialize the move stack
-			for (int i=0; i < AlphaBetaThreaded.MAX_DEPTH; i++) {
+			for (int i=0; i < this.mvStack.length; i++) {
 				this.mvStack[i] = new ScoredClobberMove(0, 0, 0, 0, 0);
 			}
 			
@@ -405,11 +410,11 @@ public class AlphaBetaThreaded extends GamePlayer {
 				moves.get(i).score = mvStack[0].score;
 				
 				// Check if the move is better than the best move
-				if (i == 0) bestMove = moves.get(0);
-				else if (state.who == GameState.Who.HOME && 
-						moves.get(i).score > bestMove.score) bestMove = moves.get(i);
-				else if (state.who == GameState.Who.AWAY && 
-						moves.get(i).score < bestMove.score) bestMove = moves.get(i);
+				if (i == 0) bestMove = new ScoredClobberMove(moves.get(0));
+				else if (this.state.who == GameState.Who.HOME && 
+						moves.get(i).score > bestMove.score) bestMove = new ScoredClobberMove(moves.get(i));
+				else if (this.state.who == GameState.Who.AWAY && 
+						moves.get(i).score < bestMove.score) bestMove = new ScoredClobberMove(moves.get(i));
 			}
 		}
 	}

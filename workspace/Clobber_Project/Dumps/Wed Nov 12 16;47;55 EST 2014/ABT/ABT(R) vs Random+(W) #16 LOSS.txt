@@ -1,0 +1,41 @@
+Random+ (W) played 4 2 4 3
+RWRWR
+WR.WW
+RWRWR
+WRWRW
+RWRWR
+WRWRW
+[AWAY 1 GAME_ON]
+ABT (R) played 3 2 2 2
+RWRWR
+WR.WW
+RW.WR
+WRRRW
+RWRWR
+WRWRW
+[HOME 2 GAME_ON]
+Random+ (W) played 3 1 2 1
+RWRWR
+WR.WW
+R..WR
+WWRRW
+RWRWR
+WRWRW
+[AWAY 3 GAME_ON]
+ABT (R) played 3 4 4 4
+RWRWR
+WR.WR
+R..W.
+WWRRW
+RWRWR
+WRWRW
+[HOME 4 GAME_ON]
+Random+ (W) played 1 1 1 0
+RWRWR
+WR.WR
+R..W.
+WWRRW
+W.RWR
+WRWRW
+[AWAY 5 GAME_ON]
+Random+ won. ABT DQd

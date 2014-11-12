@@ -14,7 +14,7 @@ public class AlphaBeta_11_10 extends GamePlayer {
 	public static final int MAX_DEPTH 		= 6;
 	public static final int MAX_THREADS		= 3;
 	private int moves_taken = 0;
-	private int cutoff = 2;
+	private int cutoff = 4;
 	
 	
 	private ScoredClobberMove[] mvStack;
@@ -44,7 +44,7 @@ public class AlphaBeta_11_10 extends GamePlayer {
 	@Override
 	public String messageForOpponent(String opponent)
 	{
-		return "Well Met!";
+		return opponent + " is worst clobber player NA";
 	}
 	@Override
 	public void startGame(String opponent)
@@ -232,8 +232,8 @@ public class AlphaBeta_11_10 extends GamePlayer {
 	}
 	
 	private float evaluateState(ClobberState cs) {
-		int homeScore = 0;
-		int awayScore = 0;
+		float homeScore = 0;
+		float awayScore = 0;
 		
 		for (int row = 0; row < ClobberState.ROWS; row++) {
 			for (int col = 0; col < ClobberState.COLS; col++) {
@@ -258,7 +258,7 @@ public class AlphaBeta_11_10 extends GamePlayer {
 	}
 	
 	private float evaluateStone(ClobberState cs, int row, int col) {
-		int score = 1;
+		float score = 1;
 		char friend = cs.board[row][col];
 		
 		// Check if the symbol is empty

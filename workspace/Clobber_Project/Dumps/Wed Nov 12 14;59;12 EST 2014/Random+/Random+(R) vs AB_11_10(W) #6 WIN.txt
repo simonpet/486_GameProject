@@ -1,0 +1,17 @@
+AB_11_10 (W) played 5 3 4 3
+RWR.R
+WRWWW
+RWRWR
+WRWRW
+RWRWR
+WRWRW
+[AWAY 1 GAME_ON]
+Random+ (R) played 2 1 2 2
+RWR.R
+WRWWW
+RWRWR
+W.RRW
+RWRWR
+WRWRW
+[HOME 2 GAME_ON]
+Random+ won. AB_11_10 DQd
