@@ -17,7 +17,7 @@ public class ShillPlayer extends GamePlayer {
 	public static final int ROWS 			= ClobberState.ROWS;
 	public static final int COLS 			= ClobberState.COLS;
 	public static final double MAX_SCORE 	= COLS + ROWS;
-	public static final int MAX_DEPTH 		= 5;
+	public static final int MAX_DEPTH 		= 6;
 	
 	private int threadLimit; //set in constructor based on number of logical processors
 	private int depthLimit; //passed to constructor, set above by changing MAX_DEPTH
@@ -25,6 +25,7 @@ public class ShillPlayer extends GamePlayer {
 	private int evalCutoff = 9;
 	
 	private double gametime = 0; //used to track how much time we've used
+	private boolean useOrdering = false;
 	
 	
 	private String[] lines = new String[0];
@@ -228,13 +229,17 @@ public class ShillPlayer extends GamePlayer {
 			// Get possible moves and sort them
 			//this is used for move ordering
 			List<ScoredClobberMove> moves = getPossibleMoves(state);
-			for (int i = 0; i < moves.size(); i++) {
-				moves.get(i).calculateDistanceScore();
-			}
+			
+			if (useOrdering)
+			{
+				for (int i = 0; i < moves.size(); i++) {
+					moves.get(i).calculateDistanceScore();
+				}
 			
 			//sort list of moves based on move ordering heuristic
-			if (toMaximize) Collections.sort(moves, new ScoredClobberMove.SortMoveDes());
-			else Collections.sort(moves, new ScoredClobberMove.SortMoveAsc());
+				if (toMaximize) Collections.sort(moves, new ScoredClobberMove.SortMoveDes());
+				else Collections.sort(moves, new ScoredClobberMove.SortMoveAsc());
+			}
 			
 			for (int i = 0; i < moves.size(); i++) {
 				// Create and make move
