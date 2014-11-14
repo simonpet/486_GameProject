@@ -68,7 +68,7 @@ public class ScoredClobberMove extends ClobberMove {
 		distanceScore = 0;
 		
 		// If the move is up
-		if (row1 >= (ClobberState.ROWS / 2) && row2 > row1)
+		if (row1 > (ClobberState.ROWS / 2) && row2 > row1)
 			distanceScore = ClobberState.ROWS - row1;
 		
 		// If the move is down
@@ -76,11 +76,11 @@ public class ScoredClobberMove extends ClobberMove {
 			distanceScore = row1;
 		
 		// If the move is right
-		else if (col1 >= (ClobberState.COLS / 2) && col2 > col1)
+		else if (col1 > (ClobberState.COLS / 2) && col2 > col1)
 			distanceScore = ClobberState.COLS - col1;
 		
 		// If the move is left
-		else if (col1 <= (ClobberState.COLS / 2) && col2 < col1)
+		else if (col1 < (ClobberState.COLS / 2) && col2 < col1)
 			distanceScore = col1;
 	}
 	

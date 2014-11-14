@@ -25,7 +25,8 @@ public class ShillPlayer extends GamePlayer {
 	private int evalCutoff = 9;
 	
 	private double gametime = 0; //used to track how much time we've used
-	private boolean useOrdering = true;
+	private boolean useOrdering = false;
+	
 	
 	private String[] lines = new String[0];
 	private String[] products = new String[0];
@@ -210,8 +211,7 @@ public class ShillPlayer extends GamePlayer {
 		}
 		
 		/** If the depth limit is reached, use the evaluation function **/
-		// After the cutoff point, we will no longer search to a defined depth
-		// We will search to all terminal leaves
+		//after the cutoff point, we will no longer search to a defined depth. we will search to all terminal leaves
 		else if (movesTaken < evalCutoff && currDepth == depthLimit) {
 			mvStack[currDepth].score = evaluateState(state);
 		}
@@ -226,21 +226,19 @@ public class ShillPlayer extends GamePlayer {
 			
 			bestMove.score = bestScore;
 			
-			// Get possible moves
+			// Get possible moves and sort them
+			//this is used for move ordering
 			List<ScoredClobberMove> moves = getPossibleMoves(state);
 			
-			// Use move ordering
-			if (useOrdering) {
+			if (useOrdering)
+			{
 				for (int i = 0; i < moves.size(); i++) {
 					moves.get(i).calculateDistanceScore();
 				}
-				
+			
+			//sort list of moves based on move ordering heuristic
 				if (toMaximize) Collections.sort(moves, new ScoredClobberMove.SortMoveDes());
 				else Collections.sort(moves, new ScoredClobberMove.SortMoveAsc());
-			}
-			// Otherwise shuffle moves randomly
-			else {
-				Collections.shuffle(moves);
 			}
 			
 			for (int i = 0; i < moves.size(); i++) {
@@ -375,17 +373,17 @@ public class ShillPlayer extends GamePlayer {
 		List<ScoredClobberMove> allMoves = getPossibleMoves((ClobberState)state);
 		
 		// Determine how many threads should be created
+		// figure out how many moves each thread should have
 		int movesPerThread = Math.max(1, (int)Math.ceil(allMoves.size() / threadLimit));
 		
-		// Figure out how many threads to use, up to threadLimit
+		//figure out how many threads to use, up to threadLimit
 		int numThreads = Math.min((int)Math.ceil(allMoves.size() / movesPerThread), threadLimit);
 		AlphaBetaThread[] threads = new AlphaBetaThread[numThreads];
 		
 		/** Create and run each of the threads **/
 		for (int i = 0; i < threads.length; i++) {
 			
-			// This if block is hit for the last thread which potentially has fewer moves to
-			// calculate than the other threads
+			//this if block is hit for the last thread which potentially has fewer moves to calculate than the other threads
 			if (i == threads.length - 1) {
 				threads[i] = new AlphaBetaThread((ClobberState)state,
 						allMoves.subList(i * movesPerThread, allMoves.size()));
@@ -409,7 +407,7 @@ public class ShillPlayer extends GamePlayer {
 		}
 		
 		ScoredClobberMove best = threads[0].bestMove;
-		// Loop through the best move for each thread, and calculate the best move overall
+		//loop through the best move for each thread, and calculate the best move overall
 		/** Determine which move is best **/
 		for (int i = 1; i < threads.length; i++) {
 			ScoredClobberMove temp = threads[i].bestMove;

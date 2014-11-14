@@ -375,9 +375,10 @@ public class ShillPlayer extends GamePlayer {
 		List<ScoredClobberMove> allMoves = getPossibleMoves((ClobberState)state);
 		
 		// Determine how many threads should be created
+		// figure out how many moves each thread should have
 		int movesPerThread = Math.max(1, (int)Math.ceil(allMoves.size() / threadLimit));
 		
-		// Figure out how many threads to use, up to threadLimit
+		//figure out how many threads to use, up to threadLimit
 		int numThreads = Math.min((int)Math.ceil(allMoves.size() / movesPerThread), threadLimit);
 		AlphaBetaThread[] threads = new AlphaBetaThread[numThreads];
 		
@@ -409,7 +410,7 @@ public class ShillPlayer extends GamePlayer {
 		}
 		
 		ScoredClobberMove best = threads[0].bestMove;
-		// Loop through the best move for each thread, and calculate the best move overall
+		//loop through the best move for each thread, and calculate the best move overall
 		/** Determine which move is best **/
 		for (int i = 1; i < threads.length; i++) {
 			ScoredClobberMove temp = threads[i].bestMove;

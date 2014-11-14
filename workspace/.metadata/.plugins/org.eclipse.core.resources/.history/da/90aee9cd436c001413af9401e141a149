@@ -409,7 +409,7 @@ public class ShillPlayer extends GamePlayer {
 		}
 		
 		ScoredClobberMove best = threads[0].bestMove;
-		// Loop through the best move for each thread, and calculate the best move overall
+		//loop through the best move for each thread, and calculate the best move overall
 		/** Determine which move is best **/
 		for (int i = 1; i < threads.length; i++) {
 			ScoredClobberMove temp = threads[i].bestMove;
