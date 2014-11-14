@@ -338,39 +338,16 @@ public class Tournament {
 
 	public static void main(String[] args)
 	{
+		long startTime = System.currentTimeMillis();
 		tournamentParams = new Params("config" + SEP + "tournament.txt");
 		System.out.printf("Starting %s tournament%n", game.toString());
 		System.out.printf("%d clients%n", tournamentParams.integer("NUMCLIENTS"));
 		System.out.printf("%d clients%n", tournamentParams.integer("NUMCLIENTS2"));
 		
-		/*
-		if (game == GameType.TTT) {
-			gameParams = new Params("config" + SEP + "ttt.txt");
-			Tournament.launchTournament(new TTTState(), new TTTMove(0, 0));
-		} else if (game == GameType.Connect4) {
-			gameParams = new Params("config" + SEP + "connect4.txt");
-			Tournament.launchTournament(new Connect4State(),	new Connect4Move(0));
-		} else if (game == GameType.Breakthrough) {
-			gameParams = new Params("config" + SEP + "Breakthrough.txt");
-			Tournament.launchTournament(new BreakthroughState(), new BreakthroughMove());
-		} else if (game == GameType.Clobber) {
-			gameParams = new Params("config" + SEP + "Clobber.txt");
-			Tournament.launchTournament(new ClobberState(), new ClobberMove());
-		} else if (game == GameType.Hijara) {
-			gameParams = new Params("config" + SEP + "Hijara.txt");
-			Tournament.launchTournament(new HijaraState(), new HijaraMove());
-		} else if (game == GameType.Hex) {
-			gameParams = new Params("config" + SEP + "Hex.txt");
-			Tournament.launchTournament(new HexState(), new HexMove());
-		} else if (game == GameType.Connect6) {
-			gameParams = new Params("config" + SEP + "Connect6.txt");
-			Tournament.launchTournament(new Connect6State(), new Connect6Move());
-		}
-		*/
-		
 		gameParams = new Params("config" + SEP + "Clobber.txt");
 		Tournament.launchTournament(new ClobberState(), new ClobberMove());
 		
 		System.out.println("Tournament is over");
+		System.out.println(System.currentTimeMillis() - startTime);
 	}
 }

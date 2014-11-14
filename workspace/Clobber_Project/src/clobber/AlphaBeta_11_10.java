@@ -20,6 +20,33 @@ public class AlphaBeta_11_10 extends GamePlayer {
 	private ScoredClobberMove[] mvStack;
 	private int depthLimit;
 	
+	/**
+	 * Sort all moves in ascending based on their evaluation values
+	 */
+	class SortMoveAsc implements Comparator<ScoredClobberMove>{
+		public int compare(ScoredClobberMove scm1, ScoredClobberMove scm2){
+			if(scm1.distance > scm2.distance)
+				return 1;
+			else if (scm1.distance == scm2.distance)
+				return 0;
+			else
+				return -1;
+		}
+	}
+	
+	/**
+	 * Sort all moves in descending based on their evaluation values
+	 */
+	class SortMoveDes implements Comparator<ScoredClobberMove>{
+		public int compare(ScoredClobberMove scm1, ScoredClobberMove scm2){
+			if(scm1.distance > scm2.distance)
+				return -1;
+			else if (scm1.distance == scm2.distance)
+				return 0;
+			else
+				return 1;
+		}
+	}
 	
 	/**
 	 * Constructs an AlphaBetaPlayer object with the specified name and depth.
@@ -170,7 +197,14 @@ public class AlphaBeta_11_10 extends GamePlayer {
 			
 			// Get possible moves and shuffle them
 			List<ScoredClobberMove> moves = getPossibleMoves(state);
-			Collections.shuffle(moves);
+			for(int i=0;i<moves.size();i++){
+				moves.get(i).CalculateDistance();
+			}
+			if(toMaximize){
+				Collections.sort(moves, new SortMoveDes());
+			} else {
+				Collections.sort(moves, new SortMoveAsc());
+			}
 			
 			for (int i = 0; i < moves.size(); i++) {
 				// Create and make move

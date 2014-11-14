@@ -1,10 +1,10 @@
-
 package clobber;
 // import java.util.StringTokenizer;
 
 public class ScoredClobberMove extends ClobberMove {
 	
-	public double score;	// The score associated with the clobber move
+	public double score;	// The score associated with the clobber move calculated by evaluation functin
+	public int distance;	// The score that indicates the search order in alpha-beta
 	
 	
 	/**
@@ -13,6 +13,7 @@ public class ScoredClobberMove extends ClobberMove {
 	public ScoredClobberMove() {
 		super();
 		this.score = 0;
+		this.distance = 0;
 	}
 	
 	/**
@@ -23,18 +24,38 @@ public class ScoredClobberMove extends ClobberMove {
 	public ScoredClobberMove(ScoredClobberMove move) {
 		super(move);
 		this.score = move.score;
+		this.distance = 0;
 	}
 	
-	/*
-	public ScoredClobberMove(ClobberMove m) {
-		super(m);
+	/**
+	 * Calculate distance values for move ordering
+	 */
+	public void CalculateDistance(){
+		// Move up
+		if (row1 > row2){
+			distance = (2-row2 <= 0) ? row2 : (2-row2);
+		}
+		// Move down
+		else if (row1 < row2){
+			distance = (row2-3 <= 0) ? (ClobberState.ROWS-row2) : (row2-3);
+		}
+		// Move left
+		else if (col1 > col2){
+			distance = (2-col2 <= 0) ? (col2+1) : (2-col2);
+		}
+		// Move right
+		else if (col1 < col2){
+			distance = (col2-2 <= 0) ? (col2+1) : (2-col2);
+		}
+		distance = -distance;
+
+		/* 							To edge:
+		 * Move up:		r1 > r2		r2 < 2
+		 * Move down:	r1 < r2		r2 > 3
+		 * Move left:	c1 > c2		c2 < 2
+		 * Move right:	c1 < c2		c2 > 2
+		 */
 	}
-	
-	public ScoredClobberMove(ClobberMove m, double score) {
-		super(m);
-		this.score = score;
-	}
-	*/
 	
 	/**
 	 * Constructs a ScoredClobberMove with the specified parameters.
@@ -50,12 +71,6 @@ public class ScoredClobberMove extends ClobberMove {
 		this.score = score;
 	}
 	
-	/*
-	public ClobberMove reverseMove() {
-		return new ClobberMove(row2, col2, row1, col1);
-	}
-	*/
-	
 	public Object clone() {
 		return new ScoredClobberMove(row1, col1, row2, col2, score);
 	}
@@ -63,17 +78,6 @@ public class ScoredClobberMove extends ClobberMove {
 	public String toString() {
 		return row1 + " " + col1 + " " + row2 + " " + col2 + " " + score;
 	}
-	
-	/*
-	public void parseMove(String s) {
-		StringTokenizer toks = new StringTokenizer(s);
-		row1 = Integer.parseInt(toks.nextToken());
-		col1 = Integer.parseInt(toks.nextToken());
-		row2 = Integer.parseInt(toks.nextToken());
-		col2 = Integer.parseInt(toks.nextToken());
-		score = Double.parseDouble(toks.nextToken());
-	}
-	*/
 	
 	public void set(int row1, int col1, int row2, int col2, double score) {
 		this.row1 = row1;

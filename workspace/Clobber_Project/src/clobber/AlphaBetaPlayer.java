@@ -410,7 +410,7 @@ public class AlphaBetaPlayer extends GamePlayer {
 		{
 			for (int c = 0; c < COLS; c++)
 			{
-				if 
+				 
 			}
 		}
 		return null;
