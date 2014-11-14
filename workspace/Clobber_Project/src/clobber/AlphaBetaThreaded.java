@@ -13,15 +13,14 @@ public class AlphaBetaThreaded extends GamePlayer {
 	public static final int ROWS 			= ClobberState.ROWS;
 	public static final int COLS 			= ClobberState.COLS;
 	public static final int MAX_DEPTH 		= 3;
-	public static final int MAX_THREADS		= 2;
-	private int moves_taken = 0;
-	private int cutoff = 4;
+	public static final int MAX_THREADS		= 4;
+	
+	private int depthLimit;
+	private int movesTaken = 0;
+	private int evalCutoff = 9;
+	
 	private double gametime = 0;
 	private String[] messages = new String[0];
-	
-	
-	private ScoredClobberMove[] mvStack;
-	private int depthLimit;
 	
 	
 	/**
@@ -30,22 +29,27 @@ public class AlphaBetaThreaded extends GamePlayer {
 	 * @param n			: the name of the player
 	 * @param depth		: the depth of the alpha beta search
 	 */
-	public AlphaBetaThreaded(String n, int depth) {
+	public AlphaBetaThreaded(String n, int depth, String mesFileName) {
+		// Use the super-constructor and set the depth
 		super(n, new ClobberState(), false);
 		this.depthLimit = depth;
+		
 		try {
-			Scanner cin = new Scanner(new FileInputStream(new File("messages")));
+			// Get the path of the reference messages file
+			String fileName = "src/clobber/" + mesFileName;
+			Scanner cin = new Scanner(new FileInputStream(new File(fileName)));
 			ArrayList<String> messages = new ArrayList<String>();
-			while (cin.hasNextLine())
-			{
+			
+			// Read messages in from the reference file
+			while (cin.hasNextLine()) {
 				messages.add(cin.nextLine());
 			}
+			
 			this.messages = messages.toArray(this.messages);
 			cin.close();
-		} catch (IOException e) {
-			System.err.println(new File("").getAbsolutePath());
-			System.err.println("insults not found");
-			// TODO: handle exception
+		}
+		catch (IOException e) {
+			System.err.println("File '" + mesFileName + "' not found.");
 		}
 	}
 	
@@ -55,61 +59,33 @@ public class AlphaBetaThreaded extends GamePlayer {
 	 * @param args		: command line arguments
 	 */
 	public static void main(String [] args) {
-		GamePlayer p = new AlphaBetaThreaded("ABT", MAX_DEPTH - 1);
+		GamePlayer p = new AlphaBetaThreaded("ABT", MAX_DEPTH - 1, "messages");
 		p.compete(args, 1);
 	}
-	@Override
-	public String messageForOpponent(String opponent)
-	{
-		//return opponent + " is worst clobber player NA";
-		//return "ヽ༼ຈل͜ຈ༽ﾉ raise your dongers ヽ༼ຈل͜ຈ༽ﾉ";
-		//return "\n▒▒▒░░░░░░░░░░▄▐░░░░\n" + "▒░░░░░░▄▄▄░░▄██▄░░░\n" + "░░░░░░▐▀█▀▌░░░░▀█▄░\n" + "░░░░░░▐█▄█▌░░░░░░▀█▄\n" + "░░░░░░░▀▄▀░░░▄▄▄▄▄▀▀\n" + "░░░░░▄▄▄██▀▀▀▀░░░░░\n" + "░░░░█▀▄▄▄█░▀▀░░░░░░\n" + "░░░░▌░▄▄▄▐▌▀▀▀░░░░░\n" + "░▄░▐░░░▄▄░█░▀▀░░░░░\n" + "░▀█▌░░░▄░▀█▀░▀░░░░░\n" + "░░░░░░░░▄▄▐▌▄▄░░░░░\n" + "░░░░░░░░▀███▀█░▄░░░\n" + "░░░░░░░▐▌▀▄▀▄▀▐▄░░░\n" + "░░░░░░░▐▀░░░░░░▐▌░░\n" + "░░░░░░░█░░░░░░░░█░░\n" + "░░░░░░▐▌░░░░░░░░░█░ ";
-		return messages[(int)(Math.random() * (messages.length - 1))]; 
-	}
-	@Override
-	public void startGame(String opponent) //at this point we know what side we're on
-	{
-		moves_taken = 0;
-		gametime = 0;
-		switch(side)
-		{
-		case HOME:
-			cutoff = 5;
-			break;
-		case AWAY:
-			cutoff = 4;
-			break;
-		default:
-			cutoff = 5;
-			break;
+	
+	public String messageForOpponent(String opponent) {
+		String message = "My messages didn't load correctly!";
+		
+		if (messages.length != 0) {
+			message = messages[(int)(Math.random() * (messages.length - 1))];
 		}
-	}
-	@Override
-	public void timeOfLastMove(double secs)
-	{ 
-		gametime += secs;
-	}
-	@Override
-	public void endGame(int result)
-	{ 
-		System.out.println("Game took: " + gametime);
+		
+		return message;
 	}
 	
+	public void timeOfLastMove(double secs) { 
+		gametime += secs;
+	}
+	
+	public void endGame(int result) { 
+		System.out.println("Game took: " + gametime);
+	}
 	
 	/**
 	 * Used to initialize data structures for the alpha beta search.
 	 */
 	public void init() {
-		mvStack = null;
-		if (moves_taken < cutoff)
-			mvStack = new ScoredClobberMove [MAX_DEPTH];
-		else
-			mvStack = new ScoredClobberMove[31 - cutoff]; //fifteen max moves
 		
-		
-		for (int i = 0; i < mvStack.length; i++) {
-			mvStack[i] = new ScoredClobberMove(0, 0, 0, 0, 0);
-		}
 	}
 	
 	/**
@@ -197,9 +173,8 @@ public class AlphaBetaThreaded extends GamePlayer {
 		}
 		
 		/** If the depth limit is reached, use the evaluation function **/
-		else if (moves_taken < cutoff && currDepth == depthLimit) {
+		else if (movesTaken < evalCutoff && currDepth == depthLimit) {
 			mvStack[currDepth].setScore(evaluateState(state));
-			//mvStack[currDepth].setScore(0);
 		}
 		
 		/** Otherwise continue alpha beta recursion **/
@@ -321,13 +296,10 @@ public class AlphaBetaThreaded extends GamePlayer {
 		/** Check for friend symbols that can take opponent stones **/
 		if (ClobberMove.posOK(row + 1, col + 1) && cs.board[row + 1][col + 1] == friend)
 			if (cs.board[row + 1][col] == opponent || cs.board[row][col + 1] == opponent) score++;
-		
 		if (ClobberMove.posOK(row + 1, col - 1) && cs.board[row + 1][col - 1] == friend)
 			if (cs.board[row + 1][col] == opponent || cs.board[row][col - 1] == opponent) score++;
-		
 		if (ClobberMove.posOK(row - 1, col + 1) && cs.board[row - 1][col + 1] == friend)
 			if (cs.board[row - 1][col] == opponent || cs.board[row][col + 1] == opponent) score++;
-		
 		if (ClobberMove.posOK(row - 1, col - 1) && cs.board[row - 1][col - 1] == friend)
 			if (cs.board[row - 1][col] == opponent || cs.board[row][col - 1] == opponent) score++;
 		
@@ -343,16 +315,13 @@ public class AlphaBetaThreaded extends GamePlayer {
 	 * @return			: the next move to be performed
 	 */
 	public GameMove getMove(GameState state, String lastMove) {
-		moves_taken++;
-	/*	init();
-		
-		alphaBeta((ClobberState)state, mvStack, 0, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
-		return mvStack[0];*/
+		// Increase the number of moves taken
+		movesTaken = state.numMoves;
 		
 		List<ScoredClobberMove> allMoves = getPossibleMoves((ClobberState)state);
 		
-		int movesPerThread = Math.max(1, allMoves.size() / MAX_THREADS);
-		int numThreads = Math.min(allMoves.size() / movesPerThread, MAX_THREADS);
+		int movesPerThread = Math.max(1, (int)Math.ceil(allMoves.size() / MAX_THREADS));
+		int numThreads = Math.min((int)Math.ceil(allMoves.size() / movesPerThread), MAX_THREADS);
 		AlphaBetaThread[] threads = new AlphaBetaThread[numThreads];
 		
 		// Run each of the threads over the possible moves
@@ -385,19 +354,12 @@ public class AlphaBetaThreaded extends GamePlayer {
 		for (int i = 1; i < threads.length; i++) {
 			ScoredClobberMove temp = threads[i].bestMove;
 			
-			
 			if (state.who == GameState.Who.HOME && temp.score > best.score) best = temp;
 			else if (state.who == GameState.Who.AWAY && temp.score < best.score) best = temp;
-			
-			/*
-			if (temp.score > best.score)
-				best = temp;
-				*/
 		}
 		
 		// Return the best move
 		return best;
-		
 	}
 	
 	private class AlphaBetaThread extends Thread {
@@ -431,7 +393,6 @@ public class AlphaBetaThreaded extends GamePlayer {
 					this.state.board[row][col] = state.board[row][col];
 				}
 			}
-			
 			this.state.who = state.getWho();
 			this.state.status = state.getStatus();
 			this.state.numMoves = state.getNumMoves();
