@@ -6,13 +6,11 @@ import java.util.*;
 import java.io.*;
 
 import clobber.ScoredClobberMove;
-import clobber.AlphaBeta_11_10.SortMoveAsc;
-import clobber.AlphaBeta_11_10.SortMoveDes;
 
 /**
  * 
  * 
- * @author Marshall Miller, Lucy Jiang, Peter Simon
+ * @author Lucy Jiang, Marshall Miller, Peter Simon
  */
 public class ShillPlayer extends GamePlayer {
 
@@ -21,12 +19,13 @@ public class ShillPlayer extends GamePlayer {
 	public static final double MAX_SCORE 	= COLS + ROWS;
 	public static final int MAX_DEPTH 		= 5;
 	
-	private int threadLimit;
-	private int depthLimit;
-	private int movesTaken = 0;
+	private int threadLimit; //set in constructor based on number of logical processors
+	private int depthLimit; //passed to constructor, set above by changing MAX_DEPTH
+	private int movesTaken = 0; 
 	private int evalCutoff = 9;
 	
-	private double gametime = 0;
+	private double gametime = 0; //used to track how much time we've used
+	
 	
 	private String[] lines = new String[0];
 	private String[] products = new String[0];
@@ -116,19 +115,11 @@ public class ShillPlayer extends GamePlayer {
 	}
 	
 	public void timeOfLastMove(double secs) { 
-		gametime += secs;
+		gametime += secs; //update our gametime based on how long our last move took
 	}
 	
 	public void endGame(int result) { 
-		System.out.println("Game took: " + gametime);
-	}
-	
-	/**
-	 * Overrides the initialization method from the parent GamePlayer.  This method is used to
-	 * initialize data structures for the alpha beta search.
-	 */
-	public void init() {
-		
+		//System.out.println("Game took: " + gametime); //debug print to show how long it took us to play a game
 	}
 	
 	/**
@@ -219,6 +210,7 @@ public class ShillPlayer extends GamePlayer {
 		}
 		
 		/** If the depth limit is reached, use the evaluation function **/
+		//after the cutoff point, we will no longer search to a defined depth. we will search to all terminal leaves
 		else if (movesTaken < evalCutoff && currDepth == depthLimit) {
 			mvStack[currDepth].score = evaluateState(state);
 		}
@@ -234,11 +226,13 @@ public class ShillPlayer extends GamePlayer {
 			bestMove.score = bestScore;
 			
 			// Get possible moves and sort them
+			//this is used for move ordering
 			List<ScoredClobberMove> moves = getPossibleMoves(state);
 			for (int i = 0; i < moves.size(); i++) {
 				moves.get(i).calculateDistanceScore();
 			}
 			
+			//sort list of moves based on move ordering heuristic
 			if (toMaximize) Collections.sort(moves, new ScoredClobberMove.SortMoveDes());
 			else Collections.sort(moves, new ScoredClobberMove.SortMoveAsc());
 			
@@ -374,12 +368,17 @@ public class ShillPlayer extends GamePlayer {
 		List<ScoredClobberMove> allMoves = getPossibleMoves((ClobberState)state);
 		
 		// Determine how many threads should be created
+		// figure out how many moves each thread should have
 		int movesPerThread = Math.max(1, (int)Math.ceil(allMoves.size() / threadLimit));
+		
+		//figure out how many threads to use, up to threadLimit
 		int numThreads = Math.min((int)Math.ceil(allMoves.size() / movesPerThread), threadLimit);
 		AlphaBetaThread[] threads = new AlphaBetaThread[numThreads];
 		
 		/** Create and run each of the threads **/
 		for (int i = 0; i < threads.length; i++) {
+			
+			//this if block is hit for the last thread which potentially has fewer moves to calculate than the other threads
 			if (i == threads.length - 1) {
 				threads[i] = new AlphaBetaThread((ClobberState)state,
 						allMoves.subList(i * movesPerThread, allMoves.size()));
@@ -403,7 +402,7 @@ public class ShillPlayer extends GamePlayer {
 		}
 		
 		ScoredClobberMove best = threads[0].bestMove;
-		
+		//loop through the best move for each thread, and calculate the best move overall
 		/** Determine which move is best **/
 		for (int i = 1; i < threads.length; i++) {
 			ScoredClobberMove temp = threads[i].bestMove;
@@ -419,7 +418,7 @@ public class ShillPlayer extends GamePlayer {
 	/**
 	 * 
 	 * 
-	 * @author Marshall Miller, Lucy Jiang, Peter Simon
+	 * @author Lucy Jiang, Marshall Miller, Peter Simon
 	 */
 	private class AlphaBetaThread extends Thread {
 		
