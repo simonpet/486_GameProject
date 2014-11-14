@@ -104,8 +104,8 @@ public class ShillPlayer extends GamePlayer {
 		if (lines.length != 0 && products.length != 0) {
 			Random rand = new Random();
 			
-			message = lines[rand.nextInt(lines.length)] + " ";
-			message += products[rand.nextInt(products.length)];
+			message = lines[(int)(Math.random() * lines.length)] + " ";
+			message += products[(int)(Math.random() * lines.length)];
 		}
 		
 		return message;
