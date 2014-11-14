@@ -299,11 +299,12 @@ public class AlphaBeta_11_10 extends GamePlayer {
 	 * @return			: the next move to be performed
 	 */
 	public GameMove getMove(GameState state, String lastMove) {
-
 		moves_taken++;
 		init();
 		
 		alphaBeta((ClobberState)state, mvStack, 0, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+
+		
 		return mvStack[0];
 		
 		/*

@@ -3,6 +3,7 @@ import game.*;
 import game.GameState.Who;
 
 import java.util.*;
+import java.io.*;
 
 import clobber.ScoredClobberMove;
 
@@ -11,10 +12,12 @@ public class AlphaBetaThreaded extends GamePlayer {
 	public static final double MAX_SCORE 	= Double.POSITIVE_INFINITY;
 	public static final int ROWS 			= ClobberState.ROWS;
 	public static final int COLS 			= ClobberState.COLS;
-	public static final int MAX_DEPTH 		= 2;
-	public static final int MAX_THREADS		= 8;
+	public static final int MAX_DEPTH 		= 3;
+	public static final int MAX_THREADS		= 2;
 	private int moves_taken = 0;
-	private int cutoff = 6;
+	private int cutoff = 4;
+	private double gametime = 0;
+	private String[] messages = new String[0];
 	
 	
 	private ScoredClobberMove[] mvStack;
@@ -30,6 +33,20 @@ public class AlphaBetaThreaded extends GamePlayer {
 	public AlphaBetaThreaded(String n, int depth) {
 		super(n, new ClobberState(), false);
 		this.depthLimit = depth;
+		try {
+			Scanner cin = new Scanner(new FileInputStream(new File("messages")));
+			ArrayList<String> messages = new ArrayList<String>();
+			while (cin.hasNextLine())
+			{
+				messages.add(cin.nextLine());
+			}
+			this.messages = messages.toArray(this.messages);
+			cin.close();
+		} catch (IOException e) {
+			System.err.println(new File("").getAbsolutePath());
+			System.err.println("insults not found");
+			// TODO: handle exception
+		}
 	}
 	
 	/**
@@ -44,13 +61,40 @@ public class AlphaBetaThreaded extends GamePlayer {
 	@Override
 	public String messageForOpponent(String opponent)
 	{
-		return opponent + " is worst clobber player NA";
+		//return opponent + " is worst clobber player NA";
+		//return "ヽ༼ຈل͜ຈ༽ﾉ raise your dongers ヽ༼ຈل͜ຈ༽ﾉ";
+		//return "\n▒▒▒░░░░░░░░░░▄▐░░░░\n" + "▒░░░░░░▄▄▄░░▄██▄░░░\n" + "░░░░░░▐▀█▀▌░░░░▀█▄░\n" + "░░░░░░▐█▄█▌░░░░░░▀█▄\n" + "░░░░░░░▀▄▀░░░▄▄▄▄▄▀▀\n" + "░░░░░▄▄▄██▀▀▀▀░░░░░\n" + "░░░░█▀▄▄▄█░▀▀░░░░░░\n" + "░░░░▌░▄▄▄▐▌▀▀▀░░░░░\n" + "░▄░▐░░░▄▄░█░▀▀░░░░░\n" + "░▀█▌░░░▄░▀█▀░▀░░░░░\n" + "░░░░░░░░▄▄▐▌▄▄░░░░░\n" + "░░░░░░░░▀███▀█░▄░░░\n" + "░░░░░░░▐▌▀▄▀▄▀▐▄░░░\n" + "░░░░░░░▐▀░░░░░░▐▌░░\n" + "░░░░░░░█░░░░░░░░█░░\n" + "░░░░░░▐▌░░░░░░░░░█░ ";
+		return messages[(int)(Math.random() * (messages.length - 1))]; 
 	}
 	@Override
-	public void startGame(String opponent)
+	public void startGame(String opponent) //at this point we know what side we're on
 	{
 		moves_taken = 0;
+		gametime = 0;
+		switch(side)
+		{
+		case HOME:
+			cutoff = 5;
+			break;
+		case AWAY:
+			cutoff = 4;
+			break;
+		default:
+			cutoff = 5;
+			break;
+		}
 	}
+	@Override
+	public void timeOfLastMove(double secs)
+	{ 
+		gametime += secs;
+	}
+	@Override
+	public void endGame(int result)
+	{ 
+		System.out.println("Game took: " + gametime);
+	}
+	
 	
 	/**
 	 * Used to initialize data structures for the alpha beta search.
@@ -299,7 +343,6 @@ public class AlphaBetaThreaded extends GamePlayer {
 	 * @return			: the next move to be performed
 	 */
 	public GameMove getMove(GameState state, String lastMove) {
-
 		moves_taken++;
 	/*	init();
 		
