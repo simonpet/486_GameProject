@@ -18,8 +18,11 @@ public class ScoredClobberMove extends ClobberMove {
 	
 	public static class SortMoveDes implements Comparator<ScoredClobberMove>{
 		public int compare(ScoredClobberMove scm1, ScoredClobberMove scm2){
-			if(scm1.distanceScore > scm2.distanceScore) return -1;
-			else if (scm1.distanceScore == scm2.distanceScore) return 0;
+			int scm1Dist = scm1.calculateDistanceScore();
+			int scm2Dist = scm2.calculateDistanceScore();
+			
+			if(scm1Dist > scm2Dist) return -1;
+			else if (scm1Dist == scm2Dist) return 0;
 			else return 1;
 		}
 	}

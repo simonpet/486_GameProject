@@ -235,10 +235,10 @@ public class ShillPlayer extends GamePlayer {
 			
 			// Get possible moves and sort them
 			List<ScoredClobberMove> moves = getPossibleMoves(state);
+			
 			for (int i = 0; i < moves.size(); i++) {
 				moves.get(i).calculateDistanceScore();
 			}
-			
 			if (toMaximize) Collections.sort(moves, new ScoredClobberMove.SortMoveDes());
 			else Collections.sort(moves, new ScoredClobberMove.SortMoveAsc());
 			
