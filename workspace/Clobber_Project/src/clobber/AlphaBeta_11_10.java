@@ -25,11 +25,13 @@ public class AlphaBeta_11_10 extends GamePlayer {
 	 */
 	class SortMoveAsc implements Comparator<ScoredClobberMove>{
 		public int compare(ScoredClobberMove scm1, ScoredClobberMove scm2){
+			/*
 			if(scm1.distance > scm2.distance)
 				return 1;
 			else if (scm1.distance == scm2.distance)
 				return 0;
 			else
+			*/
 				return -1;
 		}
 	}
@@ -39,11 +41,13 @@ public class AlphaBeta_11_10 extends GamePlayer {
 	 */
 	class SortMoveDes implements Comparator<ScoredClobberMove>{
 		public int compare(ScoredClobberMove scm1, ScoredClobberMove scm2){
+			/*
 			if(scm1.distance > scm2.distance)
 				return -1;
 			else if (scm1.distance == scm2.distance)
 				return 0;
 			else
+			*/
 				return 1;
 		}
 	}
@@ -198,12 +202,12 @@ public class AlphaBeta_11_10 extends GamePlayer {
 			// Get possible moves and shuffle them
 			List<ScoredClobberMove> moves = getPossibleMoves(state);
 			for(int i=0;i<moves.size();i++){
-				moves.get(i).CalculateDistance();
+				// moves.get(i).CalculateDistance();
 			}
 			if(toMaximize){
-				Collections.sort(moves, new SortMoveDes());
+				// Collections.sort(moves, new SortMoveDes());
 			} else {
-				Collections.sort(moves, new SortMoveAsc());
+				// Collections.sort(moves, new SortMoveAsc());
 			}
 			
 			for (int i = 0; i < moves.size(); i++) {

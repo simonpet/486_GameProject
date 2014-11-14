@@ -1,0 +1,120 @@
+package clobber;
+
+public class ScoredClobberMove extends ClobberMove {
+	
+	public double score;
+	public int distance;
+	
+	
+	/**
+	 * Constructs a default instance of ScoredClobberPlayer.  This constructor uses the super-
+	 * constructor to create a standard ClobberMove, then sets default score and distance values.
+	 */
+	public ScoredClobberMove() {
+		super();
+		this.score = 0;
+		this.distance = 0;
+	}
+	
+	/**
+	 * Constructs an instance ScoredClobberMove based on a specified source move.  This
+	 * constructor uses the super-constructor to copy the original move, then sets the score
+	 * and distance using the values from the original.
+	 * 
+	 * @param move		: the source ScoredClobberMove
+	 */
+	public ScoredClobberMove(ScoredClobberMove move) {
+		super(move);
+		this.score = move.score;
+		this.distance = 0;
+	}
+	
+	/**
+	 * Calculate distance values for move ordering
+	 */
+	public void CalculateDistance(){
+		
+		if (row1 > (ClobberState.ROWS / 2) && row2 > row1)
+			distance = ClobberState.ROWS - row1;
+		else if (row1 < (ClobberState.ROWS / 2) && row2 < row1)
+			distance = row1;
+		else if (col1 > (ClobberState.COLS / 2) && col2 > col1)
+			distance = ClobberState.COLS - col1;
+		else if (col1 < (ClobberState.COLS / 2) && col2 < col1)
+			distance = col1;
+		
+		
+		
+		// Move up
+		if (row1 > row2){
+			distance = (2-row2 <= 0) ? row2 : (2-row2);
+		}
+		// Move down
+		else if (row1 < row2){
+			distance = (row2-3 <= 0) ? (ClobberState.ROWS-row2) : (row2-3);
+		}
+		// Move left
+		else if (col1 > col2){
+			distance = (2-col2 <= 0) ? (col2+1) : (2-col2);
+		}
+		// Move right
+		else if (col1 < col2){
+			distance = (col2-2 <= 0) ? (col2+1) : (2-col2);
+		}
+		distance = -distance;
+
+		/* 							To edge:
+		 * Move up:		r1 > r2		r2 < 2
+		 * Move down:	r1 < r2		r2 > 3
+		 * Move left:	c1 > c2		c2 < 2
+		 * Move right:	c1 < c2		c2 > 2
+		 */
+	}
+	
+	/**
+	 * Constructs a ScoredClobberMove with the specified parameters.
+	 * 
+	 * @param r1		: the row of the attacking piece
+	 * @param c1		: the column of the attacking piece
+	 * @param r2		: the row of the target piece
+	 * @param c2		: the column of the attacking piece
+	 * @param score		: the score associated with the move
+	 */
+	public ScoredClobberMove(int r1, int c1, int r2, int c2, double score) {
+		super(r1, c1, r2, c2);
+		this.score = score;
+	}
+	
+	public Object clone() {
+		return new ScoredClobberMove(row1, col1, row2, col2, score);
+	}
+	
+	public String toString() {
+		return row1 + " " + col1 + " " + row2 + " " + col2 + " " + score;
+	}
+	
+	public void set(int row1, int col1, int row2, int col2, double score) {
+		this.row1 = row1;
+		this.col1 = col1;
+		this.row2 = row2;
+		this.col2 = col2;
+		this.score = score;
+	}
+	
+	public void set(ClobberMove move, double score) {
+		this.row1 = move.row1;
+		this.col1 = move.col1;
+		this.row2 = move.row2;
+		this.col2 = move.col2;
+		this.score = score;
+	}
+	
+	/**
+	 * Updates the score of the move to the specified new score.
+	 * 
+	 * @param newScore		: the new score
+	 */
+	public void setScore(double newScore) {
+		this.score = newScore;
+	}
+}

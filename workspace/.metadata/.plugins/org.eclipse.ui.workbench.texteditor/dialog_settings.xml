@@ -3,28 +3,32 @@
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
 		<item value="263" key="DIALOG_WIDTH"/>
 		<item value="170" key="DIALOG_Y_ORIGIN"/>
-		<item value="399" key="DIALOG_HEIGHT"/>
 		<item value="876" key="DIALOG_X_ORIGIN"/>
+		<item value="399" key="DIALOG_HEIGHT"/>
 		<item value="1|Lucida Grande|11.0|0|COCOA|1|LucidaGrande" key="DIALOG_FONT_NAME"/>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="true" key="wrap"/>
-		<item value="false" key="isRegEx"/>
 		<item value="false" key="casesensitive"/>
+		<item value="false" key="isRegEx"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="getPossibleMoves" key="selection"/>
+		<item value="threadLimit" key="selection"/>
 		<list key="findhistory">
+			<item value="MAX_THREADS"/>
+			<item value="AlphaBetaThreaded"/>
+			<item value="moves_taken"/>
+			<item value="cutoff"/>
 			<item value="getMoves"/>
 			<item value="AlphaBeta_11_09"/>
 			<item value="getMove"/>
 			<item value="reinit"/>
-			<item value="toMinimize"/>
-			<item value="getmove"/>
-			<item value="getsystematic"/>
-			<item value="getsystematicplayer"/>
 		</list>
 		<list key="replacehistory">
+			<item value="threadLimit"/>
+			<item value="ShillPlayer"/>
+			<item value="movesTaken"/>
+			<item value="evalCutoff"/>
 			<item value="getPossibleMoves"/>
 			<item value="AlphaBeta_11_10"/>
 		</list>

@@ -1,0 +1,138 @@
+Shill (W) played 0 2 1 2
+RWRWR
+WRWRW
+RWRWR
+WRWRW
+RWWWR
+WR.RW
+[AWAY 1 GAME_ON]
+ABT (R) played 5 2 4 2
+RW.WR
+WRRRW
+RWRWR
+WRWRW
+RWWWR
+WR.RW
+[HOME 2 GAME_ON]
+Shill (W) played 1 1 2 1
+RW.WR
+WRRRW
+RWRWR
+WWWRW
+R.WWR
+WR.RW
+[AWAY 3 GAME_ON]
+ABT (R) played 3 0 4 0
+RW.WR
+RRRRW
+.WRWR
+WWWRW
+R.WWR
+WR.RW
+[HOME 4 GAME_ON]
+Shill (W) played 1 3 2 3
+RW.WR
+RRRRW
+.WRWR
+WWWWW
+R.W.R
+WR.RW
+[AWAY 5 GAME_ON]
+ABT (R) played 3 2 3 3
+RW.WR
+RRRRW
+.W.RR
+WWWWW
+R.W.R
+WR.RW
+[HOME 6 GAME_ON]
+Shill (W) played 2 4 1 4
+RW.WR
+RRRRW
+.W.RR
+WWWW.
+R.W.W
+WR.RW
+[AWAY 7 GAME_ON]
+ABT (R) played 3 4 4 4
+RW.WR
+RRRRR
+.W.R.
+WWWW.
+R.W.W
+WR.RW
+[HOME 8 GAME_ON]
+Shill (W) played 5 3 4 3
+RW..R
+RRRWR
+.W.R.
+WWWW.
+R.W.W
+WR.RW
+[AWAY 9 GAME_ON]
+ABT (R) played 0 1 0 0
+RW..R
+RRRWR
+.W.R.
+WWWW.
+R.W.W
+R..RW
+[HOME 10 GAME_ON]
+Shill (W) played 4 3 3 3
+RW..R
+RRR.R
+.W.W.
+WWWW.
+R.W.W
+R..RW
+[AWAY 11 GAME_ON]
+ABT (R) played 0 3 0 4
+RW..R
+RRR.R
+.W.W.
+WWWW.
+R.W.W
+R...R
+[HOME 12 GAME_ON]
+Shill (W) played 5 1 4 1
+R...R
+RWR.R
+.W.W.
+WWWW.
+R.W.W
+R...R
+[AWAY 13 GAME_ON]
+ABT (R) played 0 4 1 4
+R...R
+RWR.R
+.W.W.
+WWWW.
+R.W.R
+R....
+[HOME 14 GAME_ON]
+Shill (W) played 2 0 1 0
+R...R
+RWR.R
+.W.W.
+.WWW.
+W.W.R
+R....
+[AWAY 15 GAME_ON]
+ABT (R) played 0 0 1 0
+R...R
+RWR.R
+.W.W.
+.WWW.
+R.W.R
+.....
+[HOME 16 GAME_ON]
+Shill (W) played 4 1 4 2
+R...R
+R.W.R
+.W.W.
+.WWW.
+R.W.R
+.....
+[AWAY 17 HOME_WIN]
+Shill (W) (295.442000 seconds remaining) won.
+ABT had 299.935000 seconds remaining.
