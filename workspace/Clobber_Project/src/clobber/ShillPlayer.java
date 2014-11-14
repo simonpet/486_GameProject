@@ -12,10 +12,10 @@ import clobber.ScoredClobberMove;
  */
 public class ShillPlayer extends GamePlayer {
 
-	public static final double MAX_SCORE 	= Double.POSITIVE_INFINITY;
 	public static final int ROWS 			= ClobberState.ROWS;
 	public static final int COLS 			= ClobberState.COLS;
-	public static final int MAX_DEPTH 		= 3;
+	public static final double MAX_SCORE 	= COLS + ROWS;
+	public static final int MAX_DEPTH 		= 5;
 	
 	private int threadLimit;
 	private int depthLimit;
@@ -23,7 +23,9 @@ public class ShillPlayer extends GamePlayer {
 	private int evalCutoff = 9;
 	
 	private double gametime = 0;
-	private String[] messages = new String[0];
+	
+	private String[] lines = new String[0];
+	private String[] products = new String[0];
 	
 	
 	/**
@@ -33,7 +35,7 @@ public class ShillPlayer extends GamePlayer {
 	 * @param args		: command line arguments
 	 */
 	public static void main(String [] args) {
-		GamePlayer p = new ShillPlayer("Shill", MAX_DEPTH - 1, "messages");
+		GamePlayer p = new ShillPlayer("Shill", MAX_DEPTH, "shill_library.txt");
 		p.compete(args, 1);
 	}
 	
@@ -46,7 +48,7 @@ public class ShillPlayer extends GamePlayer {
 	 * @param depth			: the depth of the alpha-beta search
 	 * @param mesFileName	: the file name of the reference text
 	 */
-	public ShillPlayer(String n, int depth, String mesFileName) {
+	public ShillPlayer(String n, int depth, String libraryFileName) {
 		// Use the super-constructor and set the depth
 		super(n, new ClobberState(), false);
 		this.depthLimit = depth;
@@ -55,21 +57,36 @@ public class ShillPlayer extends GamePlayer {
 		this.threadLimit = Runtime.getRuntime().availableProcessors();
 		
 		try {
+			ArrayList<String> lines = new ArrayList<String>();
+			ArrayList<String> products = new ArrayList<String>();
+			
 			// Get the path of the reference messages file
-			String fileName = "src/clobber/" + mesFileName;
+			String fileName = "src/clobber/" + libraryFileName;
 			Scanner cin = new Scanner(new FileInputStream(new File(fileName)));
-			ArrayList<String> messages = new ArrayList<String>();
+			boolean productTime = false;
 			
 			// Read messages in from the reference file
 			while (cin.hasNextLine()) {
-				messages.add(cin.nextLine());
+				String line = cin.nextLine();
+				
+				if (line.equals("")) {
+					productTime = true;
+				}
+				else if (!productTime) {
+					lines.add(line);
+				}
+				else {
+					products.add(line);
+				}
 			}
 			
 			cin.close();
-			this.messages = messages.toArray(this.messages);
+			this.lines = lines.toArray(this.lines);
+			this.products = products.toArray(this.products);
+			
 		}
 		catch (IOException e) {
-			System.err.println("File '" + mesFileName + "' not found.");
+			System.err.println("File '" + libraryFileName + "' not found.");
 		}
 	}
 	
@@ -84,8 +101,9 @@ public class ShillPlayer extends GamePlayer {
 		String message = "My adver--er, messages--didn't load correctly!";
 		
 		// If the library exists, choose a random message
-		if (messages.length != 0) {
-			message = messages[(int)(Math.random() * (messages.length - 1))];
+		if (lines.length != 0 && products.length != 0) {
+			message = lines[(int)(Math.random() * lines.length)] + " ";
+			message += products[(int)(Math.random() * lines.length)];
 		}
 		
 		return message;
@@ -225,10 +243,10 @@ public class ShillPlayer extends GamePlayer {
 				undoMove(state, tempMove);
 				
 				// Examine the move relative to what we have seen
-				if (toMaximize && nextMove.score >= bestMove.score) {
+				if (toMaximize && nextMove.score > bestMove.score) {
 					bestMove.set(tempMove, nextMove.score);
 				}
-				else if (!toMaximize && nextMove.score <= bestMove.score) {
+				else if (!toMaximize && nextMove.score < bestMove.score) {
 					bestMove.set(tempMove, nextMove.score);
 				}
 				
@@ -292,14 +310,11 @@ public class ShillPlayer extends GamePlayer {
 		}
 		
 		// Return the heuristic
-		if (homeScore > awayScore) {
-			return homeScore / awayScore;
-		}
-		else return -awayScore / homeScore;
+		return homeScore - awayScore;
 	}
 	
 	private float evaluateStone(ClobberState state, int row, int col) {
-		float score = 1;
+		float score = 0;
 		char friend = state.board[row][col];
 		
 		// Check if the symbol is empty
@@ -310,28 +325,25 @@ public class ShillPlayer extends GamePlayer {
 		char opponent = (friend == ClobberState.homeSym) ? 
 				ClobberState.awaySym : ClobberState.homeSym;
 		
-		/** Check for opponent symbols that can take this stone **/
-		if (ClobberMove.posOK(row + 1, col) && state.board[row + 1][col] == opponent) score++;
-		if (ClobberMove.posOK(row - 1, col) && state.board[row - 1][col] == opponent) score++;
-		if (ClobberMove.posOK(row, col + 1) && state.board[row][col + 1] == opponent) score++;
-		if (ClobberMove.posOK(row, col - 1) && state.board[row][col - 1] == opponent) score++;
+		int oppNeighbors = 0;
+		int friNeighbors = 0;
 		
-		/** Check for friend symbols that can take opponent stones **/
-		if (ClobberMove.posOK(row + 1, col + 1) && state.board[row + 1][col + 1] == friend)
-			if (state.board[row + 1][col] == opponent || state.board[row][col + 1] == opponent)
-				score++;
-		if (ClobberMove.posOK(row + 1, col - 1) && state.board[row + 1][col - 1] == friend)
-			if (state.board[row + 1][col] == opponent || state.board[row][col - 1] == opponent)
-				score++;
-		if (ClobberMove.posOK(row - 1, col + 1) && state.board[row - 1][col + 1] == friend)
-			if (state.board[row - 1][col] == opponent || state.board[row][col + 1] == opponent)
-				score++;
-		if (ClobberMove.posOK(row - 1, col - 1) && state.board[row - 1][col - 1] == friend)
-			if (state.board[row - 1][col] == opponent || state.board[row][col - 1] == opponent)
-				score++;
+		for (int disRow = -1; disRow <= 1; disRow++) {
+			for (int disCol = -1; disCol <= 1; disCol++) {
+				int newRow = row + disRow;
+				int newCol = col + disCol;
+				
+				if (ClobberMove.posOK(newRow, newCol)) {
+					if (state.board[newRow][newCol] == opponent) oppNeighbors++;
+					else if (state.board[newRow][newCol] == friend) friNeighbors++;
+				}
+			}
+		}
 		
-		// Return the total score
-		return score;
+		if (oppNeighbors > 0 && friNeighbors > oppNeighbors) {
+			return 1;
+		}
+		return 0;
 	}
 	
 	/**

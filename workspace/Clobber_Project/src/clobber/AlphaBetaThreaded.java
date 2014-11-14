@@ -13,7 +13,7 @@ public class AlphaBetaThreaded extends GamePlayer {
 	public static final int ROWS 			= ClobberState.ROWS;
 	public static final int COLS 			= ClobberState.COLS;
 	public static final int MAX_DEPTH 		= 3;
-	public static final int MAX_THREADS		= 4;
+	public static final int MAX_THREADS		= 8;
 	
 	private int depthLimit;
 	private int movesTaken = 0;

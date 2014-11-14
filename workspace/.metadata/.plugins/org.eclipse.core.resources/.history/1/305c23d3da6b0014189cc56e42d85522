@@ -1,0 +1,482 @@
+package clobber;
+import game.*;
+import game.GameState.Who;
+import java.util.*;
+import java.io.*;
+import clobber.ScoredClobberMove;
+
+/**
+ * 
+ * 
+ * @author Marshall Miller, Lucy Jiang, Peter Simon
+ */
+public class ShillPlayer extends GamePlayer {
+
+	public static final int ROWS 			= ClobberState.ROWS;
+	public static final int COLS 			= ClobberState.COLS;
+	public static final double MAX_SCORE 	= COLS + ROWS;
+	public static final int MAX_DEPTH 		= 5;
+	
+	private int threadLimit;
+	private int depthLimit;
+	private int movesTaken = 0;
+	private int evalCutoff = 9;
+	
+	private double gametime = 0;
+	
+	private String[] lines = new String[0];
+	private String[] products = new String[0];
+	
+	
+	/**
+	 * The main method of ShillPlayer.  This method creates an instance of ShillPlayer and
+	 * has it compete in a tournament against another Clobber player.
+	 * 
+	 * @param args		: command line arguments
+	 */
+	public static void main(String [] args) {
+		GamePlayer p = new ShillPlayer("Shill", MAX_DEPTH, "shill_library.txt");
+		p.compete(args, 1);
+	}
+	
+	/**
+	 * Constructs an instance of ShillPlayer.  This constructor allows developers to specify
+	 * the initial depth of the alpha-beta search and a reference text file to create a library
+	 * of tournament messages.
+	 * 
+	 * @param n				: the name of the player
+	 * @param depth			: the depth of the alpha-beta search
+	 * @param mesFileName	: the file name of the reference text
+	 */
+	public ShillPlayer(String n, int depth, String libraryFileName) {
+		// Use the super-constructor and set the depth
+		super(n, new ClobberState(), false);
+		this.depthLimit = depth;
+		
+		// Get the number of logical threads on this machine
+		this.threadLimit = Runtime.getRuntime().availableProcessors();
+		
+		try {
+			ArrayList<String> lines = new ArrayList<String>();
+			ArrayList<String> products = new ArrayList<String>();
+			
+			// Get the path of the reference messages file
+			String fileName = "src/clobber/" + libraryFileName;
+			Scanner cin = new Scanner(new FileInputStream(new File(fileName)));
+			boolean productTime = false;
+			
+			// Read messages in from the reference file
+			while (cin.hasNextLine()) {
+				String line = cin.nextLine();
+				
+				if (line.equals("")) {
+					productTime = true;
+					line = cin.nextLine();
+				}
+				else if (!productTime) {
+					lines.add(line);
+				}
+				else {
+					products.add(line);
+				}
+			}
+			
+			cin.close();
+			this.lines = lines.toArray(this.lines);
+			this.products = products.toArray(this.products);
+			
+		}
+		catch (IOException e) {
+			System.err.println("File '" + libraryFileName + "' not found.");
+		}
+	}
+	
+	/**
+	 * Overrides the message method from the parent GamePlayer.  This method chooses a random
+	 * message from the ShillPlayer library of messages and returns it.
+	 * 
+	 * @param opponent		: the name of the opponent player
+	 * @return				: a message for the opponent
+	 */
+	public String messageForOpponent(String opponent) {
+		String message = "My adver--er, messages--didn't load correctly!";
+		
+		// If the library exists, choose a random message
+		if (lines.length != 0 && products.length != 0) {
+			message = lines.length;
+			message += lines[(int)(Math.random() * (lines.length - 1))] + " ";
+			message += products[(int)(Math.random() * (lines.length - 1))];
+		}
+		
+		return message;
+	}
+	
+	public void timeOfLastMove(double secs) { 
+		gametime += secs;
+	}
+	
+	public void endGame(int result) { 
+		System.out.println("Game took: " + gametime);
+	}
+	
+	/**
+	 * Overrides the initialization method from the parent GamePlayer.  This method is used to
+	 * initialize data structures for the alpha beta search.
+	 */
+	public void init() {
+		
+	}
+	
+	/**
+	 * Populates and return a list of possible Clobber moves based on the current state of the
+	 * Clobber game.  This method iterates over the Clobber board to find possible moves.
+	 * 
+	 * @param state		: the current game state
+	 * @return			: all possible Clobber moves
+	 */
+	public List<ScoredClobberMove> getPossibleMoves(GameState state) {
+		ClobberState board = (ClobberState) state;
+		
+		List<ScoredClobberMove> list = new ArrayList<ScoredClobberMove>();
+		ScoredClobberMove move = new ScoredClobberMove();
+		
+		// Iterate over the board to determine which moves are possible
+		for (int r = 0; r < ROWS; r++) {
+			for (int c = 0; c < COLS; c++) {
+				move.row1 = r;
+				move.col1 = c;
+				move.row2 = r-1;
+				move.col2 = c;
+				if (board.moveOK(move)) list.add((ScoredClobberMove)move.clone());
+				
+				move.row2 = r+1;
+				move.col2 = c;
+				if (board.moveOK(move)) list.add((ScoredClobberMove)move.clone());
+				
+				move.row2 = r;
+				move.col2 = c-1;
+				if (board.moveOK(move)) list.add((ScoredClobberMove)move.clone());
+				
+				move.row2 = r;
+				move.col2 = c+1;
+				if (board.moveOK(move)) list.add((ScoredClobberMove)move.clone());
+			}
+		}
+		
+		return list;
+	}
+	
+	/**
+	 * Determines whether the specified Clobber state represents a completed game.  If the
+	 * game is complete, then the winning score is recorded in the move based on which of
+	 * the players in moving.
+	 * 
+	 * @param state		: the Clobber state to evaluate
+	 * @param move		: the move that creates the specified state
+	 * @return			: true if the board is terminal, false otherwise
+	 */
+	protected boolean terminalValue(GameState state, ScoredClobberMove move) {
+		GameState.Status status = state.getStatus();
+		boolean isTerminal = true;
+		
+		if (status == GameState.Status.HOME_WIN) {
+			move.setScore(MAX_SCORE);
+		}
+		else if (status == GameState.Status.AWAY_WIN) {
+			move.setScore(-MAX_SCORE);
+		}
+		else {
+			isTerminal = false;
+		}
+		
+		return isTerminal;
+	}
+	
+	/**
+	 * Recursively performs an alpha-beta search to determine the best move to make.  This
+	 * method runs to a maximum Clobber depth, then allows a scored move to propagate to the
+	 * top of the specified move stack.
+	 * 
+	 * @param state			: the current Clobber state
+	 * @param mvStack		: stores the best move at any arbitrary depth
+	 * @param currDepth		: the current depth of the recursive search
+	 * @param a				: alpha, the best maximum score
+	 * @param b				: beta, the best minimum score
+	 */
+	private void alphaBeta(ClobberState state, ScoredClobberMove[] mvStack, int currDepth, 
+			double a, double b) {
+		
+		boolean toMaximize = (state.getWho() == GameState.Who.HOME);
+		boolean isTerminal = terminalValue(state, mvStack[currDepth]);
+		
+		/** If the move is terminal, allow the score to propagate up **/
+		if (isTerminal) {
+			return;
+		}
+		
+		/** If the depth limit is reached, use the evaluation function **/
+		else if (movesTaken < evalCutoff && currDepth == depthLimit) {
+			mvStack[currDepth].setScore(evaluateState(state));
+		}
+		
+		/** Otherwise continue alpha beta recursion **/
+		else {
+			double bestScore = (toMaximize ? 
+					Double.NEGATIVE_INFINITY : Double.POSITIVE_INFINITY);
+			
+			ScoredClobberMove bestMove = mvStack[currDepth];
+			ScoredClobberMove nextMove = mvStack[currDepth + 1];
+			
+			bestMove.setScore(bestScore);
+			
+			// Get possible moves and shuffle them
+			List<ScoredClobberMove> moves = getPossibleMoves(state);
+			Collections.shuffle(moves);
+			
+			for (int i = 0; i < moves.size(); i++) {
+				// Create and make move
+				ScoredClobberMove tempMove = new ScoredClobberMove(moves.get(i));
+				state.makeMove(tempMove);
+				
+				// Recurse over the new state
+				alphaBeta(state, mvStack, currDepth + 1, a, b);
+				
+				// Undo the previous move
+				undoMove(state, tempMove);
+				
+				// Examine the move relative to what we have seen
+				if (toMaximize && nextMove.score > bestMove.score) {
+					bestMove.set(tempMove, nextMove.score);
+				}
+				else if (!toMaximize && nextMove.score < bestMove.score) {
+					bestMove.set(tempMove, nextMove.score);
+				}
+				
+				// Update alpha and beta, then perform pruning
+				if (!toMaximize) {
+					b = Math.min(bestMove.score, b);
+					if (bestMove.score <= a || bestMove.score == -MAX_SCORE) {
+						return;
+					}
+				}
+				else {
+					a = Math.max(bestMove.score, a);
+					if (bestMove.score >= b || bestMove.score == MAX_SCORE) {
+						return;
+					}
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Undoes the specified Clobber move by reverting to the original game status and swapping
+	 * pieces back to their original board positions.  This method is used during recursion.
+	 * 
+	 * @param state		: the current Clobber state
+	 * @param move		: the move to revert
+	 */
+	private void undoMove(ClobberState state, ScoredClobberMove move) {
+		// Revert the status and turn
+		state.status = GameState.Status.GAME_ON;
+		state.who = (state.who == Who.HOME) ? Who.AWAY : Who.HOME;
+		state.numMoves--;
+		
+		// Swap pieces back to their original positions
+		state.board[move.row1][move.col1] = 
+				(state.getWho() == GameState.Who.HOME ? 
+						ClobberState.homeSym : ClobberState.awaySym);
+		
+		state.board[move.row2][move.col2] = 
+				(state.getWho() == GameState.Who.HOME ? 
+						ClobberState.awaySym : ClobberState.homeSym);
+	}
+	
+	private float evaluateState(ClobberState state) {
+		float homeScore = 0;
+		float awayScore = 0;
+		
+		for (int row = 0; row < ClobberState.ROWS; row++) {
+			for (int col = 0; col < ClobberState.COLS; col++) {
+				
+				// If the stone is a home symbol
+				if (state.board[row][col] == ClobberState.homeSym) {
+					homeScore += evaluateStone(state, row, col);
+				}
+				
+				// If the stone is an away symbol
+				else if (state.board[row][col] == ClobberState.awaySym) {
+					awayScore += evaluateStone(state, row, col);
+				}
+			}
+		}
+		
+		// Return the heuristic
+		return homeScore - awayScore;
+	}
+	
+	private float evaluateStone(ClobberState state, int row, int col) {
+		float score = 0;
+		char friend = state.board[row][col];
+		
+		// Check if the symbol is empty
+		if (friend == ClobberState.emptySym) {
+			return score;
+		}
+		
+		char opponent = (friend == ClobberState.homeSym) ? 
+				ClobberState.awaySym : ClobberState.homeSym;
+		
+		int oppNeighbors = 0;
+		int friNeighbors = 0;
+		
+		for (int disRow = -1; disRow <= 1; disRow++) {
+			for (int disCol = -1; disCol <= 1; disCol++) {
+				int newRow = row + disRow;
+				int newCol = col + disCol;
+				
+				if (ClobberMove.posOK(newRow, newCol)) {
+					if (state.board[newRow][newCol] == opponent) oppNeighbors++;
+					else if (state.board[newRow][newCol] == friend) friNeighbors++;
+				}
+			}
+		}
+		
+		if (oppNeighbors > 0 && friNeighbors > oppNeighbors) {
+			return 1;
+		}
+		return 0;
+	}
+	
+	/**
+	 * Calculates the next move to be performed by the ShillPlayer.  This method creates a
+	 * number of alpha-beta threads based on the maximum number of threads that the running
+	 * machine can support.  The number of moves given to each threads is balanced i.e. not
+	 * all possible threads are necessarily used.
+	 * 
+	 * @param state			: the current Clobber state
+	 * @param lastMove		: String representation of the previous move
+	 * @return				: the next move for the ShillPlayer
+	 */
+	public GameMove getMove(GameState state, String lastMove) {
+		// Update the number of moves taken
+		movesTaken = state.numMoves;
+		
+		List<ScoredClobberMove> allMoves = getPossibleMoves((ClobberState)state);
+		
+		// Determine how many threads should be created
+		int movesPerThread = Math.max(1, (int)Math.ceil(allMoves.size() / threadLimit));
+		int numThreads = Math.min((int)Math.ceil(allMoves.size() / movesPerThread), threadLimit);
+		AlphaBetaThread[] threads = new AlphaBetaThread[numThreads];
+		
+		/** Create and run each of the threads **/
+		for (int i = 0; i < threads.length; i++) {
+			if (i == threads.length - 1) {
+				threads[i] = new AlphaBetaThread((ClobberState)state,
+						allMoves.subList(i * movesPerThread, allMoves.size()));
+			}
+			else {
+				threads[i] = new AlphaBetaThread((ClobberState)state,
+						allMoves.subList(i * movesPerThread, (i + 1) * movesPerThread));
+			}
+			
+			threads[i].start();
+		}
+		
+		/** Wait for the threads to complete **/
+		for (int i = 0; i < threads.length; i++) {
+			try {
+				threads[i].join();
+			}
+			catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		ScoredClobberMove best = threads[0].bestMove;
+		
+		/** Determine which move is best **/
+		for (int i = 1; i < threads.length; i++) {
+			ScoredClobberMove temp = threads[i].bestMove;
+			
+			if (state.who == GameState.Who.HOME && temp.score > best.score) best = temp;
+			else if (state.who == GameState.Who.AWAY && temp.score < best.score) best = temp;
+		}
+		
+		// Return the best move
+		return best;
+	}
+	
+	/**
+	 * 
+	 * 
+	 * @author Marshall Miller, Lucy Jiang, Peter Simon
+	 */
+	private class AlphaBetaThread extends Thread {
+		
+		private ClobberState state;					// The state of the board
+		private ScoredClobberMove[] mvStack;		// Stores the best move at any depth
+		private List<ScoredClobberMove> moves;		// The moves to evaluate
+		public ScoredClobberMove bestMove;			// The best move
+		
+		/**
+		 * Constructs an instance of AlphaBetaThread.  This constructor initializes and assigns
+		 * moves to the stack of Clobber moves.  It also copies the Clobber state into a local
+		 * variable to avoid access violation during threading.
+		 * 
+		 * @param state		: the current Clobber state
+		 * @param moves		: a list of possible moves
+		 */
+		public AlphaBetaThread(ClobberState state, List<ScoredClobberMove> moves) {
+			this.moves = moves;
+			this.bestMove = moves.get(0);
+			
+			this.mvStack = new ScoredClobberMove[31];
+			this.state = new ClobberState();
+			
+			// Initialize the move stack
+			for (int i=0; i < this.mvStack.length; i++) {
+				this.mvStack[i] = new ScoredClobberMove(0, 0, 0, 0, 0);
+			}
+			
+			// Copy the board state
+			for (int row = 0; row < ShillPlayer.ROWS; row++) {
+				for (int col = 0; col < ShillPlayer.COLS; col++) {
+					this.state.board[row][col] = state.board[row][col];
+				}
+			}
+			this.state.who = state.getWho();
+			this.state.status = state.getStatus();
+			this.state.numMoves = state.getNumMoves();
+		}
+		
+		/**
+		 * Overrides the run method from the parent Thread class.  This method is used for
+		 * threaded procedures, performing an alpha-beta search over the assigned moves to
+		 * determine which move is the best.
+		 */
+		public void run() {
+			for (int i = 0; i < moves.size(); i++) {
+				// Make the move
+				state.makeMove(moves.get(i));
+				
+				// Perform the recursive alpha beta search
+				ShillPlayer.this.alphaBeta(state, mvStack, 0,
+						Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+				
+				// Undo the move
+				ShillPlayer.this.undoMove(state, moves.get(i));
+				
+				// Update the score of the original move
+				moves.get(i).score = mvStack[0].score;
+				
+				// Check if the move is better than the best move
+				if (i == 0) bestMove = new ScoredClobberMove(moves.get(0));
+				else if (this.state.who == GameState.Who.HOME && 
+						moves.get(i).score > bestMove.score) bestMove = new ScoredClobberMove(moves.get(i));
+				else if (this.state.who == GameState.Who.AWAY && 
+						moves.get(i).score < bestMove.score) bestMove = new ScoredClobberMove(moves.get(i));
+			}
+		}
+	}
+}
